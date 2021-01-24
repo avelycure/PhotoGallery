@@ -2,12 +2,17 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="7dp"
+    android:paddingLeft="7dp"
+    android:paddingBottom="9dp"
     android:id="@+id/card_view"
     app:cardUseCompatPadding="true">
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:id="@+id/iv_card"/>
 </androidx.cardview.widget.CardView>

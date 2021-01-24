@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">PhotoGallery</string>
-    <string name="send_request">Send request</string>
+    <string name="send_request">Search</string>
 </resources>

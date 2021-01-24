@@ -1,11 +1,13 @@
 package utils;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,20 +24,22 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
     private static int count;
     private static int recyclerViewSize;
     private static int currentPage;
+    PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
 
     public static int getCurrentPage() {
         return currentPage;
     }
 
-    public static void addPage(){
+    public static void addPage() {
         currentPage++;
     }
 
-    public static void addRecyclerViewSize(){
+    public static void addRecyclerViewSize() {
         recyclerViewSize += 20;
     }
 
-    public ImageAdapter(NetworkUtils networkUtils, Context context) {
+    public ImageAdapter(NetworkUtils networkUtils, Context context, PhotoGalleryDatabaseHelper dbHelper) {
+        photoGalleryDatabaseHelper = dbHelper;
         this.networkUtils = networkUtils;
         this.context = context;
         count = 0;
@@ -56,7 +60,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
 
     @Override
     public void onBindViewHolder(ImagesViewHolder holder, int position) {
-        holder.bind();
+        holder.bind(position);
     }
 
     @Override
@@ -66,29 +70,21 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
 
     class ImagesViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        private int n;
 
         public ImagesViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_card);
-            Random random = new Random();
-            n = random.nextInt(20);
         }
 
-        void bind() {
-            String request = null;
-            try {
-                //count++;
-                //Log.d("mytag", "" + count);
-                request = networkUtils.createURLToGetImage(n);
-            } catch (JSONException e) {
-                e.printStackTrace();
+        void bind(int position) {
+            int i = -1;
+            Cursor query = photoGalleryDatabaseHelper.getAllUsers();
+            while (i != position) {
+                query.moveToNext();
+                i++;
             }
-            Picasso.with(context).load(request).into(imageView);
-            /*if (count == 15) {
-                count = 0;
-                recyclerViewSize += 20;
-            }*/
+            Picasso.with(context).load(query.getString(1)).into(imageView);
+            query.close();
         }
 
     }
