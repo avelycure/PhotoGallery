@@ -1,11 +1,6 @@
 package utils;
 
 import android.content.Context;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +13,6 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkUtils {
-    private static int shownPhotos;
     String request;
     JSONArray photo;
     private static final String FLICKR_BASE_URL = "https://api.flickr.com/services/rest/?method=";
@@ -27,10 +21,8 @@ public class NetworkUtils {
     private static final String FLICKR_GET_PHOTO_METHOD = "flickr.photos.search";
     private final int IMPORTED_PHOTOS_PER_REQUEST = 20;
     PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
-    //SQLiteDatabase databaseWrite;
 
     public NetworkUtils(Context context, PhotoGalleryDatabaseHelper dbHelper) {
-        shownPhotos = 15;
         photoGalleryDatabaseHelper = dbHelper;
     }
 
@@ -51,7 +43,6 @@ public class NetworkUtils {
                         photoGalleryDatabaseHelper.insertAddress("https://farm" + jsonObject.get("farm") + ".staticflickr.com/" + jsonObject.get("server") +
                                 "/" + jsonObject.get("id") + "_" + jsonObject.get("secret") + ".jpg");
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -69,13 +60,6 @@ public class NetworkUtils {
     public String createURLToGetJSON(String tag, int photosNum, int pageNum) {
         return FLICKR_BASE_URL + FLICKR_GET_PHOTO_METHOD + "&api_key=" + API_KEY_STRING + "&tags=" + tag + "&per_page=" + photosNum
                 + "&format=" + FORMAT_STRING + "&page=" + pageNum;
-    }
-
-    //Creates url to flickr to get picture
-    public String createURLToGetImage(int index) throws JSONException {
-        JSONObject jsonObject = photo.getJSONObject(index);
-        return ("https://farm" + jsonObject.get("farm") + ".staticflickr.com/" + jsonObject.get("server") +
-                "/" + jsonObject.get("id") + "_" + jsonObject.get("secret") + ".jpg");
     }
 
     public String makeRequest(String webAddress) {

@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.drawerlayout.widget.DrawerLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".PhotoGallery">
+    tools:context=".PhotoGallery"
+    android:id="@+id/drawer">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/edt_tag"
-            android:layout_width="match_parent"
-            android:layout_weight="0.3"
-            android:layout_height="wrap_content" />
+        <include
+            layout="@layout/toolbar_main"
+            android:id="@+id/toolbar"/>
 
-        <Button
-            android:id="@+id/btn_request"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_images"
             android:layout_width="match_parent"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/send_request" />
+            android:padding="10dp"/>
     </LinearLayout>
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/menu_nav" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_images"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-</LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -9,10 +9,38 @@
     android:paddingBottom="9dp"
     android:id="@+id/card_view"
     app:cardUseCompatPadding="true">
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
-        android:id="@+id/iv_card"/>
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:id="@+id/tv_username"
+            android:text="username"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:id="@+id/iv_card"/>
+
+            <ImageButton
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:src="@drawable/ic_unliked"
+                android:layout_gravity="left"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:id="@+id/iv_like"/>
+
+    </LinearLayout>
+
 </androidx.cardview.widget.CardView>

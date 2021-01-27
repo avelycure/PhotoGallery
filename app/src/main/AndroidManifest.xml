@@ -13,18 +13,18 @@
         <activity android:name=".PhotoGallery">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
+
                 <action android:name="android.intent.action.VIEW"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data android:host="callback" android:scheme="photo_gallery" />
+
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

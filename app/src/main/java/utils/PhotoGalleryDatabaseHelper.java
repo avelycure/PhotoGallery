@@ -1,10 +1,8 @@
 package utils;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 public class PhotoGalleryDatabaseHelper{
 
@@ -15,11 +13,11 @@ public class PhotoGalleryDatabaseHelper{
     public PhotoGalleryDatabaseHelper(Context context) {
         db = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE  IF NOT EXISTS images_addresses (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "ADDRESS TEXT);");
+                + "ADDRESS TEXT, " + "LIKED INTEGER);");
     }
 
     public void insertAddress(String address){
-        db.execSQL("INSERT INTO images_addresses(ADDRESS) VALUES ('"+ address + "');");
+        db.execSQL("INSERT INTO images_addresses(ADDRESS, LIKED) VALUES ('"+ address + "', 0);");
     }
 
     public Cursor getAllUsers(){
@@ -29,7 +27,7 @@ public class PhotoGalleryDatabaseHelper{
     public void clearDatabase(){
         db.execSQL("DROP TABLE 'images_addresses'");
         db.execSQL("CREATE TABLE  IF NOT EXISTS images_addresses (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "ADDRESS TEXT);");
+                + "ADDRESS TEXT, " + "LIKED INTEGER);");
     }
 
 }

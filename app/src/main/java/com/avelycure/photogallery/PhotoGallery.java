@@ -1,17 +1,16 @@
 package com.avelycure.photogallery;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.SearchView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONException;
 
@@ -21,19 +20,22 @@ import utils.PhotoGalleryDatabaseHelper;
 
 public class PhotoGallery extends AppCompatActivity {
 
-    private Button btnSendRequest;
-    private EditText editTextTag;
     private RecyclerView imageList;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
 
-    LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
 
-    Context context;
+    private Context context;
     private NetworkUtils networkUtils;
     private ImageAdapter imageAdapter;
 
     private boolean loading = true;
-    PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
+    private PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
+
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,35 @@ public class PhotoGallery extends AppCompatActivity {
         photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(context);
         networkUtils = new NetworkUtils(this, photoGalleryDatabaseHelper);
 
-        btnSendRequest = findViewById(R.id.btn_request);
-        editTextTag = findViewById(R.id.edt_tag);
         imageList = findViewById(R.id.rv_images);
+
+        searchView = findViewById(R.id.searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                photoGalleryDatabaseHelper.clearDatabase();
+                try {
+                    networkUtils.updateJSONArray(searchView.getQuery().toString(), 1);
+                    imageAdapter = new ImageAdapter(context, photoGalleryDatabaseHelper);
+                    imageList.setAdapter(imageAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
@@ -65,9 +93,9 @@ public class PhotoGallery extends AppCompatActivity {
                         loading = false;
                         try {
                             ImageAdapter.addPage();
-                            networkUtils.updateJSONArray(editTextTag.getText().toString(), ImageAdapter.getCurrentPage());
-                            imageAdapter.notifyDataSetChanged();
+                            networkUtils.updateJSONArray(searchView.getQuery().toString(), ImageAdapter.getCurrentPage());
                             ImageAdapter.addRecyclerViewSize();
+                            imageAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -76,23 +104,5 @@ public class PhotoGallery extends AppCompatActivity {
                 }
             }
         });
-
-        btnSendRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                photoGalleryDatabaseHelper.clearDatabase();
-                int id;
-                String address;
-                try {
-                    networkUtils.updateJSONArray(editTextTag.getText().toString(), 1);
-                    imageAdapter = new ImageAdapter(networkUtils, context, photoGalleryDatabaseHelper);
-                    imageList.setAdapter(imageAdapter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
     }
-
 }
