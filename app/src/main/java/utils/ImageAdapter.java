@@ -85,6 +85,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             query.moveToPosition(position);
             Picasso.with(context).load(query.getString(1)).into(imageView);
             /*
+
             recyclerview like button android studio
             https://www.youtube.com/watch?v=U0snyuZWlyc
 
