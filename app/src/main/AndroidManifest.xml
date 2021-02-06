@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OfficeActivity"></activity>
+        <activity android:name=".MoreActivity"></activity>
+        <activity android:name=".OfficeActivity" />
         <activity android:name=".AlbumsActivity" />
         <activity android:name=".FeedbackActivity" />
         <activity android:name=".SettingsActivity" />
@@ -20,7 +21,14 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 
+</manifest>
+
+<!---
+убрал это появился значок приложения
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -29,8 +37,4 @@
                 <data
                     android:host="callback"
                     android:scheme="photo_gallery" />
-            </intent-filter>
-        </activity>
-    </application>
-
-</manifest>
+-->

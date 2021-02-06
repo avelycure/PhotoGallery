@@ -13,11 +13,11 @@ public class PhotoGalleryDatabaseHelper{
     public PhotoGalleryDatabaseHelper(Context context) {
         db = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE  IF NOT EXISTS images_addresses (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "ADDRESS TEXT, " + "LIKED INTEGER);");
+                + "ADDRESS TEXT, " + "FLICKR_ID INTEGER);");
     }
 
-    public void insertAddress(String address){
-        db.execSQL("INSERT INTO images_addresses(ADDRESS, LIKED) VALUES ('"+ address + "', 0);");
+    public void insertAddress(String address, Long flickrId){
+        db.execSQL("INSERT INTO images_addresses(ADDRESS, FLICKR_ID) VALUES ('" + address + "'," + flickrId + ");");
     }
 
     public Cursor getAllUsers(){
@@ -27,7 +27,7 @@ public class PhotoGalleryDatabaseHelper{
     public void clearDatabase(){
         db.execSQL("DROP TABLE 'images_addresses'");
         db.execSQL("CREATE TABLE  IF NOT EXISTS images_addresses (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "ADDRESS TEXT, " + "LIKED INTEGER);");
+                + "ADDRESS TEXT, " + "FLICKR_ID INTEGER);");
     }
 
 }

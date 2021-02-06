@@ -35,11 +35,12 @@
             <ImageButton
                 android:layout_width="27dp"
                 android:layout_height="27dp"
-                android:src="@drawable/ic_unliked"
+                android:background="@drawable/heart1"
                 android:layout_gravity="left"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:id="@+id/iv_like"/>
+                android:id="@+id/iv_like"
+                android:scaleType="fitCenter"/>
 
     </LinearLayout>
 

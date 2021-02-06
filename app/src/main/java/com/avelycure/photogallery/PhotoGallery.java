@@ -8,10 +8,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -19,6 +22,9 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import utils.ImageAdapter;
 import utils.NetworkUtils;
@@ -35,6 +41,7 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
     private SearchView searchView;
 
     //Variables
+    Set<Long> likedPhotos;
     private Context context;
     private NetworkUtils networkUtils;
     private ImageAdapter imageAdapter;
@@ -55,8 +62,7 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
         setToolbar();
 
         setRecyclerview();
-
-    }
+        }
 
     //This function should find all components, which I used in PhotoGalleryActivity
     private void findActivityComponents() {
@@ -74,6 +80,7 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
         photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(context);
         networkUtils = NetworkUtils.getNetworkUtils(photoGalleryDatabaseHelper);
         navigationView.setNavigationItemSelectedListener(this);
+        likedPhotos = new HashSet<Long>();
     }
 
     private void setToolbar() {
@@ -83,7 +90,7 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
                 photoGalleryDatabaseHelper.clearDatabase();
                 try {
                     networkUtils.updateJSONArray(searchView.getQuery().toString(), 1);
-                    imageAdapter = new ImageAdapter(context, photoGalleryDatabaseHelper);
+                    imageAdapter = new ImageAdapter(context, photoGalleryDatabaseHelper, likedPhotos, imageAdapter);
                     imageList.setAdapter(imageAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -148,6 +155,9 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_settings:
                 intent = new Intent(this, SettingsActivity.class);
+                break;
+            case R.id.nav_about:
+                intent = new Intent(this, MoreActivity.class);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

@@ -1,5 +1,7 @@
 package utils;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,8 +47,9 @@ public class NetworkUtils {
                     JSONObject jsonObject;
                     for(int i = 0; i < photo.length(); i++){
                         jsonObject = photo.getJSONObject(i);
+                        Log.d("mytag", "" + jsonObject);
                         photoGalleryDatabaseHelper.insertAddress("https://farm" + jsonObject.get("farm") + ".staticflickr.com/" + jsonObject.get("server") +
-                                "/" + jsonObject.get("id") + "_" + jsonObject.get("secret") + ".jpg");
+                                "/" + jsonObject.get("id") + "_" + jsonObject.get("secret") + ".jpg", jsonObject.getLong("id"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
