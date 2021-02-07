@@ -16,7 +16,8 @@
         <activity android:name=".AlbumsActivity" />
         <activity android:name=".FeedbackActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".PhotoGallery">
+        <activity android:name=".PhotoGallery"
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
