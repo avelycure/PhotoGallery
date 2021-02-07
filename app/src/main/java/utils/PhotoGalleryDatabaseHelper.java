@@ -12,12 +12,16 @@ public class PhotoGalleryDatabaseHelper{
 
     public PhotoGalleryDatabaseHelper(Context context) {
         db = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE  IF NOT EXISTS images_addresses (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "ADDRESS TEXT, " + "FLICKR_ID INTEGER);");
+        db.execSQL("CREATE TABLE  IF NOT EXISTS images_addresses (_id INTEGER PRIMARY KEY AUTOINCREMENT, ADDRESS TEXT, FLICKR_ID INTEGER);");
+        db.execSQL("CREATE TABLE  IF NOT EXISTS liked_photos (_id INTEGER PRIMARY KEY AUTOINCREMENT, ADDRESS TEXT);");
     }
 
     public void insertAddress(String address, Long flickrId){
         db.execSQL("INSERT INTO images_addresses(ADDRESS, FLICKR_ID) VALUES ('" + address + "'," + flickrId + ");");
+    }
+
+    public void addLikedPhoto(String address){
+        db.execSQL("INSERT INTO liked_photos(ADDRESS) VALUES ('" + address + "',);");
     }
 
     public Cursor getAllUsers(){
@@ -29,5 +33,7 @@ public class PhotoGalleryDatabaseHelper{
         db.execSQL("CREATE TABLE  IF NOT EXISTS images_addresses (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "ADDRESS TEXT, " + "FLICKR_ID INTEGER);");
     }
+
+
 
 }

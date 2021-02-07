@@ -98,6 +98,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                 @Override
                 public void onClick(View v) {
                     likedPhotos.add(pictureId);
+                    photoGalleryDatabaseHelper.addLikedPhoto(query.getString(1));//точнее не это а перенести в стринг эту запись и потом уже стринг добавлять
                     imageButton.setBackground(context.getDrawable(R.drawable.heart));
                     ImageAdapter.super.notifyItemChanged(ImagesViewHolder.super.getAdapterPosition());
                     Log.d("mytag", likedPhotos+"");
