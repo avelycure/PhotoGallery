@@ -22,7 +22,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
     private Context context;
     private static int recyclerViewSize;
     private static int currentPage;
-    ImageButton imageButton;
     PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
     Set<Long> likedPhotos;
 
@@ -38,7 +37,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
         recyclerViewSize += 20;
     }
 
-    public ImageAdapter( Context context, PhotoGalleryDatabaseHelper dbHelper, Set<Long> likedPhotos, ImageAdapter imageAdapter) {
+    public ImageAdapter(Context context, PhotoGalleryDatabaseHelper dbHelper, Set<Long> likedPhotos, ImageAdapter imageAdapter) {
         photoGalleryDatabaseHelper = dbHelper;
         this.context = context;
         recyclerViewSize = 20;
@@ -69,41 +68,51 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
 
     class ImagesViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+        ImageButton likeButton;
+
 
         public ImagesViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_card);
-            imageButton = itemView.findViewById(R.id.iv_like);
+            likeButton = itemView.findViewById(R.id.iv_like);
         }
 
         void bind(int position) {
-            //TODO think what you write here
+            //TODO think what you write here, how to optimize memory
             Cursor query = photoGalleryDatabaseHelper.getAllUsers();
-            //for (int i = 0; i <= position; i++) {
-            //    query.moveToNext();
-            //}
             query.moveToPosition(position);
             Picasso.with(context).load(query.getString(1)).into(imageView);
-            /*
-            recyclerview like button android studio
-            https://www.youtube.com/watch?v=U0snyuZWlyc
 
             Long pictureId = query.getLong(2);
-            if (likedPhotos.contains(pictureId)){
-                imageButton.setBackground(context.getDrawable(R.drawable.heart));
-            }else{
-                imageButton.setBackground(context.getDrawable(R.drawable.heart1));
+
+            if (likedPhotos.contains(pictureId)) {
+                likeButton.setImageResource(R.drawable.heart);
+            } else {
+                likeButton.setImageResource(R.drawable.heart1);
             }
-            imageButton.setOnClickListener(new View.OnClickListener() {
+
+            String imageAddress = query.getString(1);
+            //TODO when click on this button recyclerview moves to top, it can make user irrigate
+            likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    likedPhotos.add(pictureId);
-                    photoGalleryDatabaseHelper.addLikedPhoto(query.getString(1));//точнее не это а перенести в стринг эту запись и потом уже стринг добавлять
-                    imageButton.setBackground(context.getDrawable(R.drawable.heart));
-                    ImageAdapter.super.notifyItemChanged(ImagesViewHolder.super.getAdapterPosition());
-                    Log.d("mytag", likedPhotos+"");
+                    //unlike
+                    if (String.valueOf(likeButton.getTag()).equals("Liked")) {
+                        //delete from database
+
+                        likeButton.setImageResource(R.drawable.heart1);
+                        likeButton.setTag("Unliked");
+                        //like
+                    } else if (String.valueOf(likeButton.getTag()).equals("Unliked")) {
+                        //add to database
+                        //likedPhotos.add(pictureId);
+                        //photoGalleryDatabaseHelper.addLikedPhoto(imageAddress);
+
+                        likeButton.setImageResource(R.drawable.heart);
+                        likeButton.setTag("Liked");
                     }
-            });*/
+                }
+            });
             query.close();
         }
 

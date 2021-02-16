@@ -44,10 +44,10 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
     //Variables
     Set<Long> likedPhotos;
     private Context context;
+    NavigationView navigationView;
+    private boolean loading = true;
     private NetworkUtils networkUtils;
     private ImageAdapter imageAdapter;
-    private boolean loading = true;
-    NavigationView navigationView;
     private PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
 
