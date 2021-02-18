@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.HashSet;
 import java.util.Set;
 
+//TODO recyclerview is only a view of data whoch should be in adapter. change adapter -> change data->need to control clicks with adapter and variables of class
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
 
     private Context context;
@@ -102,6 +103,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
 
                         likeButton.setImageResource(R.drawable.heart1);
                         likeButton.setTag("Unliked");
+                        likedPhotos.remove(pictureId);
                         //like
                     } else if (String.valueOf(likeButton.getTag()).equals("Unliked")) {
                         //add to database
@@ -110,6 +112,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
 
                         likeButton.setImageResource(R.drawable.heart);
                         likeButton.setTag("Liked");
+                        likedPhotos.add(pictureId);
                     }
                 }
             });

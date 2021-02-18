@@ -14,4 +14,9 @@
     <string name="search_hint">input text</string>
     <string name="search_title">search_title</string>
     <string name="about">About</string>
+
+    <string name="text_in_about_ativity"> PhotoGallery is a program, that can help you to find photos by tags from flickr.com. \n To start using this
+    application you should just go to main activity and enter your tag and you will get all photos from flickr with this tag. \n If you want to
+    contact me, send letter to my e-mail:\n van.emelin2012@yandex.ru.</string>
+
 </resources>
