@@ -1,4 +1,4 @@
-package utils;
+package com.avelycure.photogallery.utils;
 
 import android.util.Log;
 

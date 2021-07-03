@@ -1,8 +1,10 @@
-package com.avelycure.photogallery;
+package com.avelycure.photogallery.albums;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.avelycure.photogallery.R;
 
 public class AlbumsActivity extends AppCompatActivity {
 

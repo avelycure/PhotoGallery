@@ -11,12 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MoreActivity"></activity>
-        <activity android:name=".OfficeActivity" />
-        <activity android:name=".AlbumsActivity" />
-        <activity android:name=".FeedbackActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".PhotoGallery"
+        <activity android:name=".more.MoreActivity"></activity>
+        <activity android:name=".ofiice.OfficeActivity" />
+        <activity android:name=".albums.AlbumsActivity" />
+        <activity android:name=".feedback.FeedbackActivity" />
+        <activity android:name=".settings.SettingsActivity" />
+        <activity android:name=".home.PhotoGallery"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

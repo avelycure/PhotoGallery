@@ -1,4 +1,4 @@
-package com.avelycure.photogallery;
+package com.avelycure.photogallery.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -8,18 +8,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.avelycure.photogallery.R;
+import com.avelycure.photogallery.albums.AlbumsActivity;
+import com.avelycure.photogallery.feedback.FeedbackActivity;
+import com.avelycure.photogallery.more.MoreActivity;
+import com.avelycure.photogallery.ofiice.OfficeActivity;
+import com.avelycure.photogallery.settings.SettingsActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
@@ -27,9 +29,9 @@ import org.json.JSONException;
 import java.util.HashSet;
 import java.util.Set;
 
-import utils.ImageAdapter;
-import utils.NetworkUtils;
-import utils.PhotoGalleryDatabaseHelper;
+import com.avelycure.photogallery.utils.ImageAdapter;
+import com.avelycure.photogallery.utils.NetworkUtils;
+import com.avelycure.photogallery.utils.PhotoGalleryDatabaseHelper;
 
 public class PhotoGallery extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 

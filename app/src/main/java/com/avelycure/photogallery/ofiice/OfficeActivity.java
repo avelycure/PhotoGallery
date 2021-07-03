@@ -1,4 +1,4 @@
-package com.avelycure.photogallery;
+package com.avelycure.photogallery.ofiice;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.avelycure.photogallery.R;
 
 public class OfficeActivity extends AppCompatActivity {
 

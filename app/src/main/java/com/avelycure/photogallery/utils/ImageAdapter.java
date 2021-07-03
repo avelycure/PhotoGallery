@@ -1,8 +1,7 @@
-package utils;
+package com.avelycure.photogallery.utils;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.avelycure.photogallery.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashSet;
 import java.util.Set;
 
 //TODO recyclerview is only a view of data whoch should be in adapter. change adapter -> change data->need to control clicks with adapter and variables of class

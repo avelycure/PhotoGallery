@@ -1,4 +1,4 @@
-package com.avelycure.photogallery;
+package com.avelycure.photogallery.feedback;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.EditText;
+
+import com.avelycure.photogallery.R;
 
 public class FeedbackActivity extends AppCompatActivity {
 

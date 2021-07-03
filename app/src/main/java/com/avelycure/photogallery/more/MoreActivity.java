@@ -1,9 +1,11 @@
-package com.avelycure.photogallery;
+package com.avelycure.photogallery.more;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.avelycure.photogallery.R;
 
 public class MoreActivity extends AppCompatActivity {
 

@@ -1,8 +1,10 @@
-package com.avelycure.photogallery;
+package com.avelycure.photogallery.settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.avelycure.photogallery.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
