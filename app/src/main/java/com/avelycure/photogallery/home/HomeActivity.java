@@ -5,12 +5,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
@@ -22,18 +25,21 @@ import com.avelycure.photogallery.feedback.FeedbackActivity;
 import com.avelycure.photogallery.more.MoreActivity;
 import com.avelycure.photogallery.ofiice.OfficeActivity;
 import com.avelycure.photogallery.settings.SettingsActivity;
+import com.avelycure.photogallery.utils.CardModel;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 
+import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.avelycure.photogallery.utils.ImageAdapter;
 import com.avelycure.photogallery.utils.NetworkUtils;
 import com.avelycure.photogallery.utils.PhotoGalleryDatabaseHelper;
 
-public class PhotoGallery extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     //Activity components
     private RecyclerView imageList;
@@ -53,19 +59,22 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
     private PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
 
+    private HomeViewModel homeViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitvity_gallery);
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
+        homeViewModel.init();
         findActivityComponents();
+        setRecyclerview();
 
         setParameters();
 
         setToolbar();
-
-        setRecyclerview();
-        }
+    }
 
     //This function should find all components, which I used in PhotoGalleryActivity
     private void findActivityComponents() {
@@ -76,10 +85,9 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
     }
 
-
     //We need this function to set some parameters
     private void setParameters() {
-        context = PhotoGallery.this;
+        context = HomeActivity.this;
         photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(context);
         networkUtils = NetworkUtils.getNetworkUtils(photoGalleryDatabaseHelper);
         navigationView.setNavigationItemSelectedListener(this);
@@ -90,11 +98,17 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                photoGalleryDatabaseHelper.clearDatabase();
+                //photoGalleryDatabaseHelper.clearDatabase();
                 try {
-                    networkUtils.updateJSONArray(searchView.getQuery().toString(), 1);
-                    imageAdapter = new ImageAdapter(context, photoGalleryDatabaseHelper, likedPhotos, imageAdapter);
-                    imageList.setAdapter(imageAdapter);
+                    Log.d("mytag", "sub" + homeViewModel.getCards().getValue().size());
+                    List<CardModel> cardModels = homeViewModel.getCards().getValue();
+                    cardModels.clear();
+                    networkUtils.updateJSONArray(searchView.getQuery().toString(), 1, cardModels);
+                    homeViewModel.getCards().setValue(cardModels);
+                    Log.d("mytag", "sub" + homeViewModel.getCards().getValue().size());
+                    imageAdapter.notifyDataSetChanged();
+                    //imageAdapter = new ImageAdapter(context, photoGalleryDatabaseHelper, likedPhotos, imageAdapter);
+                    //imageList.setAdapter(imageAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -116,7 +130,10 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
     private void setRecyclerview() {
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageList.setLayoutManager(linearLayoutManager);
-        imageList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        imageAdapter = new ImageAdapter(this, photoGalleryDatabaseHelper, homeViewModel.getCards().getValue());
+        imageList.setAdapter(imageAdapter);
+
+        /*imageList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -129,7 +146,7 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
                         loading = false;
                         try {
                             ImageAdapter.addPage();
-                            networkUtils.updateJSONArray(searchView.getQuery().toString(), ImageAdapter.getCurrentPage());
+                            networkUtils.updateJSONArray(searchView.getQuery().toString(), ImageAdapter.getCurrentPage(),homeViewModel.getCards().getValue());
                             ImageAdapter.addRecyclerViewSize();
                             imageAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
@@ -139,7 +156,7 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
                     loading = true;
                 }
             }
-        });
+        });*/
     }
 
     @Override

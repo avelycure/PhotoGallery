@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -33,7 +34,7 @@ public class NetworkUtils {
        return new NetworkUtils(dbHelper);
     }
 
-    public void updateJSONArray(final String tag, final int pageNum) throws JSONException {
+    public void updateJSONArray(final String tag, final int pageNum, List<CardModel> cards) throws JSONException {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -45,12 +46,15 @@ public class NetworkUtils {
                     photo = new JSONObject(request.substring(14, request.length() - 2)).getJSONObject("photos").getJSONArray("photo");
 
                     JSONObject jsonObject;
+                    String address;
                     for(int i = 0; i < photo.length(); i++){
                         jsonObject = photo.getJSONObject(i);
-                        Log.d("mytag", "" + jsonObject);
-                        photoGalleryDatabaseHelper.insertAddress("https://farm" + jsonObject.get("farm") + ".staticflickr.com/" + jsonObject.get("server") +
-                                "/" + jsonObject.get("id") + "_" + jsonObject.get("secret") + ".jpg", jsonObject.getLong("id"));
+                        address = "https://farm" + jsonObject.get("farm") + ".staticflickr.com/" + jsonObject.get("server") +
+                                "/" + jsonObject.get("id") + "_" + jsonObject.get("secret") + ".jpg";
+                        photoGalleryDatabaseHelper.insertAddress(address, jsonObject.getLong("id"));
+                        cards.add(new CardModel(address, false));
                     }
+                    Log.d("mytag", "" + cards);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

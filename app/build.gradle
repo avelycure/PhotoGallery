@@ -30,8 +30,20 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
+
+    //CardView
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    //RecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    //LifecycleComponents
+    def archLifecycleVersion = '1.1.1'
+    implementation "android.arch.lifecycle:extensions:$archLifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$archLifecycleVersion"
+
 }
