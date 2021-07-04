@@ -2,6 +2,8 @@ package com.avelycure.photogallery.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class FlickrResponsePhotosInfo {
     @SerializedName("page")
     private String page;
@@ -16,5 +18,5 @@ public class FlickrResponsePhotosInfo {
     private String totalImages;
 
     @SerializedName("photo")
-    private FlickrResponseItem photo;
+    private List<FlickrResponseItem> photo;
 }
