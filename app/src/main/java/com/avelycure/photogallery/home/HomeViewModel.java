@@ -21,7 +21,6 @@ public class HomeViewModel extends ViewModel {
         return cards;
     }
 
-
     public void init() {
         if (cards != null)
             return;

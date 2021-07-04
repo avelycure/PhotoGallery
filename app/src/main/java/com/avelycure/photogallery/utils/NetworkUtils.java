@@ -18,7 +18,7 @@ public class NetworkUtils {
     private static final String API_KEY_STRING = "17c6829dc9c675db355315a1cab4e9b4";
     private static final String FLICKR_GET_PHOTO_METHOD = "flickr.photos.search";
     private static final String FORMAT_STRING = "json";
-    private final int IMPORTED_PHOTOS_PER_REQUEST = 30;
+    private final int IMPORTED_PHOTOS_PER_REQUEST = 10;
 
     public void updateJSONArray(final String tag, final int pageNum, List<CardModel> cards) throws JSONException {
         Thread thread = new Thread(new Runnable() {
@@ -26,6 +26,7 @@ public class NetworkUtils {
             public void run() {
                 try {
                     String webAddress = createURLToGetJSON(tag, IMPORTED_PHOTOS_PER_REQUEST, pageNum);
+                    Log.d("mytag", "address: " + webAddress);
                     String request = makeRequest(webAddress);
 
                     //Serializing json, first remove trash from flickr, then taking object photos, then array photo
