@@ -1,37 +1,46 @@
-package com.avelycure.photogallery;
+package com.avelycure.photogallery.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.avelycure.photogallery.R;
+import com.avelycure.photogallery.albums.AlbumsActivity;
+import com.avelycure.photogallery.feedback.FeedbackActivity;
+import com.avelycure.photogallery.more.MoreActivity;
+import com.avelycure.photogallery.ofiice.OfficeActivity;
+import com.avelycure.photogallery.settings.SettingsActivity;
+import com.avelycure.photogallery.utils.CardModel;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 
+import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import utils.ImageAdapter;
-import utils.NetworkUtils;
-import utils.PhotoGalleryDatabaseHelper;
+import com.avelycure.photogallery.utils.ImageAdapter;
+import com.avelycure.photogallery.utils.NetworkUtils;
+import com.avelycure.photogallery.utils.PhotoGalleryDatabaseHelper;
 
-public class PhotoGallery extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     //Activity components
     private RecyclerView imageList;
@@ -40,30 +49,39 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private LinearLayoutManager linearLayoutManager;
     private SearchView searchView;
+    private NavigationView navigationView;
 
     //Variables
-    Set<Long> likedPhotos;
-    private Context context;
-    NavigationView navigationView;
+    private int pageNum = 1;
     private boolean loading = true;
     private NetworkUtils networkUtils;
     private ImageAdapter imageAdapter;
     private PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
 
+    private HomeViewModel homeViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitvity_gallery);
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
+        homeViewModel.init();
         findActivityComponents();
+        setRecyclerview();
 
         setParameters();
 
         setToolbar();
 
-        setRecyclerview();
-        }
+        homeViewModel.getCards().observe(this, new Observer<List<CardModel>>() {
+            @Override
+            public void onChanged(List<CardModel> cardModels) {
+                imageAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     //This function should find all components, which I used in PhotoGalleryActivity
     private void findActivityComponents() {
@@ -74,25 +92,22 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
     }
 
-
     //We need this function to set some parameters
     private void setParameters() {
-        context = PhotoGallery.this;
-        photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(context);
-        networkUtils = NetworkUtils.getNetworkUtils(photoGalleryDatabaseHelper);
+        photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(this);
+        networkUtils = new NetworkUtils();
         navigationView.setNavigationItemSelectedListener(this);
-        likedPhotos = new HashSet<Long>();
     }
 
     private void setToolbar() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                photoGalleryDatabaseHelper.clearDatabase();
                 try {
-                    networkUtils.updateJSONArray(searchView.getQuery().toString(), 1);
-                    imageAdapter = new ImageAdapter(context, photoGalleryDatabaseHelper, likedPhotos, imageAdapter);
-                    imageList.setAdapter(imageAdapter);
+                    List<CardModel> cardModels = homeViewModel.getCards().getValue();
+                    cardModels.clear();
+                    networkUtils.updateJSONArray(searchView.getQuery().toString(), 1, cardModels);
+                    homeViewModel.getCards().setValue(cardModels);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -114,6 +129,9 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
     private void setRecyclerview() {
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageList.setLayoutManager(linearLayoutManager);
+        imageAdapter = new ImageAdapter(this, photoGalleryDatabaseHelper, homeViewModel.getCards().getValue());
+        imageList.setAdapter(imageAdapter);
+
         imageList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -123,13 +141,11 @@ public class PhotoGallery extends AppCompatActivity implements NavigationView.On
                 pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition();
 
                 if (loading) {
-                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount && pastVisibleItems != 0) {
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount - 3 && pastVisibleItems != 0) {
                         loading = false;
                         try {
-                            ImageAdapter.addPage();
-                            networkUtils.updateJSONArray(searchView.getQuery().toString(), ImageAdapter.getCurrentPage());
-                            ImageAdapter.addRecyclerViewSize();
-                            imageAdapter.notifyDataSetChanged();
+                            pageNum++;
+                            networkUtils.updateJSONArray(searchView.getQuery().toString(), pageNum, homeViewModel.getCards().getValue());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

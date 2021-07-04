@@ -1,4 +1,4 @@
-package utils;
+package com.avelycure.photogallery.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
