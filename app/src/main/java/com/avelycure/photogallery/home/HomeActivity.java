@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,7 +52,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     //Variables
     Set<Long> likedPhotos;
-    private Context context;
     NavigationView navigationView;
     private boolean loading = true;
     private NetworkUtils networkUtils;
@@ -74,6 +74,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setParameters();
 
         setToolbar();
+
+        homeViewModel.getCards().observe(this, new Observer<List<CardModel>>() {
+            @Override
+            public void onChanged(List<CardModel> cardModels) {
+                imageAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     //This function should find all components, which I used in PhotoGalleryActivity
@@ -87,9 +94,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     //We need this function to set some parameters
     private void setParameters() {
-        context = HomeActivity.this;
-        photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(context);
-        networkUtils = NetworkUtils.getNetworkUtils(photoGalleryDatabaseHelper);
+        photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(this);
+        networkUtils = new NetworkUtils();
         navigationView.setNavigationItemSelectedListener(this);
         likedPhotos = new HashSet<Long>();
     }
@@ -98,17 +104,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //photoGalleryDatabaseHelper.clearDatabase();
                 try {
-                    Log.d("mytag", "sub" + homeViewModel.getCards().getValue().size());
                     List<CardModel> cardModels = homeViewModel.getCards().getValue();
                     cardModels.clear();
                     networkUtils.updateJSONArray(searchView.getQuery().toString(), 1, cardModels);
                     homeViewModel.getCards().setValue(cardModels);
-                    Log.d("mytag", "sub" + homeViewModel.getCards().getValue().size());
-                    imageAdapter.notifyDataSetChanged();
-                    //imageAdapter = new ImageAdapter(context, photoGalleryDatabaseHelper, likedPhotos, imageAdapter);
-                    //imageList.setAdapter(imageAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -14,25 +14,11 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkUtils {
-    //Constants
     private static final String FLICKR_BASE_URL = "https://api.flickr.com/services/rest/?method=";
     private static final String API_KEY_STRING = "17c6829dc9c675db355315a1cab4e9b4";
     private static final String FLICKR_GET_PHOTO_METHOD = "flickr.photos.search";
     private static final String FORMAT_STRING = "json";
     private final int IMPORTED_PHOTOS_PER_REQUEST = 20;
-
-    String request;
-    JSONArray photo;
-    PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
-
-    private NetworkUtils(PhotoGalleryDatabaseHelper dbHelper) {
-        photoGalleryDatabaseHelper = dbHelper;
-    }
-
-    public static NetworkUtils getNetworkUtils(PhotoGalleryDatabaseHelper dbHelper){
-        //TODO make full singletone
-       return new NetworkUtils(dbHelper);
-    }
 
     public void updateJSONArray(final String tag, final int pageNum, List<CardModel> cards) throws JSONException {
         Thread thread = new Thread(new Runnable() {
@@ -40,10 +26,10 @@ public class NetworkUtils {
             public void run() {
                 try {
                     String webAddress = createURLToGetJSON(tag, IMPORTED_PHOTOS_PER_REQUEST, pageNum);
-                    request = makeRequest(webAddress);
+                    String request = makeRequest(webAddress);
 
                     //Serializing json, first remove trash from flickr, then taking object photos, then array photo
-                    photo = new JSONObject(request.substring(14, request.length() - 2)).getJSONObject("photos").getJSONArray("photo");
+                    JSONArray photo = new JSONObject(request.substring(14, request.length() - 2)).getJSONObject("photos").getJSONArray("photo");
 
                     JSONObject jsonObject;
                     String address;
@@ -51,10 +37,8 @@ public class NetworkUtils {
                         jsonObject = photo.getJSONObject(i);
                         address = "https://farm" + jsonObject.get("farm") + ".staticflickr.com/" + jsonObject.get("server") +
                                 "/" + jsonObject.get("id") + "_" + jsonObject.get("secret") + ".jpg";
-                        photoGalleryDatabaseHelper.insertAddress(address, jsonObject.getLong("id"));
                         cards.add(new CardModel(address, false));
                     }
-                    Log.d("mytag", "" + cards);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
