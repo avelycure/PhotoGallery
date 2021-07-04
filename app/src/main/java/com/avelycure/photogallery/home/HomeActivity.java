@@ -52,10 +52,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
 
     //Variables
-    private int pageNum = 1;
     private boolean loading = true;
     private ImageAdapter imageAdapter;
-    private PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
 
     private HomeViewModel homeViewModel;
@@ -76,7 +74,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         setRecyclerview();
 
-        photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(this);
         navigationView.setNavigationItemSelectedListener(this);
 
         setToolbar();
@@ -114,7 +111,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageList.setLayoutManager(linearLayoutManager);
-        imageAdapter = new ImageAdapter(this, photoGalleryDatabaseHelper, homeViewModel.getCards().getValue());
+        imageAdapter = new ImageAdapter(this, homeViewModel.getCards().getValue());
         imageList.setAdapter(imageAdapter);
 
         imageList.addOnScrollListener(new RecyclerView.OnScrollListener() {

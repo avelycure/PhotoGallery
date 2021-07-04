@@ -20,17 +20,14 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Set;
 
-//TODO recyclerview is only a view of data whoch should be in adapter. change adapter -> change data->need to control clicks with adapter and variables of class
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
 
     private Context context;
-    PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
 
     private List<CardModel> cards;
 
 
-    public ImageAdapter(Context context, PhotoGalleryDatabaseHelper dbHelper, List<CardModel> cards) {
-        photoGalleryDatabaseHelper = dbHelper;
+    public ImageAdapter(Context context, List<CardModel> cards) {
         this.context = context;
         this.cards = cards;
     }
