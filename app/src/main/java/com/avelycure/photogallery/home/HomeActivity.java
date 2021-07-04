@@ -49,10 +49,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private LinearLayoutManager linearLayoutManager;
     private SearchView searchView;
+    private NavigationView navigationView;
 
     //Variables
-    Set<Long> likedPhotos;
-    NavigationView navigationView;
+    private int pageNum = 1;
     private boolean loading = true;
     private NetworkUtils networkUtils;
     private ImageAdapter imageAdapter;
@@ -97,7 +97,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(this);
         networkUtils = new NetworkUtils();
         navigationView.setNavigationItemSelectedListener(this);
-        likedPhotos = new HashSet<Long>();
     }
 
     private void setToolbar() {
@@ -133,7 +132,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         imageAdapter = new ImageAdapter(this, photoGalleryDatabaseHelper, homeViewModel.getCards().getValue());
         imageList.setAdapter(imageAdapter);
 
-        /*imageList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        imageList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -145,10 +144,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount && pastVisibleItems != 0) {
                         loading = false;
                         try {
-                            ImageAdapter.addPage();
-                            networkUtils.updateJSONArray(searchView.getQuery().toString(), ImageAdapter.getCurrentPage(),homeViewModel.getCards().getValue());
-                            ImageAdapter.addRecyclerViewSize();
-                            imageAdapter.notifyDataSetChanged();
+                            pageNum++;
+                            networkUtils.updateJSONArray(searchView.getQuery().toString(), pageNum, homeViewModel.getCards().getValue());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -156,7 +153,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     loading = true;
                 }
             }
-        });*/
+        });
     }
 
     @Override

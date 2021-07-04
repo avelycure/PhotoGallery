@@ -24,26 +24,15 @@ import java.util.Set;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
 
     private Context context;
-    private static int currentPage;
     PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
 
     private List<CardModel> cards;
 
-    public static int getCurrentPage() {
-        return currentPage;
-    }
-
-    public static void addPage() {
-        currentPage++;
-    }
 
     public ImageAdapter(Context context, PhotoGalleryDatabaseHelper dbHelper, List<CardModel> cards) {
         photoGalleryDatabaseHelper = dbHelper;
         this.context = context;
-        //recyclerViewSize = 20;
         this.cards = cards;
-        currentPage = 1;
-        //this.likedPhotos = likedPhotos;
     }
 
     @Override
@@ -73,14 +62,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             likeButton = itemView.findViewById(R.id.iv_like);
         }
 
-
-
         void bind(int position) {
             if(cards.get(position).isLiked())
                 likeButton.setImageResource(R.drawable.heart);
             else
                 likeButton.setImageResource(R.drawable.heart1);
-
 
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,38 +83,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             });
 
             Picasso.with(context).load(cards.get(position).getUrl()).into(imageView);
-            //Long pictureId = query.getLong(2);
-
-            /*if (likedPhotos.contains(pictureId)) {
-                likeButton.setImageResource(R.drawable.heart);
-            } else {
-                likeButton.setImageResource(R.drawable.heart1);
-            }*/
-
-            //String imageAddress = query.getString(1);
-            /*likeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    //unlike
-                    if (String.valueOf(likeButton.getTag()).equals("Liked")) {
-                        //delete from database
-
-                        likeButton.setImageResource(R.drawable.heart1);
-                        likeButton.setTag("Unliked");
-                        //likedPhotos.remove(pictureId);
-                        //like
-                    } else if (String.valueOf(likeButton.getTag()).equals("Unliked")) {
-                        //add to database
-                        //likedPhotos.add(pictureId);
-                        //photoGalleryDatabaseHelper.addLikedPhoto(imageAddress);
-
-                        likeButton.setImageResource(R.drawable.heart);
-                        likeButton.setTag("Liked");
-                        likedPhotos.add(pictureId);
-                    }
-                }
-            });*/
         }
 
     }

@@ -18,7 +18,7 @@ public class NetworkUtils {
     private static final String API_KEY_STRING = "17c6829dc9c675db355315a1cab4e9b4";
     private static final String FLICKR_GET_PHOTO_METHOD = "flickr.photos.search";
     private static final String FORMAT_STRING = "json";
-    private final int IMPORTED_PHOTOS_PER_REQUEST = 20;
+    private final int IMPORTED_PHOTOS_PER_REQUEST = 30;
 
     public void updateJSONArray(final String tag, final int pageNum, List<CardModel> cards) throws JSONException {
         Thread thread = new Thread(new Runnable() {
