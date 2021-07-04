@@ -21,14 +21,11 @@ import java.util.List;
 import java.util.Set;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
-
-    private Context context;
-
+    private ImageAdapterParameter context;
     private List<CardModel> cards;
 
-
-    public ImageAdapter(Context context, List<CardModel> cards) {
-        this.context = context;
+    public ImageAdapter(ImageAdapterParameter imageAdapterParameter, List<CardModel> cards) {
+        this.context = imageAdapterParameter;
         this.cards = cards;
     }
 
@@ -79,7 +76,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                 }
             });
 
-            Picasso.with(context).load(cards.get(position).getUrl()).into(imageView);
+            Picasso.with(context.getContext()).load(cards.get(position).getUrl()).into(imageView);
         }
 
     }

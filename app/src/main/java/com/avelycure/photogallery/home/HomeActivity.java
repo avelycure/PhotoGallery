@@ -27,6 +27,8 @@ import com.avelycure.photogallery.more.MoreActivity;
 import com.avelycure.photogallery.ofiice.OfficeActivity;
 import com.avelycure.photogallery.settings.SettingsActivity;
 import com.avelycure.photogallery.utils.CardModel;
+import com.avelycure.photogallery.utils.ImageAdapterImpl;
+import com.avelycure.photogallery.utils.ImageAdapterParameter;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
@@ -111,7 +113,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageList.setLayoutManager(linearLayoutManager);
-        imageAdapter = new ImageAdapter(this, homeViewModel.getCards().getValue());
+        ImageAdapterParameter imageAdapterParameter = new ImageAdapterImpl(this);
+        imageAdapter = new ImageAdapter(imageAdapterParameter, homeViewModel.getCards().getValue());
         imageList.setAdapter(imageAdapter);
 
         imageList.addOnScrollListener(new RecyclerView.OnScrollListener() {
