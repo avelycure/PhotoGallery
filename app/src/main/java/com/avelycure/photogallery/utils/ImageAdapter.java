@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,10 +24,8 @@ import java.util.Set;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
 
     private Context context;
-    private static int recyclerViewSize;
     private static int currentPage;
     PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
-    //Set<Long> likedPhotos;
 
     private List<CardModel> cards;
 
@@ -37,16 +37,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
         currentPage++;
     }
 
-    public static void addRecyclerViewSize() {
-        recyclerViewSize += 20;
-    }
-
     public ImageAdapter(Context context, PhotoGalleryDatabaseHelper dbHelper, List<CardModel> cards) {
         photoGalleryDatabaseHelper = dbHelper;
         this.context = context;
         //recyclerViewSize = 20;
         this.cards = cards;
-        recyclerViewSize = cards.size();
         currentPage = 1;
         //this.likedPhotos = likedPhotos;
     }
@@ -78,13 +73,30 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             likeButton = itemView.findViewById(R.id.iv_like);
         }
 
+
+
         void bind(int position) {
-            //TODO think what you write here, how to optimize memory
-            //Cursor query = photoGalleryDatabaseHelper.getAllUsers();
-            //query.moveToPosition(position);
-            //Picasso.with(context).load(query.getString(1)).into(imageView);
+            if(cards.get(position).isLiked())
+                likeButton.setImageResource(R.drawable.heart);
+            else
+                likeButton.setImageResource(R.drawable.heart1);
+
+
+            likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(cards.get(position).isLiked()){
+                        likeButton.setImageResource(R.drawable.heart1);
+                        cards.get(position).setLiked(false);
+                    }
+                    else{
+                        likeButton.setImageResource(R.drawable.heart);
+                        cards.get(position).setLiked(true);
+                    }
+                }
+            });
+
             Picasso.with(context).load(cards.get(position).getUrl()).into(imageView);
-            Log.d("mytag", "entered picasso");
             //Long pictureId = query.getLong(2);
 
             /*if (likedPhotos.contains(pictureId)) {
@@ -94,7 +106,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             }*/
 
             //String imageAddress = query.getString(1);
-            //TODO when click on this button recyclerview moves to top, it can make user irrigate
             /*likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -118,7 +129,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                     }
                 }
             });*/
-            //query.close();
         }
 
     }

@@ -3,6 +3,8 @@ package com.avelycure.photogallery.utils;
 public class CardModel {
     private String url;
     private boolean liked;
+    private String userName;
+    private Long id;
 
     public CardModel(String url, boolean liked) {
         this.url = url;
