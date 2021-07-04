@@ -40,7 +40,7 @@ import com.avelycure.photogallery.utils.ImageAdapter;
 import com.avelycure.photogallery.utils.NetworkUtils;
 import com.avelycure.photogallery.utils.PhotoGalleryDatabaseHelper;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //Activity components
     private RecyclerView imageList;
@@ -54,7 +54,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //Variables
     private int pageNum = 1;
     private boolean loading = true;
-    private NetworkUtils networkUtils;
     private ImageAdapter imageAdapter;
     private PhotoGalleryDatabaseHelper photoGalleryDatabaseHelper;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
@@ -65,13 +64,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitvity_gallery);
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         homeViewModel.init();
-        findActivityComponents();
+
+        imageList = findViewById(R.id.rv_images);
+        searchView = findViewById(R.id.searchView);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         setRecyclerview();
 
-        setParameters();
+        photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(this);
+        navigationView.setNavigationItemSelectedListener(this);
 
         setToolbar();
 
@@ -81,37 +87,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 imageAdapter.notifyDataSetChanged();
             }
         });
-    }
 
-    //This function should find all components, which I used in PhotoGalleryActivity
-    private void findActivityComponents() {
-        imageList = findViewById(R.id.rv_images);
-        searchView = findViewById(R.id.searchView);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        drawer = (DrawerLayout) findViewById(R.id.drawer);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-    }
-
-    //We need this function to set some parameters
-    private void setParameters() {
-        photoGalleryDatabaseHelper = new PhotoGalleryDatabaseHelper(this);
-        networkUtils = new NetworkUtils();
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void setToolbar() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                try {
-                    List<CardModel> cardModels = homeViewModel.getCards().getValue();
-                    cardModels.clear();
-                    networkUtils.updateJSONArray(searchView.getQuery().toString(), 1, cardModels);
-                    homeViewModel.getCards().setValue(cardModels);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return false;
+                homeViewModel.createNewRequest(searchView.getQuery().toString());
+                return true;
             }
 
             @Override
@@ -127,6 +111,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     //This function should set layout manager to RecylerView and control that it displays necessary information
     private void setRecyclerview() {
+
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageList.setLayoutManager(linearLayoutManager);
         imageAdapter = new ImageAdapter(this, photoGalleryDatabaseHelper, homeViewModel.getCards().getValue());
@@ -143,12 +128,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if (loading) {
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount - 3 && pastVisibleItems != 0) {
                         loading = false;
-                        try {
-                            pageNum++;
-                            networkUtils.updateJSONArray(searchView.getQuery().toString(), pageNum, homeViewModel.getCards().getValue());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        homeViewModel.findMoreImages(searchView.getQuery().toString());
                     }
                     loading = true;
                 }
@@ -160,7 +140,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         Intent intent = null;
-        switch (id){
+        switch (id) {
             case R.id.nav_albums:
                 intent = new Intent(this, AlbumsActivity.class);
                 break;
