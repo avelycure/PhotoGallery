@@ -141,7 +141,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition();
 
                 if (loading) {
-                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount && pastVisibleItems != 0) {
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount - 3 && pastVisibleItems != 0) {
                         loading = false;
                         try {
                             pageNum++;
