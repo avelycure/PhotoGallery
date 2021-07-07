@@ -40,49 +40,17 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void findMoreImages(String query) {
-        try {
-            currentVisiblePage++;
-            networkUtils.updateJSONArray(query, currentVisiblePage, cards.getValue());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        currentVisiblePage++;
+        List<CardModel> cardModels = cards.getValue();
+        networkUtils.makeRequestUsingRetrofit(query, currentVisiblePage, cardModels);
+        cards.setValue(cardModels);
     }
 
     public void createNewRequest(String query) {
-        Log.d("mytag", "create new request");
         currentVisiblePage = 1;
         List<CardModel> cardModels = cards.getValue();
         cardModels.clear();
-        try {
-            networkUtils.updateJSONArray(query, 1, cardModels);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return;
-        }
+        networkUtils.makeRequestUsingRetrofit(query, currentVisiblePage, cardModels);
         cards.setValue(cardModels);
-
-
-        Log.d("mytag", "started");
-        networkUtils.makeRequestUsingRetrofit();
-
-        networkUtils
-                .getFlickrApi()
-                .getImagesUrls("dog", 1)
-                .enqueue(new Callback<FlickrResponse>() {
-                    @Override
-                    public void onResponse(Call<FlickrResponse> call, Response<FlickrResponse> response) {
-                        Log.d("mytag", "good");
-
-                        FlickrResponse flickrResponse = response.body();
-                        Log.d("mytag", flickrResponse.getStatus());
-                        Log.d("mytag", "total" + flickrResponse.getPhotos().getTotalImages());
-                    }
-
-                    @Override
-                    public void onFailure(Call<FlickrResponse> call, Throwable t) {
-                        Log.d("mytag", "bad");
-                        Log.d("mytag", t.getMessage());
-                    }
-                });
     }
 }
