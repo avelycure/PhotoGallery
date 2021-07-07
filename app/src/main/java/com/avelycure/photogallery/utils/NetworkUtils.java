@@ -3,6 +3,8 @@ package com.avelycure.photogallery.utils;
 import android.util.Log;
 
 import com.avelycure.photogallery.data.FlickrApi;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,9 +83,13 @@ public class NetworkUtils {
     }
 
     public void makeRequestUsingRetrofit(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 

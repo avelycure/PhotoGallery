@@ -21,12 +21,48 @@ public class FlickrResponseItem {
     @SerializedName("title")
     private String title;
 
+    public String getPictureId() {
+        return pictureId;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public int getFarm() {
+        return farm;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getIsPublic() {
+        return isPublic;
+    }
+
+    public int getIsFriend() {
+        return isFriend;
+    }
+
+    public int getIsFamily() {
+        return isFamily;
+    }
+
     @SerializedName("ispublic")
-    private boolean isPublic;
+    private int isPublic;
 
     @SerializedName("isfriend")
-    private boolean isFriend;
+    private int isFriend;
 
     @SerializedName("isfamily")
-    private boolean isFamily;
+    private int isFamily;
 }

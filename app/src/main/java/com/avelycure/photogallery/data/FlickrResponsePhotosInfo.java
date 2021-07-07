@@ -6,16 +6,36 @@ import java.util.List;
 
 public class FlickrResponsePhotosInfo {
     @SerializedName("page")
-    private String page;
+    private int page;
 
     @SerializedName("pages")
-    private String totalPages;
+    private int totalPages;
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public int getImagesPerPage() {
+        return imagesPerPage;
+    }
+
+    public int getTotalImages() {
+        return totalImages;
+    }
+
+    public List<FlickrResponseItem> getPhoto() {
+        return photo;
+    }
 
     @SerializedName("perpage")
-    private String imagesPerPage;
+    private int imagesPerPage;
 
     @SerializedName("total")
-    private String totalImages;
+    private int totalImages;
 
     @SerializedName("photo")
     private List<FlickrResponseItem> photo;

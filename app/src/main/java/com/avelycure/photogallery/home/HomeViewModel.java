@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.avelycure.photogallery.data.FlickResponse;
+import com.avelycure.photogallery.data.FlickrResponse;
 import com.avelycure.photogallery.utils.CardModel;
 import com.avelycure.photogallery.utils.NetworkUtils;
 
@@ -39,7 +39,7 @@ public class HomeViewModel extends ViewModel {
         currentVisiblePage = 1;
     }
 
-    public void findMoreImages(String query){
+    public void findMoreImages(String query) {
         try {
             currentVisiblePage++;
             networkUtils.updateJSONArray(query, currentVisiblePage, cards.getValue());
@@ -63,20 +63,23 @@ public class HomeViewModel extends ViewModel {
 
 
         Log.d("mytag", "started");
+        networkUtils.makeRequestUsingRetrofit();
+
         networkUtils
                 .getFlickrApi()
-                .getImagesUrls("dog",1)
-                .enqueue(new Callback<FlickResponse>() {
+                .getImagesUrls("dog", 1)
+                .enqueue(new Callback<FlickrResponse>() {
                     @Override
-                    public void onResponse(Call<FlickResponse> call, Response<FlickResponse> response) {
+                    public void onResponse(Call<FlickrResponse> call, Response<FlickrResponse> response) {
                         Log.d("mytag", "good");
 
-                        FlickResponse flickResponse = response.body();
-                        Log.d("mytag", "" + flickResponse);
+                        FlickrResponse flickrResponse = response.body();
+                        Log.d("mytag", flickrResponse.getStatus());
+                        Log.d("mytag", "total" + flickrResponse.getPhotos().getTotalImages());
                     }
 
                     @Override
-                    public void onFailure(Call<FlickResponse> call, Throwable t) {
+                    public void onFailure(Call<FlickrResponse> call, Throwable t) {
                         Log.d("mytag", "bad");
                         Log.d("mytag", t.getMessage());
                     }
