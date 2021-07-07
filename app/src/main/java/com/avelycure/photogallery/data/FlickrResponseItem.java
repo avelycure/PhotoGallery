@@ -21,6 +21,15 @@ public class FlickrResponseItem {
     @SerializedName("title")
     private String title;
 
+    @SerializedName("ispublic")
+    private int isPublic;
+
+    @SerializedName("isfriend")
+    private int isFriend;
+
+    @SerializedName("isfamily")
+    private int isFamily;
+
     public String getPictureId() {
         return pictureId;
     }
@@ -56,13 +65,4 @@ public class FlickrResponseItem {
     public int getIsFamily() {
         return isFamily;
     }
-
-    @SerializedName("ispublic")
-    private int isPublic;
-
-    @SerializedName("isfriend")
-    private int isFriend;
-
-    @SerializedName("isfamily")
-    private int isFamily;
 }

@@ -5,11 +5,21 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class FlickrResponsePhotosInfo {
+
     @SerializedName("page")
     private int page;
 
     @SerializedName("pages")
     private int totalPages;
+
+    @SerializedName("perpage")
+    private int imagesPerPage;
+
+    @SerializedName("total")
+    private int totalImages;
+
+    @SerializedName("photo")
+    private List<FlickrResponseItem> photo;
 
     public int getPage() {
         return page;
@@ -30,13 +40,4 @@ public class FlickrResponsePhotosInfo {
     public List<FlickrResponseItem> getPhoto() {
         return photo;
     }
-
-    @SerializedName("perpage")
-    private int imagesPerPage;
-
-    @SerializedName("total")
-    private int totalImages;
-
-    @SerializedName("photo")
-    private List<FlickrResponseItem> photo;
 }
