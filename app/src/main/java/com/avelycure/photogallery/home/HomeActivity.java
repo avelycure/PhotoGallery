@@ -93,6 +93,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Log.d("mytag", "create new request");
                 homeViewModel.createNewRequest(searchView.getQuery().toString());
                 return true;
             }

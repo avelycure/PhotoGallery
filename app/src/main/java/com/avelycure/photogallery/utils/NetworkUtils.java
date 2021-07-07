@@ -2,6 +2,8 @@ package com.avelycure.photogallery.utils;
 
 import android.util.Log;
 
+import com.avelycure.photogallery.data.FlickrApi;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,12 +15,18 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class NetworkUtils {
     private static final String FLICKR_BASE_URL = "https://api.flickr.com/services/rest/?method=";
     private static final String API_KEY_STRING = "17c6829dc9c675db355315a1cab4e9b4";
     private static final String FLICKR_GET_PHOTO_METHOD = "flickr.photos.search";
     private static final String FORMAT_STRING = "json";
     private final int IMPORTED_PHOTOS_PER_REQUEST = 30;
+    private final String BASE_URL = "https://api.flickr.com";
+
+    private Retrofit mRetrofit;
 
     public void updateJSONArray(final String tag, final int pageNum, List<CardModel> cards) throws JSONException {
         Thread thread = new Thread(new Runnable() {
@@ -70,6 +78,17 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public void makeRequestUsingRetrofit(){
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    public FlickrApi getFlickrApi(){
+        return mRetrofit.create(FlickrApi.class);
     }
 
 }
