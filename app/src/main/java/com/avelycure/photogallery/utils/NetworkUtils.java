@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.avelycure.photogallery.data.FlickrApi;
 import com.avelycure.photogallery.data.FlickrResponse;
+import com.avelycure.photogallery.home.HomeViewModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -25,16 +26,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkUtils {
-    private static final String FLICKR_BASE_URL = "https://api.flickr.com/services/rest/?method=";
-    private static final String API_KEY_STRING = "17c6829dc9c675db355315a1cab4e9b4";
-    private static final String FLICKR_GET_PHOTO_METHOD = "flickr.photos.search";
-    private static final String FORMAT_STRING = "json";
-    private final int IMPORTED_PHOTOS_PER_REQUEST = 30;
-
     private final String BASE_URL = "https://api.flickr.com";
     private final Retrofit mRetrofit;
+    private HomeViewModel homeViewModel;
 
-    public NetworkUtils() {
+    public NetworkUtils(HomeViewModel homeViewModel) {
+        this.homeViewModel = homeViewModel;
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -45,7 +42,8 @@ public class NetworkUtils {
                 .build();
     }
 
-    public void makeRequestUsingRetrofit(String tag, int pageNum, List<CardModel> cards) {
+    //todo maybe do something with multithreading or javarx
+    public void makeRequest(String tag, int pageNum, List<CardModel> cards) {
         mRetrofit
                 .create(FlickrApi.class)
                 .getImagesUrls(tag, pageNum)
@@ -55,6 +53,7 @@ public class NetworkUtils {
                         FlickrResponse flickrResponse = response.body();
                         for (int i = 0; i < flickrResponse.getPhotos().getPhoto().size(); i++)
                             cards.add(new CardModel(createPictureAddress(flickrResponse, i), false));
+                        homeViewModel.gotRequest(cards);
                     }
 
                     @Override

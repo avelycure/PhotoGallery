@@ -32,7 +32,7 @@ public class HomeViewModel extends ViewModel {
         if (cards != null)
             return;
 
-        networkUtils = new NetworkUtils();
+        networkUtils = new NetworkUtils(this);
         cards = new MutableLiveData<>();
         List<CardModel> cardModelList = new ArrayList<>();
         cards.setValue(cardModelList);
@@ -41,16 +41,17 @@ public class HomeViewModel extends ViewModel {
 
     public void findMoreImages(String query) {
         currentVisiblePage++;
-        List<CardModel> cardModels = cards.getValue();
-        networkUtils.makeRequestUsingRetrofit(query, currentVisiblePage, cardModels);
-        cards.setValue(cardModels);
+        networkUtils.makeRequest(query, currentVisiblePage, cards.getValue());
     }
 
     public void createNewRequest(String query) {
         currentVisiblePage = 1;
         List<CardModel> cardModels = cards.getValue();
         cardModels.clear();
-        networkUtils.makeRequestUsingRetrofit(query, currentVisiblePage, cardModels);
+        networkUtils.makeRequest(query, currentVisiblePage, cardModels);
+    }
+
+    public void gotRequest(List<CardModel> cardModels){
         cards.setValue(cardModels);
     }
 }

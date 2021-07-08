@@ -5,6 +5,13 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface FlickrApi {
-    @GET("/services/rest/?method=flickr.photos.search&api_key=17c6829dc9c675db355315a1cab4e9b4&per_page=30&format=json&nojsoncallback=1")
+    String FORMAT_STRING = "&format=json";
+    String NO_ENVELOPE = "&nojsoncallback=1";
+    String FLICKR_API = "/services/rest/?method=";
+    String IMPORTED_PHOTOS_PER_REQUEST = "&per_page=30";
+    String FLICKR_GET_PHOTO_METHOD = "flickr.photos.search";
+    String API_KEY_STRING = "&api_key=17c6829dc9c675db355315a1cab4e9b4";
+
+    @GET(FLICKR_API + FLICKR_GET_PHOTO_METHOD + API_KEY_STRING + IMPORTED_PHOTOS_PER_REQUEST + FORMAT_STRING + NO_ENVELOPE)
     Call<FlickrResponse> getImagesUrls(@Query("tags") String tag, @Query("page") int pageNum);
 }

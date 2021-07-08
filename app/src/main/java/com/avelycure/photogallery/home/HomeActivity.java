@@ -71,9 +71,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         imageList = findViewById(R.id.rv_images);
         searchView = findViewById(R.id.searchView);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        drawer = (DrawerLayout) findViewById(R.id.drawer);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+        drawer = findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.nav_view);
 
         setRecyclerview();
 
@@ -101,9 +101,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
+            public boolean onQueryTextChange(String newText) {return false;}
         });
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
