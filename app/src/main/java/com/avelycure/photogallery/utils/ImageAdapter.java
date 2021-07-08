@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.avelycure.photogallery.R;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
         }
 
         void bind(int position) {
-            if(cards.get(position).isLiked())
+            if (cards.get(position).isLiked())
                 likeButton.setImageResource(R.drawable.heart);
             else
                 likeButton.setImageResource(R.drawable.heart1);
@@ -65,11 +66,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(cards.get(position).isLiked()){
+                    if (cards.get(position).isLiked()) {
                         likeButton.setImageResource(R.drawable.heart1);
                         cards.get(position).setLiked(false);
-                    }
-                    else{
+                    } else {
                         likeButton.setImageResource(R.drawable.heart);
                         cards.get(position).setLiked(true);
                     }
