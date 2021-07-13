@@ -27,4 +27,10 @@ public class AlbumsViewModel extends ViewModel {
 
         listMutableLiveData.setValue(arrayList);
     }
+
+    public void addAlbum(String name, String image){
+        List<AlbumListModel> list = listMutableLiveData.getValue();
+        list.add(new AlbumListModel(name, image));
+        listMutableLiveData.setValue(list);
+    }
 }
