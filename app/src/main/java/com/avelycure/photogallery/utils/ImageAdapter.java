@@ -32,7 +32,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
 
     @Override
     public ImagesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView iv = (CardView) LayoutInflater.from(parent.getContext())
+        CardView iv = (CardView) LayoutInflater.from(context.getContext())
                 .inflate(R.layout.image_card, parent, false);
         return new ImagesViewHolder(iv);
     }
