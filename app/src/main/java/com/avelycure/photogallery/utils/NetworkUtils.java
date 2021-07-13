@@ -2,9 +2,13 @@ package com.avelycure.photogallery.utils;
 
 import android.util.Log;
 
+import com.avelycure.photogallery.App;
 import com.avelycure.photogallery.data.FlickrApi;
 import com.avelycure.photogallery.data.FlickrResponse;
 import com.avelycure.photogallery.home.HomeViewModel;
+import com.avelycure.photogallery.room.AppDatabase;
+import com.avelycure.photogallery.room.Image;
+import com.avelycure.photogallery.room.ImageDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

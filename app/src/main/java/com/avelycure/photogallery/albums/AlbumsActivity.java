@@ -6,11 +6,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.avelycure.photogallery.App;
 import com.avelycure.photogallery.R;
+import com.avelycure.photogallery.room.AppDatabase;
+import com.avelycure.photogallery.room.ImageDao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -46,7 +51,10 @@ public class AlbumsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //todo add dialog picker image and name
-                albumsViewModel.addAlbum("new album", "image");
+                //albumsViewModel.addAlbum("new album", "image");
+                AppDatabase db = App.getInstance().getDatabase();
+                Intent intent = new Intent(getBaseContext(), AlbumElementsActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -14,7 +14,11 @@ import android.widget.RadioButton;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.avelycure.photogallery.App;
 import com.avelycure.photogallery.R;
+import com.avelycure.photogallery.room.AppDatabase;
+import com.avelycure.photogallery.room.Image;
+import com.avelycure.photogallery.room.ImageDao;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
@@ -70,6 +74,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                         likeButton.setImageResource(R.drawable.heart1);
                         cards.get(position).setLiked(false);
                     } else {
+                        AppDatabase db = App.getInstance().getDatabase();
+                        ImageDao imageDao = db.imageDao();
+                        imageDao.insert(new Image("liked", cards.get(position).getUrl()));
                         likeButton.setImageResource(R.drawable.heart);
                         cards.get(position).setLiked(true);
                     }
