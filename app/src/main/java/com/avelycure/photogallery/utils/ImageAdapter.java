@@ -76,7 +76,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                     } else {
                         AppDatabase db = App.getInstance().getDatabase();
                         ImageDao imageDao = db.imageDao();
-                        imageDao.insert(new Image("liked", cards.get(position).getUrl()));
+                        imageDao.insert(new Image("nice", cards.get(position).getUrl()));
                         likeButton.setImageResource(R.drawable.heart);
                         cards.get(position).setLiked(true);
                     }

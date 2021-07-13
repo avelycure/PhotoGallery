@@ -1,4 +1,4 @@
-package com.avelycure.photogallery.albums;
+package com.avelycure.photogallery.albums.data;
 
 public class AlbumListModel {
     private String name;

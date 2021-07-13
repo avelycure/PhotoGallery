@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
@@ -29,19 +27,11 @@ import com.avelycure.photogallery.ofiice.OfficeActivity;
 import com.avelycure.photogallery.settings.SettingsActivity;
 import com.avelycure.photogallery.utils.CardModel;
 import com.avelycure.photogallery.utils.ImageAdapterImpl;
-import com.avelycure.photogallery.utils.ImageAdapterParameter;
 import com.google.android.material.navigation.NavigationView;
 
-import org.json.JSONException;
-
-import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.avelycure.photogallery.utils.ImageAdapter;
-import com.avelycure.photogallery.utils.NetworkUtils;
-import com.avelycure.photogallery.utils.PhotoGalleryDatabaseHelper;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -114,8 +104,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageList.setLayoutManager(linearLayoutManager);
-        ImageAdapterParameter imageAdapterParameter = new ImageAdapterImpl(this);
-        imageAdapter = new ImageAdapter(imageAdapterParameter, homeViewModel.getCards().getValue());
+        imageAdapter = new ImageAdapter(new ImageAdapterImpl(this), homeViewModel.getCards().getValue());
         imageList.setAdapter(imageAdapter);
 
         imageList.addOnScrollListener(new RecyclerView.OnScrollListener() {

@@ -1,31 +1,27 @@
 package com.avelycure.photogallery.albums;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.avelycure.photogallery.R;
-import com.avelycure.photogallery.utils.ImageAdapter;
+import com.avelycure.photogallery.albums.data.AlbumListModel;
+import com.avelycure.photogallery.albums.elements.AlbumElementsActivity;
 import com.avelycure.photogallery.utils.ImageAdapterParameter;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHolder> {
     private List<AlbumListModel> list;
-    private AlbumAdapterParameter context;
+    private ImageAdapterParameter context;
 
-    public AlbumAdapter(List<AlbumListModel> list, AlbumAdapterParameter context) {
+    public AlbumAdapter(List<AlbumListModel> list, ImageAdapterParameter context) {
         this.list = list;
         this.context = context;
     }
@@ -64,7 +60,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(context.getContext(), AlbumElementsActivity.class);
+                    intent.putExtra("Album", list.get(position).getName());
+                    context.getContext().startActivity(intent);
                 }
             });
         }

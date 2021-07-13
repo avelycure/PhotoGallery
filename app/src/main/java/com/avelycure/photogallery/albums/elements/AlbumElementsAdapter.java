@@ -1,6 +1,5 @@
-package com.avelycure.photogallery.albums;
+package com.avelycure.photogallery.albums.elements;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +9,18 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.avelycure.photogallery.R;
+import com.avelycure.photogallery.room.Image;
+import com.avelycure.photogallery.utils.ImageAdapterParameter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdapter.AlbumElementsViewHolder> {
 
-    private List<ImageInAlbum> list;
-    private AlbumAdapterParameter context;
+    private List<Image> list;
+    private ImageAdapterParameter context;
 
-    public AlbumElementsAdapter(List<ImageInAlbum> list, AlbumAdapterParameter context) {
+    public AlbumElementsAdapter(List<Image> list, ImageAdapterParameter context) {
         this.list = list;
         this.context = context;
     }
@@ -48,7 +49,7 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("tag", "clicked");
+
                 }
             });
 

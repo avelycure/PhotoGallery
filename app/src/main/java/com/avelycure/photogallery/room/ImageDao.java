@@ -15,6 +15,9 @@ public interface ImageDao {
     @Query("SELECT * FROM image WHERE id = :id")
     Image getById(long id);
 
+    @Query("SELECT * FROM image WHERE album LIKE :album_param")
+    List<Image> getByAlbum(String album_param);
+
     @Insert
     void insert(Image image);
 

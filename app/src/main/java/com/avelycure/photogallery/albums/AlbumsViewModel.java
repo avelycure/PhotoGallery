@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.lang.invoke.MutableCallSite;
+import com.avelycure.photogallery.albums.data.AlbumListModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class AlbumsViewModel extends ViewModel {
         listMutableLiveData = new MutableLiveData<>();
         List<AlbumListModel> arrayList = new ArrayList<>();
 
-        arrayList.add(new AlbumListModel("album1", "mountain"));
-        arrayList.add(new AlbumListModel("album2", "forest"));
+        arrayList.add(new AlbumListModel("liked", "mountain"));
+        arrayList.add(new AlbumListModel("nice", "forest"));
         arrayList.add(new AlbumListModel("album3", "lake"));
 
         listMutableLiveData.setValue(arrayList);

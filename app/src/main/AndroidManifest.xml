@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".albums.AlbumElementsActivity"></activity>
+        <activity android:name=".albums.elements.AlbumElementsActivity"></activity>
         <activity android:name=".more.MoreActivity" />
         <activity android:name=".ofiice.OfficeActivity" />
         <activity android:name=".albums.AlbumsActivity" />
