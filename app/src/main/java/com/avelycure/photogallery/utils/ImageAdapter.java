@@ -1,16 +1,22 @@
 package com.avelycure.photogallery.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioButton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +28,7 @@ import com.avelycure.photogallery.room.ImageDao;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -91,7 +98,37 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context.getContext());
 
+                    alert.setTitle("Save picture");
+                    alert.setMessage("Choose album");
+
+                    final ListView input = new ListView(context.getContext());
+                    ArrayList<String> albums = new ArrayList<>();
+                    albums.add("Liked");
+                    albums.add("Nice");
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(context.getContext(), android.R.layout.simple_list_item_1, albums);
+                    input.setAdapter(adapter);
+                    input.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Log.d("tag", "" + position);
+                        }
+                    });
+                    alert.setView(input);
+
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    });
+
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    });
+                    alert.show();
                 }
             });
 
