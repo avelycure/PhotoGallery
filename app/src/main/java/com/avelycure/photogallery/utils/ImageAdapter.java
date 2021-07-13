@@ -48,8 +48,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
     }
 
     class ImagesViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        ImageButton likeButton;
+        private ImageView imageView;
+        private ImageButton likeButton;
 
         public ImagesViewHolder(View itemView) {
             super(itemView);

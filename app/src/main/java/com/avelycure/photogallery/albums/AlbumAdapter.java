@@ -1,8 +1,12 @@
 package com.avelycure.photogallery.albums;
 
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -29,23 +33,39 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
     public AlbumAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView iv = (CardView) LayoutInflater.from(context.getContext())
                 .inflate(R.layout.album_card, parent, false);
-        return new ImageAdapter.ImagesViewHolder(iv);
+        return new AlbumAdapter.AlbumAdapterViewHolder(iv);
     }
 
     @Override
     public void onBindViewHolder(AlbumAdapterViewHolder holder, int position) {
-
+        holder.bind(position);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return list.size();
     }
 
     class AlbumAdapterViewHolder extends RecyclerView.ViewHolder {
+        private ImageView iv;
+        private TextView tv;
 
-        public AlbumAdapterViewHolder(@NonNull @NotNull View itemView) {
+        public AlbumAdapterViewHolder(View itemView) {
             super(itemView);
+            iv = itemView.findViewById(R.id.album_card_iv);
+            tv = itemView.findViewById(R.id.album_card_tv);
+        }
+
+        public void bind(int position) {
+            tv.setText(list.get(position).getName());
+            iv.setBackgroundResource(R.drawable.flowers);
+
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("tag", "open album");
+                }
+            });
         }
     }
 }

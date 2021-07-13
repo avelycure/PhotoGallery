@@ -2,9 +2,11 @@ package com.avelycure.photogallery.albums;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.avelycure.photogallery.R;
@@ -12,7 +14,6 @@ import com.avelycure.photogallery.R;
 public class AlbumsActivity extends AppCompatActivity {
 
     private RecyclerView rv;
-    private LinearLayoutManager layoutManager;
     private AlbumsViewModel albumsViewModel;
     private AlbumAdapter albumAdapter;
 
@@ -26,10 +27,12 @@ public class AlbumsActivity extends AppCompatActivity {
 
         rv = findViewById(R.id.albums_rv);
 
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rv.setLayoutManager(layoutManager);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            rv.setLayoutManager(new GridLayoutManager(this, 2));
+        else
+            rv.setLayoutManager(new GridLayoutManager(this, 4));
 
-        albumAdapter = new AlbumAdapter(albumsViewModel.getListMutableLiveData().getValue());
+        albumAdapter = new AlbumAdapter(albumsViewModel.getListMutableLiveData().getValue(), new AlbumAdapterParameterImpl(this));
 
         rv.setAdapter(albumAdapter);
     }
