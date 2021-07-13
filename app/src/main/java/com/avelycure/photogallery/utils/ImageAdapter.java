@@ -105,14 +105,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
 
                     final ListView input = new ListView(context.getContext());
                     ArrayList<String> albums = new ArrayList<>();
+                    //todo get from room unique names of albums
                     albums.add("Liked");
                     albums.add("Nice");
+
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(context.getContext(), android.R.layout.simple_list_item_1, albums);
                     input.setAdapter(adapter);
                     input.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Log.d("tag", "" + position);
+                            //todo handle clicks
                         }
                     });
                     alert.setView(input);
