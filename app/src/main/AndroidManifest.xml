@@ -12,9 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".dialog_activities.ShowImageDetailsActivity"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:excludeFromRecents="true"/>
+        <activity android:name=".splash.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".dialog_activities.ShowImageDetailsActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".albums.elements.AlbumElementsActivity" />
         <activity android:name=".more.MoreActivity" />
         <activity android:name=".ofiice.OfficeActivity" />
@@ -24,11 +32,6 @@
         <activity
             android:name=".home.HomeActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
