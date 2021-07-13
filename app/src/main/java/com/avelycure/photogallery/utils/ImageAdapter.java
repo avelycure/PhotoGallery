@@ -14,7 +14,12 @@ import android.widget.RadioButton;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.avelycure.photogallery.App;
 import com.avelycure.photogallery.R;
+import com.avelycure.photogallery.room.AppDatabase;
+import com.avelycure.photogallery.room.Image;
+import com.avelycure.photogallery.room.ImageDao;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,15 +28,19 @@ import java.util.Set;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
     private ImageAdapterParameter context;
     private List<CardModel> cards;
+    private AppDatabase db;
+    private ImageDao imageDao;
 
     public ImageAdapter(ImageAdapterParameter imageAdapterParameter, List<CardModel> cards) {
         this.context = imageAdapterParameter;
         this.cards = cards;
+        db = App.getInstance().getDatabase();
+        imageDao = db.imageDao();
     }
 
     @Override
     public ImagesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView iv = (CardView) LayoutInflater.from(parent.getContext())
+        CardView iv = (CardView) LayoutInflater.from(context.getContext())
                 .inflate(R.layout.image_card, parent, false);
         return new ImagesViewHolder(iv);
     }
@@ -47,8 +56,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
     }
 
     class ImagesViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        ImageButton likeButton;
+        private ImageView imageView;
+        private ImageButton likeButton;
 
         public ImagesViewHolder(View itemView) {
             super(itemView);
@@ -57,7 +66,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
         }
 
         void bind(int position) {
-            if(cards.get(position).isLiked())
+            if (cards.get(position).isLiked())
                 likeButton.setImageResource(R.drawable.heart);
             else
                 likeButton.setImageResource(R.drawable.heart1);
@@ -65,11 +74,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(cards.get(position).isLiked()){
+                    if (cards.get(position).isLiked()) {
                         likeButton.setImageResource(R.drawable.heart1);
                         cards.get(position).setLiked(false);
-                    }
-                    else{
+                    } else {
+                        imageDao.insert(new Image("nice", cards.get(position).getUrl()));
                         likeButton.setImageResource(R.drawable.heart);
                         cards.get(position).setLiked(true);
                     }
