@@ -1,6 +1,5 @@
 package com.avelycure.photogallery.home;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -21,7 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.avelycure.photogallery.R;
 import com.avelycure.photogallery.albums.AlbumsActivity;
-import com.avelycure.photogallery.feedback.FeedbackActivity;
 import com.avelycure.photogallery.more.MoreActivity;
 import com.avelycure.photogallery.ofiice.OfficeActivity;
 import com.avelycure.photogallery.settings.SettingsActivity;
@@ -85,13 +83,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onQueryTextSubmit(String query) {
                 homeViewModel.createNewRequest(searchView.getQuery().toString());
-                InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {return false;}
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
         });
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
@@ -99,7 +99,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
-    //This function should set layout manager to RecylerView and control that it displays necessary information
+    //This function should set layout manager to RecyclerView and control that it displays necessary information
     private void setRecyclerview() {
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -127,15 +127,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         Intent intent = null;
         switch (id) {
             case R.id.nav_albums:
                 intent = new Intent(this, AlbumsActivity.class);
-                break;
-            case R.id.nav_feedback:
-                intent = new Intent(this, FeedbackActivity.class);
                 break;
             case R.id.nav_office:
                 intent = new Intent(this, OfficeActivity.class);
@@ -154,10 +151,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        else
             super.onBackPressed();
-        }
     }
 }

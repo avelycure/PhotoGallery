@@ -30,6 +30,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
     private List<CardModel> cards;
     private AppDatabase db;
     private ImageDao imageDao;
+    private static String ALBUM_LIKED = "liked";
 
     public ImageAdapter(ImageAdapterParameter imageAdapterParameter, List<CardModel> cards) {
         this.context = imageAdapterParameter;
@@ -58,11 +59,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
     class ImagesViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private ImageButton likeButton;
+        private ImageButton saveButton;
 
         public ImagesViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_card);
             likeButton = itemView.findViewById(R.id.iv_like);
+            saveButton = itemView.findViewById(R.id.iv_save);
         }
 
         void bind(int position) {
@@ -78,10 +81,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                         likeButton.setImageResource(R.drawable.heart1);
                         cards.get(position).setLiked(false);
                     } else {
-                        imageDao.insert(new Image("nice", cards.get(position).getUrl()));
+                        imageDao.insert(new Image(ALBUM_LIKED, cards.get(position).getUrl()));
                         likeButton.setImageResource(R.drawable.heart);
                         cards.get(position).setLiked(true);
                     }
+                }
+            });
+
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                 }
             });
 
