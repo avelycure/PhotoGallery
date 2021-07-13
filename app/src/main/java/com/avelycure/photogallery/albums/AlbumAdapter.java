@@ -20,6 +20,7 @@ import java.util.List;
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHolder> {
     private List<AlbumListModel> list;
     private ImageAdapterParameter context;
+    private static String ALBUM = "Album";
 
     public AlbumAdapter(List<AlbumListModel> list, ImageAdapterParameter context) {
         this.list = list;
@@ -61,7 +62,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context.getContext(), AlbumElementsActivity.class);
-                    intent.putExtra("Album", list.get(position).getName());
+                    intent.putExtra(ALBUM, list.get(position).getName());
                     context.getContext().startActivity(intent);
                 }
             });

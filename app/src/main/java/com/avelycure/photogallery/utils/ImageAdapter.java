@@ -28,10 +28,14 @@ import java.util.Set;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
     private ImageAdapterParameter context;
     private List<CardModel> cards;
+    private AppDatabase db;
+    private ImageDao imageDao;
 
     public ImageAdapter(ImageAdapterParameter imageAdapterParameter, List<CardModel> cards) {
         this.context = imageAdapterParameter;
         this.cards = cards;
+        db = App.getInstance().getDatabase();
+        imageDao = db.imageDao();
     }
 
     @Override
@@ -74,8 +78,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                         likeButton.setImageResource(R.drawable.heart1);
                         cards.get(position).setLiked(false);
                     } else {
-                        AppDatabase db = App.getInstance().getDatabase();
-                        ImageDao imageDao = db.imageDao();
                         imageDao.insert(new Image("nice", cards.get(position).getUrl()));
                         likeButton.setImageResource(R.drawable.heart);
                         cards.get(position).setLiked(true);

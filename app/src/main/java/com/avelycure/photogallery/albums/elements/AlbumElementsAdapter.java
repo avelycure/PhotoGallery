@@ -1,5 +1,6 @@
 package com.avelycure.photogallery.albums.elements;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.avelycure.photogallery.R;
+import com.avelycure.photogallery.dialog_activities.ShowImageDetailsActivity;
 import com.avelycure.photogallery.room.Image;
 import com.avelycure.photogallery.utils.ImageAdapterParameter;
 import com.squareup.picasso.Picasso;
@@ -19,6 +21,7 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
 
     private List<Image> list;
     private ImageAdapterParameter context;
+    private static String URL = "url";
 
     public AlbumElementsAdapter(List<Image> list, ImageAdapterParameter context) {
         this.list = list;
@@ -49,7 +52,9 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(context.getContext(), ShowImageDetailsActivity.class);
+                    intent.putExtra(URL, list.get(position).getUrl());
+                    context.getContext().startActivity(intent);
                 }
             });
 

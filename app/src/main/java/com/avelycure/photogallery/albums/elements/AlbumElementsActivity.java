@@ -20,6 +20,7 @@ public class AlbumElementsActivity extends AppCompatActivity {
     private RecyclerView rv;
     private AlbumElementsAdapter albumElementsAdapter;
     private AlbumsElementViewModel viewModel;
+    private static String ALBUM = "Album";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +30,10 @@ public class AlbumElementsActivity extends AppCompatActivity {
         String album = null;
         Bundle argument = getIntent().getExtras();
         if (argument != null) {
-            album = argument.get("Album").toString();
+            album = argument.get(ALBUM).toString();
         }
 
         viewModel = ViewModelProviders.of(this).get(AlbumsElementViewModel.class);
-
 
         viewModel.init(album);
 
