@@ -6,4 +6,4 @@
 В качестве архитектуры проекта выбран паттерн MVVM.
 
 # Технологии
-Retrofit2, Picasso
+Retrofit2, Picasso, Room
