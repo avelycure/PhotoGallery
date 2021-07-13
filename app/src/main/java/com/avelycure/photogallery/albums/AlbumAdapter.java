@@ -1,12 +1,15 @@
 package com.avelycure.photogallery.albums;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,6 +67,34 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
                     Intent intent = new Intent(context.getContext(), AlbumElementsActivity.class);
                     intent.putExtra(ALBUM, list.get(position).getName());
                     context.getContext().startActivity(intent);
+                }
+            });
+
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context.getContext());
+
+                    alert.setTitle("Renaming album");
+                    alert.setMessage("Input album name");
+
+                    final EditText input = new EditText(context.getContext());
+                    alert.setView(input);
+
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String value = input.getText().toString();
+                            if (value != null && !value.equals(""))
+                                tv.setText(value);
+                        }
+                    });
+
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    });
+                    alert.show();
                 }
             });
         }
