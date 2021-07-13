@@ -65,5 +65,9 @@ public class AlbumsActivity extends AppCompatActivity {
         albumAdapter = new AlbumAdapter(albumsViewModel.getListMutableLiveData().getValue(), new ImageAdapterImpl(this));
 
         rv.setAdapter(albumAdapter);
+
+        setSupportActionBar(findViewById(R.id.toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 }

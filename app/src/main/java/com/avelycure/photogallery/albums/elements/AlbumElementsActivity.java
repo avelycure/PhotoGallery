@@ -51,5 +51,9 @@ public class AlbumElementsActivity extends AppCompatActivity {
                 albumElementsAdapter.notifyDataSetChanged();
             }
         });
+
+        setSupportActionBar(findViewById(R.id.toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 }
