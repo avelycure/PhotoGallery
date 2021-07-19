@@ -53,7 +53,7 @@ public class AlbumsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo add dialog picker image and name
+                //todo add dialog picker image and name check unique
                 albumsViewModel.addAlbum("new album", "image");
                 AppDatabase db = App.getInstance().getDatabase();
             }

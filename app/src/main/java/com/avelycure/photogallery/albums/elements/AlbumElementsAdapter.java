@@ -1,11 +1,13 @@
 package com.avelycure.photogallery.albums.elements;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,12 +54,18 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context.getContext(), ShowImageDetailsActivity.class);
-                    intent.putExtra(URL, list.get(position).getUrl());
-                    context.getContext().startActivity(intent);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context.getContext());
+                    LayoutInflater inflater = ((Activity)(context.getContext())).getLayoutInflater();
+                    View view = inflater.inflate(R.layout.activity_show_image_details, null);
+                    builder.setView(view);
+
+                    builder.setTitle("Picture details");
+                    ImageView iv_details = view.findViewById(R.id.sid_iv);
+                    Picasso.with(context.getContext()).load(list.get(position).getUrl()).into(iv_details);
+
+                    builder.show();
                 }
             });
-
             Picasso.with(context.getContext()).load(list.get(position).getUrl()).into(iv);
         }
 
