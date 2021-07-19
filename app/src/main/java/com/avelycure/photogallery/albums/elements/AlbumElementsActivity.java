@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -23,6 +26,8 @@ public class AlbumElementsActivity extends AppCompatActivity {
     private AlbumElementsAdapter albumElementsAdapter;
     private AlbumsElementViewModel viewModel;
     private static String ALBUM = "Album";
+    private static int PORTRAIT_COLUMNS_NUM = 3;
+    private static int LANDSCAPE_COLUMNS_NUM = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +36,8 @@ public class AlbumElementsActivity extends AppCompatActivity {
 
         String album = null;
         Bundle argument = getIntent().getExtras();
-        if (argument != null) {
+        if (argument != null)
             album = argument.get(ALBUM).toString();
-        }
 
         viewModel = ViewModelProviders.of(this).get(AlbumsElementViewModel.class);
 
@@ -45,7 +49,11 @@ public class AlbumElementsActivity extends AppCompatActivity {
                 new ImageAdapterImpl(this));
 
         rv.setAdapter(albumElementsAdapter);
-        rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            rv.setLayoutManager(new GridLayoutManager(this, PORTRAIT_COLUMNS_NUM));
+        else
+            rv.setLayoutManager(new GridLayoutManager(this, LANDSCAPE_COLUMNS_NUM));
 
         viewModel.getMutableLiveData().observe(this, new Observer<List<Image>>() {
             @Override

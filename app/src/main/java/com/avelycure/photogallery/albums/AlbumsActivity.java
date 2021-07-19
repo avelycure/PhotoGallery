@@ -25,13 +25,12 @@ import java.util.List;
 
 public class AlbumsActivity extends AppCompatActivity {
 
-    private static int PORTRAIT_COLUMNS_NUM = 2;
+    private static int PORTRAIT_COLUMNS_NUM = 3;
     private static int LANDSCAPE_COLUMNS_NUM = 4;
 
     private RecyclerView rv;
     private AlbumsViewModel albumsViewModel;
     private AlbumAdapter albumAdapter;
-    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +47,6 @@ public class AlbumsActivity extends AppCompatActivity {
         });
 
         rv = findViewById(R.id.albums_rv);
-        fab = findViewById(R.id.albums_fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //todo add dialog picker image and name
-                albumsViewModel.addAlbum("new album", "image");
-                AppDatabase db = App.getInstance().getDatabase();
-            }
-        });
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             rv.setLayoutManager(new GridLayoutManager(this, PORTRAIT_COLUMNS_NUM));

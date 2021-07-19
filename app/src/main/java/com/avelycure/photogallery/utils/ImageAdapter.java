@@ -1,20 +1,20 @@
 package com.avelycure.photogallery.utils;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
@@ -25,12 +25,9 @@ import com.avelycure.photogallery.R;
 import com.avelycure.photogallery.room.AppDatabase;
 import com.avelycure.photogallery.room.Image;
 import com.avelycure.photogallery.room.ImageDao;
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
     private ImageAdapterParameter context;
@@ -38,6 +35,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
     private AppDatabase db;
     private ImageDao imageDao;
     private static String ALBUM_LIKED = "liked";
+    private AlertDialog ad;
+    private AlertDialog adAlbumName;
 
     public ImageAdapter(ImageAdapterParameter imageAdapterParameter, List<CardModel> cards) {
         this.context = imageAdapterParameter;
@@ -67,12 +66,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
         private ImageView imageView;
         private ImageButton likeButton;
         private ImageButton saveButton;
+        private TextView tvAuthor;
 
         public ImagesViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_card);
             likeButton = itemView.findViewById(R.id.iv_like);
             saveButton = itemView.findViewById(R.id.iv_save);
+            tvAuthor = itemView.findViewById(R.id.tv_username);
         }
 
         void bind(int position) {
@@ -80,6 +81,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                 likeButton.setImageResource(R.drawable.heart);
             else
                 likeButton.setImageResource(R.drawable.heart1);
+
+            tvAuthor.setText(cards.get(position).getUserName());
 
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,42 +101,61 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(context.getContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context.getContext());
+                    LayoutInflater inflater = ((Activity) (context.getContext())).getLayoutInflater();
+                    View view = inflater.inflate(R.layout.activity_choose_album, null);
+                    builder.setView(view);
 
-                    alert.setTitle("Save picture");
-                    alert.setMessage("Choose album");
+                    builder.setTitle("Save picture");
+                    builder.setMessage("Choose album");
 
-                    final ListView input = new ListView(context.getContext());
-                    ArrayList<String> albums = new ArrayList<>();
-                    //todo get from room unique names of albums
-                    albums.add("Liked");
-                    albums.add("Nice");
+                    ListView lv = view.findViewById(R.id.dialog_lv);
+                    List<String> albumsList = imageDao.getAlbumsInDB();
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(context.getContext(),
+                            android.R.layout.simple_list_item_multiple_choice, albumsList);
+                    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                    lv.setAdapter(adapter);
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(context.getContext(), android.R.layout.simple_list_item_1, albums);
-                    input.setAdapter(adapter);
-                    input.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    TextView tvOk = view.findViewById(R.id.dialog_ok);
+                    tvOk.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //todo handle clicks
+                        public void onClick(View v) {
+                            SparseBooleanArray checked = lv.getCheckedItemPositions();
+                            for (int i = 0; i < albumsList.size(); i++) {
+                                if (checked.get(i))
+                                    imageDao.insert(new Image(albumsList.get(i), cards.get(position).getUrl()));
+                            }
+                            if (ad != null)
+                                ad.dismiss();
                         }
                     });
-                    alert.setView(input);
-
-                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-
+                    TextView tvAddAlbum = view.findViewById(R.id.dialog_tv);
+                    tvAddAlbum.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final EditText input = new EditText(context.getContext());
+                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT);
+                            input.setLayoutParams(lp);
+                            adAlbumName = new AlertDialog.Builder(context.getContext())
+                                    .setTitle("Album name")
+                                    .setMessage("Input name")
+                                    .setView(input)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String albumName = input.getText().toString();
+                                            albumsList.add(albumName);
+                                            adapter.notifyDataSetChanged();
+                                            adAlbumName.dismiss();
+                                        }
+                                    })
+                                    .show();
                         }
                     });
-
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-
-                        }
-                    });
-                    alert.show();
+                    ad = builder.show();
                 }
             });
-
             Picasso.with(context.getContext()).load(cards.get(position).getUrl()).into(imageView);
         }
 
