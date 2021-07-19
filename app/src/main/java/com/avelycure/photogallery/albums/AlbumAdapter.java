@@ -2,9 +2,11 @@ package com.avelycure.photogallery.albums;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +25,15 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
     private List<AlbumListModel> list;
     private ImageAdapterParameter context;
     private static String ALBUM = "Album";
+    private boolean chbIsVisible = false;
+
+    public boolean isChbIsVisible() {
+        return chbIsVisible;
+    }
+
+    public void setChbIsVisible(boolean chbIsVisible) {
+        this.chbIsVisible = chbIsVisible;
+    }
 
     public AlbumAdapter(List<AlbumListModel> list, ImageAdapterParameter context) {
         this.list = list;
@@ -49,16 +60,33 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
     class AlbumAdapterViewHolder extends RecyclerView.ViewHolder {
         private ImageView iv;
         private TextView tv;
+        private CheckBox chb;
 
         public AlbumAdapterViewHolder(View itemView) {
             super(itemView);
             iv = itemView.findViewById(R.id.album_card_iv);
             tv = itemView.findViewById(R.id.album_card_tv);
+            chb = itemView.findViewById(R.id.album_rv_chb);
         }
 
         public void bind(int position) {
             tv.setText(list.get(position).getName());
             iv.setBackgroundResource(R.drawable.flowers);
+
+            if (chbIsVisible)
+                chb.setVisibility(View.VISIBLE);
+            else
+                chb.setVisibility(View.GONE);
+
+            iv.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    chbIsVisible = true;
+                    chb.setVisibility(View.VISIBLE);
+                    notifyDataSetChanged();
+                    return true;
+                }
+            });
 
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override

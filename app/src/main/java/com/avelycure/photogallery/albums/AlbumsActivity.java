@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.avelycure.photogallery.R;
 import com.avelycure.photogallery.utils.ImageAdapterParameterImpl;

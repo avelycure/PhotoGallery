@@ -20,17 +20,16 @@ import java.util.List;
 public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdapter.AlbumElementsViewHolder> {
 
     private List<Image> list;
-    private ImageAdapterParameter context;
-    private static String URL = "url";
+    private ImageAdapterParameter imageAdapterParameter;
 
     public AlbumElementsAdapter(List<Image> list, ImageAdapterParameter context) {
         this.list = list;
-        this.context = context;
+        this.imageAdapterParameter = context;
     }
 
     @Override
     public AlbumElementsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView iv = (CardView) LayoutInflater.from(context.getContext())
+        CardView iv = (CardView) LayoutInflater.from(imageAdapterParameter.getContext())
                 .inflate(R.layout.album_elements__card, parent, false);
         return new AlbumElementsAdapter.AlbumElementsViewHolder(iv);
     }
@@ -52,19 +51,19 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context.getContext());
-                    LayoutInflater inflater = ((Activity)(context.getContext())).getLayoutInflater();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(imageAdapterParameter.getContext());
+                    LayoutInflater inflater = ((Activity)(imageAdapterParameter.getContext())).getLayoutInflater();
                     View view = inflater.inflate(R.layout.album_elements__show_image_details_activity, null);
                     builder.setView(view);
 
                     builder.setTitle("Picture details");
                     ImageView iv_details = view.findViewById(R.id.sid_iv);
-                    Picasso.with(context.getContext()).load(list.get(position).getUrl()).into(iv_details);
+                    Picasso.with(imageAdapterParameter.getContext()).load(list.get(position).getUrl()).into(iv_details);
 
                     builder.show();
                 }
             });
-            Picasso.with(context.getContext()).load(list.get(position).getUrl()).into(iv);
+            Picasso.with(imageAdapterParameter.getContext()).load(list.get(position).getUrl()).into(iv);
         }
 
         public AlbumElementsViewHolder(View itemView) {
