@@ -1,5 +1,6 @@
-package com.avelycure.photogallery.data;
+package com.avelycure.photogallery.data.images;
 
+import com.avelycure.photogallery.data.images.FlickrResponseItem;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

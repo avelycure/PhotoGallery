@@ -1,4 +1,4 @@
-package com.avelycure.photogallery.data;
+package com.avelycure.photogallery.data.images;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

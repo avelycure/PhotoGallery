@@ -1,12 +1,12 @@
-package com.avelycure.photogallery.utils;
+package com.avelycure.photogallery.home;
 
-public class CardModel {
+public class HomeCardModel {
     private String url;
     private boolean liked;
     private String userName;
     private Long id;
 
-    public CardModel(String url, boolean liked, String author) {
+    public HomeCardModel(String url, boolean liked, String author) {
         this.url = url;
         this.liked = liked;
         this.userName = author;

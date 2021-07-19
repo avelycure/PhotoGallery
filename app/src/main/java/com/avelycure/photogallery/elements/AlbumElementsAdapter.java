@@ -1,7 +1,6 @@
-package com.avelycure.photogallery.albums.elements;
+package com.avelycure.photogallery.elements;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.avelycure.photogallery.R;
-import com.avelycure.photogallery.dialog_activities.ShowImageDetailsActivity;
 import com.avelycure.photogallery.room.Image;
 import com.avelycure.photogallery.utils.ImageAdapterParameter;
 import com.squareup.picasso.Picasso;
@@ -33,7 +31,7 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
     @Override
     public AlbumElementsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView iv = (CardView) LayoutInflater.from(context.getContext())
-                .inflate(R.layout.album_element_card, parent, false);
+                .inflate(R.layout.album_elements__card, parent, false);
         return new AlbumElementsAdapter.AlbumElementsViewHolder(iv);
     }
 
@@ -56,7 +54,7 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context.getContext());
                     LayoutInflater inflater = ((Activity)(context.getContext())).getLayoutInflater();
-                    View view = inflater.inflate(R.layout.activity_show_image_details, null);
+                    View view = inflater.inflate(R.layout.album_elements__show_image_details_activity, null);
                     builder.setView(view);
 
                     builder.setTitle("Picture details");

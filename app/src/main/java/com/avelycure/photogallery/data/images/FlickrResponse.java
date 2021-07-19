@@ -1,4 +1,4 @@
-package com.avelycure.photogallery.data;
+package com.avelycure.photogallery.data.images;
 
 import com.google.gson.annotations.SerializedName;
 

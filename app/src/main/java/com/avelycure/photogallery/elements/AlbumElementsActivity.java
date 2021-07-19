@@ -1,13 +1,11 @@
-package com.avelycure.photogallery.albums.elements;
+package com.avelycure.photogallery.elements;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,8 +13,7 @@ import android.view.MenuItem;
 
 import com.avelycure.photogallery.R;
 import com.avelycure.photogallery.room.Image;
-import com.avelycure.photogallery.utils.ImageAdapter;
-import com.avelycure.photogallery.utils.ImageAdapterImpl;
+import com.avelycure.photogallery.utils.ImageAdapterParameterImpl;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class AlbumElementsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album_elements);
+        setContentView(R.layout.album_elements__activity);
 
         String album = null;
         Bundle argument = getIntent().getExtras();
@@ -46,7 +43,7 @@ public class AlbumElementsActivity extends AppCompatActivity {
         rv = findViewById(R.id.album_elements_rv);
 
         albumElementsAdapter = new AlbumElementsAdapter(viewModel.getMutableLiveData().getValue(),
-                new ImageAdapterImpl(this));
+                new ImageAdapterParameterImpl(this));
 
         rv.setAdapter(albumElementsAdapter);
 

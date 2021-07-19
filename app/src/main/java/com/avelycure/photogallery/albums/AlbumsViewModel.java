@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.avelycure.photogallery.App;
-import com.avelycure.photogallery.albums.data.AlbumListModel;
 import com.avelycure.photogallery.room.AppDatabase;
 import com.avelycure.photogallery.room.ImageDao;
 

@@ -7,19 +7,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.avelycure.photogallery.App;
 import com.avelycure.photogallery.R;
-import com.avelycure.photogallery.albums.data.AlbumListModel;
-import com.avelycure.photogallery.albums.elements.AlbumElementsActivity;
-import com.avelycure.photogallery.room.AppDatabase;
-import com.avelycure.photogallery.utils.ImageAdapterImpl;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.avelycure.photogallery.utils.ImageAdapterParameterImpl;
 
 import java.util.List;
 
@@ -35,7 +28,7 @@ public class AlbumsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_albums);
+        setContentView(R.layout.album__activity);
 
         albumsViewModel = ViewModelProviders.of(this).get(AlbumsViewModel.class);
         albumsViewModel.init();
@@ -53,7 +46,7 @@ public class AlbumsActivity extends AppCompatActivity {
         else
             rv.setLayoutManager(new GridLayoutManager(this, LANDSCAPE_COLUMNS_NUM));
 
-        albumAdapter = new AlbumAdapter(albumsViewModel.getListMutableLiveData().getValue(), new ImageAdapterImpl(this));
+        albumAdapter = new AlbumAdapter(albumsViewModel.getListMutableLiveData().getValue(), new ImageAdapterParameterImpl(this));
 
         rv.setAdapter(albumAdapter);
 

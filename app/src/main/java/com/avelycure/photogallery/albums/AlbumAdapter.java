@@ -14,8 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.avelycure.photogallery.R;
-import com.avelycure.photogallery.albums.data.AlbumListModel;
-import com.avelycure.photogallery.albums.elements.AlbumElementsActivity;
+import com.avelycure.photogallery.elements.AlbumElementsActivity;
 import com.avelycure.photogallery.utils.ImageAdapterParameter;
 
 import java.util.List;
@@ -33,7 +32,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
     @Override
     public AlbumAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView iv = (CardView) LayoutInflater.from(context.getContext())
-                .inflate(R.layout.album_card, parent, false);
+                .inflate(R.layout.album__rv_card, parent, false);
         return new AlbumAdapter.AlbumAdapterViewHolder(iv);
     }
 

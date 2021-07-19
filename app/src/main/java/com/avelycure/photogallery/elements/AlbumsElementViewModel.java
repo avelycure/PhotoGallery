@@ -1,6 +1,4 @@
-package com.avelycure.photogallery.albums.elements;
-
-import android.util.Log;
+package com.avelycure.photogallery.elements;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

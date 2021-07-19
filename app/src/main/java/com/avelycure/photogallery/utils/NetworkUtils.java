@@ -1,27 +1,13 @@
 package com.avelycure.photogallery.utils;
 
-import android.util.Log;
-
-import com.avelycure.photogallery.App;
-import com.avelycure.photogallery.data.FlickrApi;
-import com.avelycure.photogallery.data.FlickrResponse;
+import com.avelycure.photogallery.data.images.FlickrApi;
+import com.avelycure.photogallery.data.images.FlickrResponse;
+import com.avelycure.photogallery.home.HomeCardModel;
 import com.avelycure.photogallery.home.HomeViewModel;
-import com.avelycure.photogallery.room.AppDatabase;
-import com.avelycure.photogallery.room.Image;
-import com.avelycure.photogallery.room.ImageDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,7 +33,7 @@ public class NetworkUtils {
     }
 
     //todo maybe do something with multithreading or javarx
-    public void makeRequest(String tag, int pageNum, List<CardModel> cards) {
+    public void makeRequest(String tag, int pageNum, List<HomeCardModel> cards) {
         mRetrofit
                 .create(FlickrApi.class)
                 .getImagesUrls(tag, pageNum)
@@ -56,7 +42,7 @@ public class NetworkUtils {
                     public void onResponse(Call<FlickrResponse> call, Response<FlickrResponse> response) {
                         FlickrResponse flickrResponse = response.body();
                         for (int i = 0; i < flickrResponse.getPhotos().getPhoto().size(); i++)
-                            cards.add(new CardModel(createPictureAddress(flickrResponse, i), false,
+                            cards.add(new HomeCardModel(createPictureAddress(flickrResponse, i), false,
                                     flickrResponse.getPhotos().getPhoto().get(i).getOwnerId()));
                         homeViewModel.gotRequest(cards);
                     }
