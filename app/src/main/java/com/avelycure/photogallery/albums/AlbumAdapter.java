@@ -2,7 +2,6 @@ package com.avelycure.photogallery.albums;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.avelycure.photogallery.R;
-import com.avelycure.photogallery.elements.AlbumElementsActivity;
+import com.avelycure.photogallery.album_elements.AlbumElementsActivity;
 import com.avelycure.photogallery.utils.ImageAdapterParameter;
 
 import java.util.List;

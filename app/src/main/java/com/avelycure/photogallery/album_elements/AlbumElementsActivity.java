@@ -1,4 +1,4 @@
-package com.avelycure.photogallery.elements;
+package com.avelycure.photogallery.album_elements;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

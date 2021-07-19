@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".elements.AlbumElementsActivity" />
+        <activity android:name=".album_elements.AlbumElementsActivity" />
         <activity android:name=".about.MoreActivity" />
         <activity android:name=".office.OfficeActivity" />
         <activity android:name=".albums.AlbumsActivity" />

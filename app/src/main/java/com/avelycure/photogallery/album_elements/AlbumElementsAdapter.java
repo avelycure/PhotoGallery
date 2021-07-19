@@ -1,9 +1,11 @@
-package com.avelycure.photogallery.elements;
+package com.avelycure.photogallery.album_elements;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -21,6 +23,7 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
 
     private List<Image> list;
     private ImageAdapterParameter imageAdapterParameter;
+    private boolean chbIsVisible = false;
 
     public AlbumElementsAdapter(List<Image> list, ImageAdapterParameter context) {
         this.list = list;
@@ -30,7 +33,7 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
     @Override
     public AlbumElementsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView iv = (CardView) LayoutInflater.from(imageAdapterParameter.getContext())
-                .inflate(R.layout.album_elements__card, parent, false);
+                .inflate(R.layout.album_elements__rv_card, parent, false);
         return new AlbumElementsAdapter.AlbumElementsViewHolder(iv);
     }
 
@@ -46,8 +49,29 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
 
     class AlbumElementsViewHolder extends RecyclerView.ViewHolder {
         private ImageView iv;
+        private CheckBox chb;
 
+        public AlbumElementsViewHolder(View itemView) {
+            super(itemView);
+            iv = itemView.findViewById(R.id.album_element_card_iv);
+            chb = itemView.findViewById(R.id.album_elements_chb);
+        }
         public void bind(int position) {
+            if (chbIsVisible)
+                chb.setVisibility(View.VISIBLE);
+            else
+                chb.setVisibility(View.GONE);
+
+            iv.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    chbIsVisible = true;
+                    chb.setVisibility(View.VISIBLE);
+                    notifyDataSetChanged();
+                    return true;
+                }
+            });
+
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -66,9 +90,5 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
             Picasso.with(imageAdapterParameter.getContext()).load(list.get(position).getUrl()).into(iv);
         }
 
-        public AlbumElementsViewHolder(View itemView) {
-            super(itemView);
-            iv = itemView.findViewById(R.id.album_element_card_iv);
-        }
     }
 }
