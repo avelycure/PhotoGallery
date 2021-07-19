@@ -104,12 +104,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                     alert.setMessage("Choose album");
 
                     final ListView input = new ListView(context.getContext());
-                    ArrayList<String> albums = new ArrayList<>();
-                    //todo get from room unique names of albums
-                    albums.add("Liked");
-                    albums.add("Nice");
+                    List<String> albumsList = imageDao.getAlbumsInDB();
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(context.getContext(), android.R.layout.simple_list_item_1, albums);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(context.getContext(), android.R.layout.simple_list_item_1, albumsList);
                     input.setAdapter(adapter);
                     input.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
