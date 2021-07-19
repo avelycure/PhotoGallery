@@ -31,7 +31,6 @@ public class AlbumsActivity extends AppCompatActivity {
     private RecyclerView rv;
     private AlbumsViewModel albumsViewModel;
     private AlbumAdapter albumAdapter;
-    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +47,6 @@ public class AlbumsActivity extends AppCompatActivity {
         });
 
         rv = findViewById(R.id.albums_rv);
-        fab = findViewById(R.id.albums_fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //todo add dialog picker image and name check unique
-                albumsViewModel.addAlbum("new album", "image");
-                AppDatabase db = App.getInstance().getDatabase();
-            }
-        });
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             rv.setLayoutManager(new GridLayoutManager(this, PORTRAIT_COLUMNS_NUM));

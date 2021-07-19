@@ -66,12 +66,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
         private ImageView imageView;
         private ImageButton likeButton;
         private ImageButton saveButton;
+        private TextView tvAuthor;
 
         public ImagesViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_card);
             likeButton = itemView.findViewById(R.id.iv_like);
             saveButton = itemView.findViewById(R.id.iv_save);
+            tvAuthor = itemView.findViewById(R.id.tv_username);
         }
 
         void bind(int position) {
@@ -79,6 +81,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                 likeButton.setImageResource(R.drawable.heart);
             else
                 likeButton.setImageResource(R.drawable.heart1);
+
+            tvAuthor.setText(cards.get(position).getUserName());
 
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,7 +145,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             String albumName = input.getText().toString();
-                                            Log.d("tag",albumName);
                                             albumsList.add(albumName);
                                             adapter.notifyDataSetChanged();
                                             adAlbumName.dismiss();
@@ -152,7 +155,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                     });
                     ad = builder.show();
                 }
-
             });
             Picasso.with(context.getContext()).load(cards.get(position).getUrl()).into(imageView);
         }

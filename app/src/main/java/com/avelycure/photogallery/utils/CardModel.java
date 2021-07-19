@@ -6,9 +6,10 @@ public class CardModel {
     private String userName;
     private Long id;
 
-    public CardModel(String url, boolean liked) {
+    public CardModel(String url, boolean liked, String author) {
         this.url = url;
         this.liked = liked;
+        this.userName = author;
     }
 
     public String getUrl() {
@@ -25,5 +26,13 @@ public class CardModel {
 
     public void setLiked(boolean liked) {
         this.liked = liked;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

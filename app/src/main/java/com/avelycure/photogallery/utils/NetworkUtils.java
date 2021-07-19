@@ -56,7 +56,8 @@ public class NetworkUtils {
                     public void onResponse(Call<FlickrResponse> call, Response<FlickrResponse> response) {
                         FlickrResponse flickrResponse = response.body();
                         for (int i = 0; i < flickrResponse.getPhotos().getPhoto().size(); i++)
-                            cards.add(new CardModel(createPictureAddress(flickrResponse, i), false));
+                            cards.add(new CardModel(createPictureAddress(flickrResponse, i), false,
+                                    flickrResponse.getPhotos().getPhoto().get(i).getOwnerId()));
                         homeViewModel.gotRequest(cards);
                     }
 
