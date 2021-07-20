@@ -30,7 +30,6 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    //Activity components
     private RecyclerView imageList;
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -39,7 +38,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private SearchView searchView;
     private NavigationView navigationView;
 
-    //Variables
     private boolean loading = true;
     private ImageAdapter imageAdapter;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
@@ -96,7 +94,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
-    //This function should set layout manager to RecyclerView and control that it displays necessary information
+    /**
+     * This function should set layout manager to RecyclerView and control that it displays necessary information
+     */
     private void setRecyclerview() {
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
