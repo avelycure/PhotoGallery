@@ -26,4 +26,7 @@ public interface ImageDao {
 
     @Query("SELECT DISTINCT album from image")
     List<String> getAlbumsInDB();
+
+    @Query("DELETE FROM image WHERE album = :album_name")
+    void deleteAlbum(String album_name);
 }

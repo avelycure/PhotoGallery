@@ -33,6 +33,7 @@ public class NetworkUtils {
     }
 
     //todo maybe do something with multithreading or javarx
+    //todo add async request to server to get info about user
     public void makeRequest(String tag, int pageNum, List<HomeCardModel> cards) {
         mRetrofit
                 .create(FlickrApi.class)
@@ -59,5 +60,4 @@ public class NetworkUtils {
                 "/" + flickrResponseImage.getPhotos().getPhoto().get(i).getPictureId() +
                 "_" + flickrResponseImage.getPhotos().getPhoto().get(i).getSecret() + ".jpg";
     }
-
 }
