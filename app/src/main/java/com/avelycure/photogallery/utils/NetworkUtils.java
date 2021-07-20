@@ -1,7 +1,7 @@
 package com.avelycure.photogallery.utils;
 
-import com.avelycure.photogallery.data.images.FlickrApi;
-import com.avelycure.photogallery.data.images.FlickrResponse;
+import com.avelycure.photogallery.data.FlickrApi;
+import com.avelycure.photogallery.data.images.FlickrResponseImage;
 import com.avelycure.photogallery.home.HomeCardModel;
 import com.avelycure.photogallery.home.HomeViewModel;
 import com.google.gson.Gson;
@@ -37,27 +37,27 @@ public class NetworkUtils {
         mRetrofit
                 .create(FlickrApi.class)
                 .getImagesUrls(tag, pageNum)
-                .enqueue(new Callback<FlickrResponse>() {
+                .enqueue(new Callback<FlickrResponseImage>() {
                     @Override
-                    public void onResponse(Call<FlickrResponse> call, Response<FlickrResponse> response) {
-                        FlickrResponse flickrResponse = response.body();
-                        for (int i = 0; i < flickrResponse.getPhotos().getPhoto().size(); i++)
-                            cards.add(new HomeCardModel(createPictureAddress(flickrResponse, i), false,
-                                    flickrResponse.getPhotos().getPhoto().get(i).getOwnerId()));
+                    public void onResponse(Call<FlickrResponseImage> call, Response<FlickrResponseImage> response) {
+                        FlickrResponseImage flickrResponseImage = response.body();
+                        for (int i = 0; i < flickrResponseImage.getPhotos().getPhoto().size(); i++)
+                            cards.add(new HomeCardModel(createPictureAddress(flickrResponseImage, i), false,
+                                    flickrResponseImage.getPhotos().getPhoto().get(i).getOwnerId()));
                         homeViewModel.gotRequest(cards);
                     }
 
                     @Override
-                    public void onFailure(Call<FlickrResponse> call, Throwable t) {
+                    public void onFailure(Call<FlickrResponseImage> call, Throwable t) {
                     }
                 });
     }
 
-    public String createPictureAddress(FlickrResponse flickrResponse, int i){
-        return "https://farm" + flickrResponse.getPhotos().getPhoto().get(i).getFarm() +
-                ".staticflickr.com/" + flickrResponse.getPhotos().getPhoto().get(i).getServer() +
-                "/" + flickrResponse.getPhotos().getPhoto().get(i).getPictureId() +
-                "_" + flickrResponse.getPhotos().getPhoto().get(i).getSecret() + ".jpg";
+    public String createPictureAddress(FlickrResponseImage flickrResponseImage, int i){
+        return "https://farm" + flickrResponseImage.getPhotos().getPhoto().get(i).getFarm() +
+                ".staticflickr.com/" + flickrResponseImage.getPhotos().getPhoto().get(i).getServer() +
+                "/" + flickrResponseImage.getPhotos().getPhoto().get(i).getPictureId() +
+                "_" + flickrResponseImage.getPhotos().getPhoto().get(i).getSecret() + ".jpg";
     }
 
 }

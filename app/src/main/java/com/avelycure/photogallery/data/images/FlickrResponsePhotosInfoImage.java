@@ -1,11 +1,10 @@
 package com.avelycure.photogallery.data.images;
 
-import com.avelycure.photogallery.data.images.FlickrResponseItem;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class FlickrResponsePhotosInfo {
+public class FlickrResponsePhotosInfoImage {
 
     @SerializedName("page")
     private int page;
@@ -20,7 +19,7 @@ public class FlickrResponsePhotosInfo {
     private int totalImages;
 
     @SerializedName("photo")
-    private List<FlickrResponseItem> photo;
+    private List<FlickrResponseItemImage> photo;
 
     public int getPage() {
         return page;
@@ -38,7 +37,7 @@ public class FlickrResponsePhotosInfo {
         return totalImages;
     }
 
-    public List<FlickrResponseItem> getPhoto() {
+    public List<FlickrResponseItemImage> getPhoto() {
         return photo;
     }
 }
