@@ -20,20 +20,16 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.avelycure.photogallery.R;
 import com.avelycure.photogallery.albums.AlbumsActivity;
-import com.avelycure.photogallery.more.MoreActivity;
-import com.avelycure.photogallery.ofiice.OfficeActivity;
+import com.avelycure.photogallery.about.MoreActivity;
+import com.avelycure.photogallery.office.OfficeActivity;
 import com.avelycure.photogallery.settings.SettingsActivity;
-import com.avelycure.photogallery.utils.CardModel;
-import com.avelycure.photogallery.utils.ImageAdapterImpl;
+import com.avelycure.photogallery.utils.ImageAdapterParameterImpl;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
-import com.avelycure.photogallery.utils.ImageAdapter;
-
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    //Activity components
     private RecyclerView imageList;
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -42,7 +38,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private SearchView searchView;
     private NavigationView navigationView;
 
-    //Variables
     private boolean loading = true;
     private ImageAdapter imageAdapter;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
@@ -52,7 +47,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitvity_gallery);
+        setContentView(R.layout.home__activity);
 
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         homeViewModel.init();
@@ -69,9 +64,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         setToolbar();
 
-        homeViewModel.getCards().observe(this, new Observer<List<CardModel>>() {
+        homeViewModel.getCards().observe(this, new Observer<List<HomeCardModel>>() {
             @Override
-            public void onChanged(List<CardModel> cardModels) {
+            public void onChanged(List<HomeCardModel> homeCardModels) {
                 imageAdapter.notifyDataSetChanged();
             }
         });
@@ -99,12 +94,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
-    //This function should set layout manager to RecyclerView and control that it displays necessary information
+    /**
+     * This function should set layout manager to RecyclerView and control that it displays necessary information
+     */
     private void setRecyclerview() {
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageList.setLayoutManager(linearLayoutManager);
-        imageAdapter = new ImageAdapter(new ImageAdapterImpl(this), homeViewModel.getCards().getValue());
+        imageAdapter = new ImageAdapter(new ImageAdapterParameterImpl(this), homeViewModel.getCards().getValue());
         imageList.setAdapter(imageAdapter);
 
         imageList.addOnScrollListener(new RecyclerView.OnScrollListener() {

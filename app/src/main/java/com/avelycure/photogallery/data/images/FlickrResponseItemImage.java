@@ -1,8 +1,8 @@
-package com.avelycure.photogallery.data;
+package com.avelycure.photogallery.data.images;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FlickrResponseItem {
+public class FlickrResponseItemImage {
     @SerializedName("id")
     private String pictureId;
 

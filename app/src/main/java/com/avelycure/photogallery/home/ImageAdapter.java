@@ -1,13 +1,11 @@
-package com.avelycure.photogallery.utils;
+package com.avelycure.photogallery.home;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,20 +23,21 @@ import com.avelycure.photogallery.R;
 import com.avelycure.photogallery.room.AppDatabase;
 import com.avelycure.photogallery.room.Image;
 import com.avelycure.photogallery.room.ImageDao;
+import com.avelycure.photogallery.utils.ImageAdapterParameter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHolder> {
     private ImageAdapterParameter context;
-    private List<CardModel> cards;
+    private List<HomeCardModel> cards;
     private AppDatabase db;
     private ImageDao imageDao;
     private static String ALBUM_LIKED = "liked";
     private AlertDialog ad;
     private AlertDialog adAlbumName;
 
-    public ImageAdapter(ImageAdapterParameter imageAdapterParameter, List<CardModel> cards) {
+    public ImageAdapter(ImageAdapterParameter imageAdapterParameter, List<HomeCardModel> cards) {
         this.context = imageAdapterParameter;
         this.cards = cards;
         db = App.getInstance().getDatabase();
@@ -48,7 +47,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
     @Override
     public ImagesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView iv = (CardView) LayoutInflater.from(context.getContext())
-                .inflate(R.layout.image_card, parent, false);
+                .inflate(R.layout.home__rv_card, parent, false);
         return new ImagesViewHolder(iv);
     }
 
@@ -103,7 +102,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context.getContext());
                     LayoutInflater inflater = ((Activity) (context.getContext())).getLayoutInflater();
-                    View view = inflater.inflate(R.layout.activity_choose_album, null);
+                    View view = inflater.inflate(R.layout.home__dialog_choose_album_activity, null);
                     builder.setView(view);
 
                     builder.setTitle("Save picture");
