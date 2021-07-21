@@ -49,8 +49,7 @@ public class AlbumsActivity extends AppCompatActivity {
         albumsViewModel.getEditorModeEnabled().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                albumAdapter.setChbIsVisible(aBoolean);
-                albumAdapter.notifyDataSetChanged();
+                albumAdapter.switchSelection(aBoolean);
                 switchActionDeleteVisibility(aBoolean);
             }
         });

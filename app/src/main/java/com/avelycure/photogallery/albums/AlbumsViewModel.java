@@ -33,7 +33,7 @@ public class AlbumsViewModel extends ViewModel {
         List<String> albumList = imageDao.getAlbumsInDB();
 
         for (int i = 0; i < albumList.size(); i++)
-            arrayList.add(new AlbumListModel(albumList.get(i), "some image", false));
+            arrayList.add(new AlbumListModel(albumList.get(i), "some image"));
 
         listMutableLiveData.setValue(arrayList);
     }
@@ -54,9 +54,15 @@ public class AlbumsViewModel extends ViewModel {
         for (int i = 0; i < listWithoutDeletedAlbums.size(); i++) {
             if (listWithoutDeletedAlbums.get(i).isChecked()) {
                 imageDao.deleteAlbum(listWithoutDeletedAlbums.get(i).getName());
-                listWithoutDeletedAlbums.remove(i);
+                listWithoutDeletedAlbums.get(i).setToDelete(true);
             }
         }
+
+        for(AlbumListModel album: listWithoutDeletedAlbums){
+            if (album.isToDelete())
+                listWithoutDeletedAlbums.remove(album);
+        }
+
         listMutableLiveData.setValue(listWithoutDeletedAlbums);
         editorModeEnabled.setValue(false);
     }

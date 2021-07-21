@@ -75,9 +75,8 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
             iv.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    chbIsVisible = true;
+                    switchSelection(true);
                     ((AlbumElementsActivity) (imageAdapterParameter.getContext())).switchActionDeleteVisibility(true);
-                    notifyDataSetChanged();
                     return true;
                 }
             });
@@ -107,10 +106,6 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
             Picasso.with(imageAdapterParameter.getContext()).load(list.get(position).getUrl()).into(iv);
         }
 
-    }
-
-    public void setChbIsVisible(boolean chbIsVisible) {
-        this.chbIsVisible = chbIsVisible;
     }
 
     public void switchSelection(boolean visibility) {

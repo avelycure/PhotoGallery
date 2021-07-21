@@ -69,6 +69,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
             chb = itemView.findViewById(R.id.album_rv_chb);
         }
 
+        //todo search for bug in this method and in analog in elements
         public void bind(int position) {
             tv.setText(list.get(position).getName());
             iv.setBackgroundResource(R.drawable.flowers);
@@ -91,9 +92,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
             iv.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    chbIsVisible = true;
-                    notifyDataSetChanged();
-                    ((AlbumsActivity)(imageAdapterParameter.getContext())).switchActionDeleteVisibility(true);
+                    switchSelection(true);
+                    ((AlbumsActivity) (imageAdapterParameter.getContext())).switchActionDeleteVisibility(true);
                     return true;
                 }
             });

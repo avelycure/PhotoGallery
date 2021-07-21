@@ -18,6 +18,7 @@ public class AlbumElementListModel {
         this.id = id;
         this.url = url;
         this.album = album;
+        checked = false;
     }
 
     public String getAlbum() {
