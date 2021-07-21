@@ -15,6 +15,7 @@ public class AlbumsViewModel extends ViewModel {
     private MutableLiveData<List<AlbumListModel>> listMutableLiveData;
     private ImageDao imageDao;
     private AppDatabase db;
+    private MutableLiveData<Boolean> editorModeEnabled;
 
     public LiveData<List<AlbumListModel>> getListMutableLiveData() {
         return listMutableLiveData;
@@ -35,5 +36,28 @@ public class AlbumsViewModel extends ViewModel {
             arrayList.add(new AlbumListModel(albumList.get(i), "some image", false));
 
         listMutableLiveData.setValue(arrayList);
+    }
+
+    public LiveData<Boolean> getEditorModeEnabled() {
+        return editorModeEnabled;
+    }
+
+    public void initMode() {
+        if (editorModeEnabled != null)
+            return;
+        editorModeEnabled = new MutableLiveData<>();
+        editorModeEnabled.setValue(false);
+    }
+
+    public void deleteAlbum() {
+        List<AlbumListModel> listWithoutDeletedAlbums = listMutableLiveData.getValue();
+        for (int i = 0; i < listWithoutDeletedAlbums.size(); i++) {
+            if (listWithoutDeletedAlbums.get(i).isChecked()) {
+                imageDao.deleteAlbum(listWithoutDeletedAlbums.get(i).getName());
+                listWithoutDeletedAlbums.remove(i);
+            }
+        }
+        listMutableLiveData.setValue(listWithoutDeletedAlbums);
+        editorModeEnabled.setValue(false);
     }
 }

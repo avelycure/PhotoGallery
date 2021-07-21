@@ -37,10 +37,23 @@ public class AlbumsActivity extends AppCompatActivity {
 
         albumsViewModel = ViewModelProviders.of(this).get(AlbumsViewModel.class);
         albumsViewModel.init();
+        albumsViewModel.initMode();
+
         albumsViewModel.getListMutableLiveData().observe(this, new Observer<List<AlbumListModel>>() {
             @Override
             public void onChanged(List<AlbumListModel> albumListModels) {
+                Log.d("tag", "changed");
                 albumAdapter.notifyDataSetChanged();
+            }
+        });
+
+        albumsViewModel.getEditorModeEnabled().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Log.d("tag", "changed");
+                albumAdapter.setChbIsVisible(false);
+                albumAdapter.notifyDataSetChanged();
+                switchActionDeleteVisibility(aBoolean);
             }
         });
 
@@ -63,15 +76,17 @@ public class AlbumsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Log.d("tag","" + albumAdapter.isChbIsVisible());
+        Log.d("tag", "" + albumAdapter.isChbIsVisible());
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (albumAdapter.isChbIsVisible()) {
                     albumAdapter.switchSelection(false);
-                switchActionDeleteVisibility(false);
-                }else
+                    switchActionDeleteVisibility(false);
+                } else
                     finish();
                 return true;
+            case R.id.albums_action_delete:
+                albumsViewModel.deleteAlbum();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -81,7 +96,7 @@ public class AlbumsActivity extends AppCompatActivity {
         if (albumAdapter.isChbIsVisible()) {
             albumAdapter.switchSelection(false);
             switchActionDeleteVisibility(false);
-        }else
+        } else
             finish();
     }
 
@@ -93,6 +108,7 @@ public class AlbumsActivity extends AppCompatActivity {
     }
 
     public void switchActionDeleteVisibility(boolean visibility) {
-        menu.findItem(R.id.home_action_delete).setVisible(visibility);
+        if (menu != null)
+            menu.findItem(R.id.albums_action_delete).setVisible(visibility);
     }
 }
