@@ -42,7 +42,6 @@ public class AlbumsActivity extends AppCompatActivity {
         albumsViewModel.getListMutableLiveData().observe(this, new Observer<List<AlbumListModel>>() {
             @Override
             public void onChanged(List<AlbumListModel> albumListModels) {
-                Log.d("tag", "changed");
                 albumAdapter.notifyDataSetChanged();
             }
         });
@@ -50,8 +49,7 @@ public class AlbumsActivity extends AppCompatActivity {
         albumsViewModel.getEditorModeEnabled().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                Log.d("tag", "changed");
-                albumAdapter.setChbIsVisible(false);
+                albumAdapter.setChbIsVisible(aBoolean);
                 albumAdapter.notifyDataSetChanged();
                 switchActionDeleteVisibility(aBoolean);
             }
@@ -76,7 +74,6 @@ public class AlbumsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Log.d("tag", "" + albumAdapter.isChbIsVisible());
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (albumAdapter.isChbIsVisible()) {

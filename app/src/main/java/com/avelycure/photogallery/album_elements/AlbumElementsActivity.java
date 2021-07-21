@@ -2,6 +2,7 @@ package com.avelycure.photogallery.album_elements;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.avelycure.photogallery.R;
@@ -25,6 +27,8 @@ public class AlbumElementsActivity extends AppCompatActivity {
     private static String ALBUM = "Album";
     private static int PORTRAIT_COLUMNS_NUM = 3;
     private static int LANDSCAPE_COLUMNS_NUM = 4;
+    private Toolbar toolbar;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +43,10 @@ public class AlbumElementsActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(AlbumsElementViewModel.class);
 
         viewModel.init(album);
+        viewModel.initMode();
 
         rv = findViewById(R.id.album_elements_rv);
+        toolbar = findViewById(R.id.toolbar);
 
         albumElementsAdapter = new AlbumElementsAdapter(viewModel.getMutableLiveData().getValue(),
                 new ImageAdapterParameterImpl(this));
@@ -52,25 +58,61 @@ public class AlbumElementsActivity extends AppCompatActivity {
         else
             rv.setLayoutManager(new GridLayoutManager(this, LANDSCAPE_COLUMNS_NUM));
 
-        viewModel.getMutableLiveData().observe(this, new Observer<List<Image>>() {
+        viewModel.getMutableLiveData().observe(this, new Observer<List<AlbumElementListModel>>() {
             @Override
-            public void onChanged(List<Image> imageInAlbums) {
+            public void onChanged(List<AlbumElementListModel> imageInAlbums) {
                 albumElementsAdapter.notifyDataSetChanged();
             }
         });
 
-        setSupportActionBar(findViewById(R.id.toolbar));
+        viewModel.getEditorModeEnabled().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                albumElementsAdapter.setChbIsVisible(false);
+                albumElementsAdapter.notifyDataSetChanged();
+                switchActionDeleteVisibility(aBoolean);
+            }
+        });
+
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                if (albumElementsAdapter.isChbIsVisible()) {
+                    albumElementsAdapter.switchSelection(false);
+                    switchActionDeleteVisibility(false);
+                } else
+                    finish();
                 return true;
+            case R.id.albums_action_delete:
+                viewModel.deletePicture();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (albumElementsAdapter.isChbIsVisible()) {
+            albumElementsAdapter.switchSelection(false);
+            switchActionDeleteVisibility(false);
+        } else
+            finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        this.menu = menu;
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void switchActionDeleteVisibility(boolean visibility) {
+        if (menu != null)
+            menu.findItem(R.id.albums_action_delete).setVisible(visibility);
     }
 }

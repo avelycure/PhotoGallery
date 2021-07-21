@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -13,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.avelycure.photogallery.R;
+import com.avelycure.photogallery.albums.AlbumsActivity;
 import com.avelycure.photogallery.room.Image;
 import com.avelycure.photogallery.utils.ImageAdapterParameter;
 import com.squareup.picasso.Picasso;
@@ -21,11 +23,15 @@ import java.util.List;
 
 public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdapter.AlbumElementsViewHolder> {
 
-    private List<Image> list;
+    private List<AlbumElementListModel> list;
     private ImageAdapterParameter imageAdapterParameter;
     private boolean chbIsVisible = false;
 
-    public AlbumElementsAdapter(List<Image> list, ImageAdapterParameter context) {
+    public boolean isChbIsVisible() {
+        return chbIsVisible;
+    }
+
+    public AlbumElementsAdapter(List<AlbumElementListModel> list, ImageAdapterParameter context) {
         this.list = list;
         this.imageAdapterParameter = context;
     }
@@ -56,7 +62,11 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
             iv = itemView.findViewById(R.id.album_element_card_iv);
             chb = itemView.findViewById(R.id.album_elements_chb);
         }
+
         public void bind(int position) {
+            chb.setChecked(false);
+            list.get(position).setChecked(false);
+
             if (chbIsVisible)
                 chb.setVisibility(View.VISIBLE);
             else
@@ -66,9 +76,16 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
                 @Override
                 public boolean onLongClick(View v) {
                     chbIsVisible = true;
-                    chb.setVisibility(View.VISIBLE);
+                    ((AlbumElementsActivity) (imageAdapterParameter.getContext())).switchActionDeleteVisibility(true);
                     notifyDataSetChanged();
                     return true;
+                }
+            });
+
+            chb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    list.get(position).setChecked(isChecked);
                 }
             });
 
@@ -76,7 +93,7 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(imageAdapterParameter.getContext());
-                    LayoutInflater inflater = ((Activity)(imageAdapterParameter.getContext())).getLayoutInflater();
+                    LayoutInflater inflater = ((Activity) (imageAdapterParameter.getContext())).getLayoutInflater();
                     View view = inflater.inflate(R.layout.album_elements__show_image_details_activity, null);
                     builder.setView(view);
 
@@ -91,4 +108,14 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
         }
 
     }
+
+    public void setChbIsVisible(boolean chbIsVisible) {
+        this.chbIsVisible = chbIsVisible;
+    }
+
+    public void switchSelection(boolean visibility) {
+        chbIsVisible = visibility;
+        notifyDataSetChanged();
+    }
+
 }
