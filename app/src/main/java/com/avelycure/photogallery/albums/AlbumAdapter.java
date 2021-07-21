@@ -22,7 +22,7 @@ import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHolder> {
     private List<AlbumListModel> list;
-    private ImageAdapterParameter context;
+    private ImageAdapterParameter imageAdapterParameter;
     private static String ALBUM = "Album";
     private boolean chbIsVisible = false;
 
@@ -34,14 +34,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
         this.chbIsVisible = chbIsVisible;
     }
 
-    public AlbumAdapter(List<AlbumListModel> list, ImageAdapterParameter context) {
+    public AlbumAdapter(List<AlbumListModel> list, ImageAdapterParameter imageAdapterParameter) {
         this.list = list;
-        this.context = context;
+        this.imageAdapterParameter = imageAdapterParameter;
     }
 
     @Override
     public AlbumAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView iv = (CardView) LayoutInflater.from(context.getContext())
+        CardView iv = (CardView) LayoutInflater.from(imageAdapterParameter.getContext())
                 .inflate(R.layout.album__rv_card, parent, false);
         return new AlbumAdapter.AlbumAdapterViewHolder(iv);
     }
@@ -57,9 +57,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
     }
 
     class AlbumAdapterViewHolder extends RecyclerView.ViewHolder {
-        private ImageView iv;
-        private TextView tv;
-        private CheckBox chb;
+        private final ImageView iv;
+        private final TextView tv;
+        private final CheckBox chb;
 
         public AlbumAdapterViewHolder(View itemView) {
             super(itemView);
@@ -72,6 +72,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
             tv.setText(list.get(position).getName());
             iv.setBackgroundResource(R.drawable.flowers);
 
+            chb.setChecked(false);
+
             if (chbIsVisible)
                 chb.setVisibility(View.VISIBLE);
             else
@@ -81,8 +83,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
                 @Override
                 public boolean onLongClick(View v) {
                     chbIsVisible = true;
-                    chb.setVisibility(View.VISIBLE);
                     notifyDataSetChanged();
+                    ((AlbumsActivity)(imageAdapterParameter.getContext())).switchActionDeleteVisibility(true);
                     return true;
                 }
             });
@@ -90,21 +92,21 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context.getContext(), AlbumElementsActivity.class);
+                    Intent intent = new Intent(imageAdapterParameter.getContext(), AlbumElementsActivity.class);
                     intent.putExtra(ALBUM, list.get(position).getName());
-                    context.getContext().startActivity(intent);
+                    imageAdapterParameter.getContext().startActivity(intent);
                 }
             });
 
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(context.getContext());
+                    AlertDialog.Builder alert = new AlertDialog.Builder(imageAdapterParameter.getContext());
 
                     alert.setTitle("Renaming album");
                     alert.setMessage("Input album name");
 
-                    final EditText input = new EditText(context.getContext());
+                    final EditText input = new EditText(imageAdapterParameter.getContext());
                     alert.setView(input);
 
                     alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -124,5 +126,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
                 }
             });
         }
+    }
+
+    public void switchSelection(boolean visibility) {
+        chbIsVisible = visibility;
+        notifyDataSetChanged();
     }
 }

@@ -3,10 +3,12 @@ package com.avelycure.photogallery.albums;
 public class AlbumListModel {
     private String name;
     private String image;
+    private boolean checked;
 
-    public AlbumListModel(String name, String image) {
+    public AlbumListModel(String name, String image, boolean checked) {
         this.name = name;
         this.image = image;
+        this.checked = checked;
     }
 
     public String getName() {
@@ -15,5 +17,9 @@ public class AlbumListModel {
 
     public String getImage() {
         return image;
+    }
+
+    public boolean isChecked() {
+        return checked;
     }
 }

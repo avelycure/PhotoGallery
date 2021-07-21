@@ -32,14 +32,8 @@ public class AlbumsViewModel extends ViewModel {
         List<String> albumList = imageDao.getAlbumsInDB();
 
         for (int i = 0; i < albumList.size(); i++)
-            arrayList.add(new AlbumListModel(albumList.get(i), "some image"));
+            arrayList.add(new AlbumListModel(albumList.get(i), "some image", false));
 
         listMutableLiveData.setValue(arrayList);
-    }
-
-    public void addAlbum(String name, String image) {
-        List<AlbumListModel> list = listMutableLiveData.getValue();
-        list.add(new AlbumListModel(name, image));
-        listMutableLiveData.setValue(list);
     }
 }
