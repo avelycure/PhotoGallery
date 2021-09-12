@@ -84,7 +84,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
             if (chbIsVisible)
                 chb.setVisibility(View.VISIBLE);
             else
-                chb.setVisibility(View.GONE);
+                chb.setVisibility(View.INVISIBLE);
 
             chb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
