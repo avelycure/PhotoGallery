@@ -13,6 +13,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import com.avelycure.photogallery.ofiice.OfficeActivity;
 import com.avelycure.photogallery.settings.SettingsActivity;
 import com.avelycure.photogallery.utils.CardModel;
 import com.avelycure.photogallery.utils.ImageAdapterImpl;
+import com.avelycure.photogallery.utils.MySuggestionProvider;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
@@ -44,6 +46,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private LinearLayoutManager linearLayoutManager;
     private SearchView searchView;
     private NavigationView navigationView;
+    private SearchRecentSuggestions suggestions;
 
     //Variables
     private boolean loading = true;
@@ -81,6 +84,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 imageAdapter.notifyDataSetChanged();
             }
         });
+
+        suggestions = new SearchRecentSuggestions(this,
+                MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
     }
 
     @Override
@@ -98,6 +104,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onQueryTextSubmit(String query) {
                 homeViewModel.createNewRequest(searchView.getQuery().toString());
+                suggestions.saveRecentQuery(query, null);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
                 return true;
