@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.avelycure.photogallery.App;
-import com.avelycure.photogallery.albums.data.AlbumListModel;
 import com.avelycure.photogallery.room.AppDatabase;
 import com.avelycure.photogallery.room.ImageDao;
 
@@ -16,6 +15,7 @@ public class AlbumsViewModel extends ViewModel {
     private MutableLiveData<List<AlbumListModel>> listMutableLiveData;
     private ImageDao imageDao;
     private AppDatabase db;
+    private MutableLiveData<Boolean> editorModeEnabled;
 
     public LiveData<List<AlbumListModel>> getListMutableLiveData() {
         return listMutableLiveData;
@@ -38,9 +38,32 @@ public class AlbumsViewModel extends ViewModel {
         listMutableLiveData.setValue(arrayList);
     }
 
-    public void addAlbum(String name, String image) {
-        List<AlbumListModel> list = listMutableLiveData.getValue();
-        list.add(new AlbumListModel(name, image));
-        listMutableLiveData.setValue(list);
+    public LiveData<Boolean> getEditorModeEnabled() {
+        return editorModeEnabled;
+    }
+
+    public void initMode() {
+        if (editorModeEnabled != null)
+            return;
+        editorModeEnabled = new MutableLiveData<>();
+        editorModeEnabled.setValue(false);
+    }
+
+    public void deleteAlbum() {
+        List<AlbumListModel> listWithoutDeletedAlbums = listMutableLiveData.getValue();
+        for (int i = 0; i < listWithoutDeletedAlbums.size(); i++) {
+            if (listWithoutDeletedAlbums.get(i).isChecked()) {
+                imageDao.deleteAlbum(listWithoutDeletedAlbums.get(i).getName());
+                listWithoutDeletedAlbums.get(i).setToDelete(true);
+            }
+        }
+
+        for(AlbumListModel album: listWithoutDeletedAlbums){
+            if (album.isToDelete())
+                listWithoutDeletedAlbums.remove(album);
+        }
+
+        listMutableLiveData.setValue(listWithoutDeletedAlbums);
+        editorModeEnabled.setValue(false);
     }
 }

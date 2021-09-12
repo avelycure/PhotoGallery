@@ -1,4 +1,4 @@
-package com.avelycure.photogallery.more;
+package com.avelycure.photogallery.about;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +16,7 @@ public class MoreActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_more);
+        setContentView(R.layout.about__activity);
 
         textView = findViewById(R.id.tv_about);
         setSupportActionBar(findViewById(R.id.toolbar));

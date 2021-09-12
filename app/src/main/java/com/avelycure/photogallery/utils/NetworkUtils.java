@@ -1,27 +1,13 @@
 package com.avelycure.photogallery.utils;
 
-import android.util.Log;
-
-import com.avelycure.photogallery.App;
 import com.avelycure.photogallery.data.FlickrApi;
-import com.avelycure.photogallery.data.FlickrResponse;
+import com.avelycure.photogallery.data.images.FlickrResponseImage;
+import com.avelycure.photogallery.home.HomeCardModel;
 import com.avelycure.photogallery.home.HomeViewModel;
-import com.avelycure.photogallery.room.AppDatabase;
-import com.avelycure.photogallery.room.Image;
-import com.avelycure.photogallery.room.ImageDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,31 +33,31 @@ public class NetworkUtils {
     }
 
     //todo maybe do something with multithreading or javarx
-    public void makeRequest(String tag, int pageNum, List<CardModel> cards) {
+    //todo add async request to server to get info about user
+    public void makeRequest(String tag, int pageNum, List<HomeCardModel> cards) {
         mRetrofit
                 .create(FlickrApi.class)
                 .getImagesUrls(tag, pageNum)
-                .enqueue(new Callback<FlickrResponse>() {
+                .enqueue(new Callback<FlickrResponseImage>() {
                     @Override
-                    public void onResponse(Call<FlickrResponse> call, Response<FlickrResponse> response) {
-                        FlickrResponse flickrResponse = response.body();
-                        for (int i = 0; i < flickrResponse.getPhotos().getPhoto().size(); i++)
-                            cards.add(new CardModel(createPictureAddress(flickrResponse, i), false,
-                                    flickrResponse.getPhotos().getPhoto().get(i).getOwnerId()));
+                    public void onResponse(Call<FlickrResponseImage> call, Response<FlickrResponseImage> response) {
+                        FlickrResponseImage flickrResponseImage = response.body();
+                        for (int i = 0; i < flickrResponseImage.getPhotos().getPhoto().size(); i++)
+                            cards.add(new HomeCardModel(createPictureAddress(flickrResponseImage, i), false,
+                                    flickrResponseImage.getPhotos().getPhoto().get(i).getOwnerId()));
                         homeViewModel.gotRequest(cards);
                     }
 
                     @Override
-                    public void onFailure(Call<FlickrResponse> call, Throwable t) {
+                    public void onFailure(Call<FlickrResponseImage> call, Throwable t) {
                     }
                 });
     }
 
-    public String createPictureAddress(FlickrResponse flickrResponse, int i){
-        return "https://farm" + flickrResponse.getPhotos().getPhoto().get(i).getFarm() +
-                ".staticflickr.com/" + flickrResponse.getPhotos().getPhoto().get(i).getServer() +
-                "/" + flickrResponse.getPhotos().getPhoto().get(i).getPictureId() +
-                "_" + flickrResponse.getPhotos().getPhoto().get(i).getSecret() + ".jpg";
+    public String createPictureAddress(FlickrResponseImage flickrResponseImage, int i){
+        return "https://farm" + flickrResponseImage.getPhotos().getPhoto().get(i).getFarm() +
+                ".staticflickr.com/" + flickrResponseImage.getPhotos().getPhoto().get(i).getServer() +
+                "/" + flickrResponseImage.getPhotos().getPhoto().get(i).getPictureId() +
+                "_" + flickrResponseImage.getPhotos().getPhoto().get(i).getSecret() + ".jpg";
     }
-
 }

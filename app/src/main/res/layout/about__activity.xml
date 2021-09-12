@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".albums.elements.AlbumElementsActivity"
+    tools:context=".about.MoreActivity"
     android:orientation="vertical">
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <androidx.recyclerview.widget.RecyclerView
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/album_elements_rv"/>
-
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_about"
+        android:textSize="20sp"
+        android:text="@string/text_in_about_ativity"
+        android:layout_margin="10dp"/>
 </LinearLayout>

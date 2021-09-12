@@ -2,10 +2,10 @@ package com.avelycure.photogallery.utils;
 
 import android.content.Context;
 
-public class ImageAdapterImpl implements ImageAdapterParameter {
+public class ImageAdapterParameterImpl implements ImageAdapterParameter {
     Context context;
 
-    public ImageAdapterImpl(Context context) {
+    public ImageAdapterParameterImpl(Context context) {
         this.context = context;
     }
 
