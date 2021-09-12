@@ -32,10 +32,10 @@ public class ShowImageDetailsActivity extends AlertDialog {
 
         iv = findViewById(R.id.sid_iv);
 
-        Bundle arguement = ((Activity)(context)).getIntent().getExtras();
+        Bundle argument = ((Activity)(context)).getIntent().getExtras();
         String url = null;
-        if (arguement != null)
-            url = arguement.get(URL).toString();
+        if (argument != null)
+            url = argument.get(URL).toString();
 
         Picasso.with(context).load(url).into(iv);
     }
