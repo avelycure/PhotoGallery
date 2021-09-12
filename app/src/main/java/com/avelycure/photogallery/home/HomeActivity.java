@@ -9,22 +9,27 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 
 import androidx.appcompat.widget.Toolbar;
 
 import com.avelycure.photogallery.R;
 import com.avelycure.photogallery.albums.AlbumsActivity;
 import com.avelycure.photogallery.more.MoreActivity;
-import com.avelycure.photogallery.ofiice.OfficeActivity;
+import com.avelycure.photogallery.office.OfficeActivity;
 import com.avelycure.photogallery.settings.SettingsActivity;
 import com.avelycure.photogallery.utils.CardModel;
 import com.avelycure.photogallery.utils.ImageAdapterImpl;
+import com.avelycure.photogallery.utils.MySuggestionProvider;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
@@ -41,6 +46,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private LinearLayoutManager linearLayoutManager;
     private SearchView searchView;
     private NavigationView navigationView;
+    private SearchRecentSuggestions suggestions;
 
     //Variables
     private boolean loading = true;
@@ -58,8 +64,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         homeViewModel.init();
 
         imageList = findViewById(R.id.rv_images);
-        searchView = findViewById(R.id.searchView);
         toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nav_view);
 
@@ -67,7 +74,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        setToolbar();
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         homeViewModel.getCards().observe(this, new Observer<List<CardModel>>() {
             @Override
@@ -76,13 +85,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        suggestions = new SearchRecentSuggestions(this,
+                MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
     }
 
-    private void setToolbar() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 homeViewModel.createNewRequest(searchView.getQuery().toString());
+                suggestions.saveRecentQuery(query, null);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
                 return true;
@@ -93,10 +115,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 return false;
             }
         });
-
-        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        return true;
     }
 
     //This function should set layout manager to RecyclerView and control that it displays necessary information
