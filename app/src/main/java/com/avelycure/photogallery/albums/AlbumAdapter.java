@@ -78,8 +78,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
                     .load(list.get(position).getImgUrl())
                     .into(iv);
 
-            Log.d("mytag", "" + list.get(0).getImgUrl() +" "+ list.get(1).getImgUrl());
-
             chb.setChecked(false);
             list.get(position).setChecked(false);
 

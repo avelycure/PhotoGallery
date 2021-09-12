@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -57,9 +58,9 @@ public class AlbumElementsActivity extends AppCompatActivity {
         rv.setAdapter(albumElementsAdapter);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-            rv.setLayoutManager(new GridLayoutManager(this, PORTRAIT_COLUMNS_NUM));
+            rv.setLayoutManager(new StaggeredGridLayoutManager(PORTRAIT_COLUMNS_NUM, StaggeredGridLayoutManager.VERTICAL));
         else
-            rv.setLayoutManager(new GridLayoutManager(this, LANDSCAPE_COLUMNS_NUM));
+            rv.setLayoutManager(new StaggeredGridLayoutManager(LANDSCAPE_COLUMNS_NUM, StaggeredGridLayoutManager.HORIZONTAL));
 
         viewModel.getMutableLiveData().observe(this, new Observer<List<AlbumElementListModel>>() {
             @Override

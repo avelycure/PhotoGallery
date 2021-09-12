@@ -3,11 +3,20 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
     style="@style/Theme.AppCompat.DayNight.NoActionBar">
 
     <ImageView
         android:id="@+id/sid_iv"
         android:layout_width="376dp"
         android:layout_height="376dp"
-        android:scaleType="fitCenter"/>
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_width="376dp"
+        android:layout_height="wrap_content"
+        android:text="Description"/>
 </LinearLayout>

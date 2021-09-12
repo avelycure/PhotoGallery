@@ -21,8 +21,8 @@ import java.util.List;
 
 public class AlbumsActivity extends AppCompatActivity {
 
-    private static int PORTRAIT_COLUMNS_NUM = 3;
-    private static int LANDSCAPE_COLUMNS_NUM = 4;
+    private static final int PORTRAIT_COLUMNS_NUM = 3;
+    private static final int LANDSCAPE_COLUMNS_NUM = 4;
 
     private RecyclerView rv;
     private AlbumsViewModel albumsViewModel;
