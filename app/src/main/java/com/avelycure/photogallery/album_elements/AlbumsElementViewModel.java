@@ -27,14 +27,18 @@ public class AlbumsElementViewModel extends ViewModel {
     public void init(String album) {
         if (mutableLiveData != null)
             return;
+
         mutableLiveData = new MutableLiveData<>();
         List<AlbumElementListModel> temp = new ArrayList<>();
         db = App.getInstance().getDatabase();
         imageDao = db.imageDao();
         List<Image> list = imageDao.getByAlbum(album);
-        for (int i = 0; i < list.size(); i++) {
-            temp.add(new AlbumElementListModel(list.get(i).id,list.get(i).url, list.get(i).album));
-        }
+        for (int i = 0; i < list.size(); i++)
+            temp.add(new AlbumElementListModel(
+                    list.get(i).id,
+                    list.get(i).url,
+                    list.get(i).album)
+            );
         mutableLiveData.setValue(temp);
     }
 
@@ -51,14 +55,13 @@ public class AlbumsElementViewModel extends ViewModel {
 
     public void deletePicture() {
         List<AlbumElementListModel> listWithoutDeletedImages = mutableLiveData.getValue();
-        for (int i = 0; i < listWithoutDeletedImages.size(); i++) {
+        for (int i = 0; i < listWithoutDeletedImages.size(); i++)
             if (listWithoutDeletedImages.get(i).isChecked()) {
                 Image image = new Image(listWithoutDeletedImages.get(i).getAlbum(), listWithoutDeletedImages.get(i).getUrl());
                 image.setId(listWithoutDeletedImages.get(i).getId());
                 imageDao.delete(image);
                 listWithoutDeletedImages.remove(i);
             }
-        }
         mutableLiveData.setValue(listWithoutDeletedImages);
         editorModeEnabled.setValue(false);
     }

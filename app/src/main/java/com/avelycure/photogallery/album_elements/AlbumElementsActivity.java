@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,37 +21,39 @@ import com.avelycure.photogallery.utils.ImageAdapterParameterImpl;
 import java.util.List;
 
 public class AlbumElementsActivity extends AppCompatActivity {
-
     private RecyclerView rv;
     private AlbumElementsAdapter albumElementsAdapter;
     private AlbumsElementViewModel viewModel;
-    private static String ALBUM = "Album";
-    private static int PORTRAIT_COLUMNS_NUM = 3;
-    private static int LANDSCAPE_COLUMNS_NUM = 4;
     private Toolbar toolbar;
+
     private Menu menu;
+
+    private static final String ALBUM = "Album";
+    private static final int PORTRAIT_COLUMNS_NUM = 3;
+    private static final int LANDSCAPE_COLUMNS_NUM = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.album_elements__activity);
-
         String album = null;
         Bundle argument = getIntent().getExtras();
+
         if (argument != null)
             album = argument.get(ALBUM).toString();
 
         viewModel = ViewModelProviders.of(this).get(AlbumsElementViewModel.class);
-
         viewModel.init(album);
         viewModel.initMode();
 
         rv = findViewById(R.id.album_elements_rv);
         toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         albumElementsAdapter = new AlbumElementsAdapter(viewModel.getMutableLiveData().getValue(),
                 new ImageAdapterParameterImpl(this));
-
         rv.setAdapter(albumElementsAdapter);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
@@ -72,10 +75,6 @@ public class AlbumElementsActivity extends AppCompatActivity {
                 switchActionDeleteVisibility(aBoolean);
             }
         });
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.avelycure.photogallery.albums;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.avelycure.photogallery.R;
 import com.avelycure.photogallery.album_elements.AlbumElementsActivity;
 import com.avelycure.photogallery.utils.ImageAdapterParameter;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHolder> {
     private List<AlbumListModel> list;
     private ImageAdapterParameter imageAdapterParameter;
-    private static String ALBUM = "Album";
+    private static final String ALBUM = "Album";
     private boolean chbIsVisible = false;
 
     public boolean isChbIsVisible() {
@@ -72,7 +74,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
         //todo search for bug in this method and in analog in elements
         public void bind(int position) {
             tv.setText(list.get(position).getName());
-            iv.setBackgroundResource(R.drawable.flowers);
+            Picasso.with(imageAdapterParameter.getContext())
+                    .load(list.get(position).getImgUrl())
+                    .into(iv);
+
+            Log.d("mytag", "" + list.get(0).getImgUrl() +" "+ list.get(1).getImgUrl());
 
             chb.setChecked(false);
             list.get(position).setChecked(false);

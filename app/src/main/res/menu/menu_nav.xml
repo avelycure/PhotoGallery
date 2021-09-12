@@ -18,10 +18,6 @@
                     android:icon="@android:drawable/ic_menu_help"
                     android:title="@string/settings"/>
                 <item
-                    android:id="@+id/nav_feedback"
-                    android:icon="@android:drawable/sym_action_email"
-                    android:title="@string/feedback" />
-                <item
                     android:id="@+id/nav_about"
                     android:icon="@android:drawable/ic_menu_more"
                     android:title="@string/about" />

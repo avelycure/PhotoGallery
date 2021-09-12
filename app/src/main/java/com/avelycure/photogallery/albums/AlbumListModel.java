@@ -2,7 +2,7 @@ package com.avelycure.photogallery.albums;
 
 public class AlbumListModel {
     private String name;
-    private String image;
+    private String imgUrl;
     private boolean checked;
     private boolean toDelete;
 
@@ -22,10 +22,10 @@ public class AlbumListModel {
         this.checked = checked;
     }
 
-    public AlbumListModel(String name, String image) {
+    public AlbumListModel(String name, String imgUrl) {
         this.name = name;
-        this.image = image;
         this.checked = false;
+        this.imgUrl = imgUrl;
         toDelete = false;
     }
 
@@ -33,11 +33,11 @@ public class AlbumListModel {
         return name;
     }
 
-    public String getImage() {
-        return image;
-    }
-
     public boolean isChecked() {
         return checked;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
     }
 }

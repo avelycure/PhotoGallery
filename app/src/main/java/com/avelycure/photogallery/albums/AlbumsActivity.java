@@ -56,6 +56,9 @@ public class AlbumsActivity extends AppCompatActivity {
 
         rv = findViewById(R.id.albums_rv);
         toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             rv.setLayoutManager(new GridLayoutManager(this, PORTRAIT_COLUMNS_NUM));
@@ -65,10 +68,6 @@ public class AlbumsActivity extends AppCompatActivity {
         albumAdapter = new AlbumAdapter(albumsViewModel.getListMutableLiveData().getValue(), new ImageAdapterParameterImpl(this));
 
         rv.setAdapter(albumAdapter);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
