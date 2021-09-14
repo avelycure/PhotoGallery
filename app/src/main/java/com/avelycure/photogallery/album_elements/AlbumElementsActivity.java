@@ -53,8 +53,10 @@ public class AlbumElementsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        albumElementsAdapter = new AlbumElementsAdapter(viewModel.getMutableLiveData().getValue(),
-                new ImageAdapterParameterImpl(this));
+        albumElementsAdapter = new AlbumElementsAdapter(
+                viewModel.getMutableLiveData().getValue(),
+                new ImageAdapterParameterImpl(this),
+                viewModel);
         rv.setAdapter(albumElementsAdapter);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)

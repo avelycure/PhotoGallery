@@ -14,14 +14,13 @@ public interface FlickrApi {
     String API_KEY_STRING = "&api_key=17c6829dc9c675db355315a1cab4e9b4";
 
     String IMPORTED_PHOTOS_PER_REQUEST = "&per_page=30";
-    String FLICKR_GET_PHOTO_METHOD = "flickr.photos.search";
+    String GET_PHOTO_METHOD = "flickr.photos.search";
+    String GET_USER_INFO = "flickr.people.getInfo";
 
-    String FLICKR_GET_USER_INFO_METHOD = "flickr.people.getInfo";
-
-    @GET(FLICKR_API + FLICKR_GET_PHOTO_METHOD + API_KEY_STRING + IMPORTED_PHOTOS_PER_REQUEST +
+    @GET(FLICKR_API + GET_PHOTO_METHOD + API_KEY_STRING + IMPORTED_PHOTOS_PER_REQUEST +
             FORMAT_STRING + NO_ENVELOPE)
     Call<FlickrResponseImage> getImagesUrls(@Query("tags") String tag, @Query("page") int pageNum);
 
-    @GET(FLICKR_API + FLICKR_GET_USER_INFO_METHOD + API_KEY_STRING + FORMAT_STRING + NO_ENVELOPE)
+    @GET(FLICKR_API + GET_USER_INFO + API_KEY_STRING + FORMAT_STRING + NO_ENVELOPE)
     Call<FlickrResponsePerson> getPersonInfo(@Query("user_id") String userId);
 }

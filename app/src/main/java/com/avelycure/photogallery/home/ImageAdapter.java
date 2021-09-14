@@ -90,7 +90,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                         likeButton.setImageResource(R.drawable.heart1);
                         cards.get(position).setLiked(false);
                     } else {
-                        imageDao.insert(new Image(ALBUM_LIKED, cards.get(position).getUrl()));
+                        imageDao.insert(new Image(ALBUM_LIKED, cards.get(position).getUrl(), cards.get(position).getUserName()));//??
                         likeButton.setImageResource(R.drawable.heart);
                         cards.get(position).setLiked(true);
                     }
@@ -122,7 +122,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                             SparseBooleanArray checked = lv.getCheckedItemPositions();
                             for (int i = 0; i < albumsList.size(); i++) {
                                 if (checked.get(i))
-                                    imageDao.insert(new Image(albumsList.get(i), cards.get(position).getUrl()));
+                                    imageDao.insert(new Image(albumsList.get(i), cards.get(position).getUrl(), cards.get(position).getUserName()));//??
                             }
                             if (ad != null)
                                 ad.dismiss();

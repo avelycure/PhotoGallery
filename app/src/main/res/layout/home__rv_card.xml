@@ -15,14 +15,17 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:orientation="horizontal"
-            android:id="@+id/home_rv_header">
+            android:id="@+id/home_rv_header"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/home_rv_avatar"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:scaleType="fitCenter"
-                android:id="@+id/home_rv_avatar"
-                android:src="@drawable/forest"/>
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/forest"
+                android:layout_margin="8dp"/>
 
             <TextView
                 android:id="@+id/tv_username"
@@ -54,8 +57,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="start"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:layout_margin="8dp"
                 android:background="@drawable/heart1"
                 android:scaleType="fitCenter" />
 
@@ -64,8 +66,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="end"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:layout_margin="8dp"
                 android:background="@android:drawable/ic_menu_save"
                 android:scaleType="fitCenter" />
         </FrameLayout>

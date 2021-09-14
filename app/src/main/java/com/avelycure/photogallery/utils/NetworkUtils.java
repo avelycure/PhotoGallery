@@ -2,6 +2,7 @@ package com.avelycure.photogallery.utils;
 
 import com.avelycure.photogallery.data.FlickrApi;
 import com.avelycure.photogallery.data.images.FlickrResponseImage;
+import com.avelycure.photogallery.data.user_info.FlickrResponsePerson;
 import com.avelycure.photogallery.home.HomeCardModel;
 import com.avelycure.photogallery.home.HomeViewModel;
 import com.google.gson.Gson;
@@ -42,9 +43,12 @@ public class NetworkUtils {
                     @Override
                     public void onResponse(Call<FlickrResponseImage> call, Response<FlickrResponseImage> response) {
                         FlickrResponseImage flickrResponseImage = response.body();
-                        for (int i = 0; i < flickrResponseImage.getPhotos().getPhoto().size(); i++)
-                            cards.add(new HomeCardModel(createPictureAddress(flickrResponseImage, i), false,
-                                    flickrResponseImage.getPhotos().getPhoto().get(i).getOwnerId()));
+                        for (int i = 0; i < flickrResponseImage.getPhotos().getPhoto().size(); i++) {
+                            cards.add(new HomeCardModel(createPictureAddress(flickrResponseImage, i),
+                                    false,
+                                    flickrResponseImage.getPhotos().getPhoto().get(i).getOwnerId()
+                                    ));
+                        }
                         homeViewModel.gotRequest(cards);
                     }
 
@@ -54,7 +58,7 @@ public class NetworkUtils {
                 });
     }
 
-    public String createPictureAddress(FlickrResponseImage flickrResponseImage, int i){
+    public String createPictureAddress(FlickrResponseImage flickrResponseImage, int i) {
         return "https://farm" + flickrResponseImage.getPhotos().getPhoto().get(i).getFarm() +
                 ".staticflickr.com/" + flickrResponseImage.getPhotos().getPhoto().get(i).getServer() +
                 "/" + flickrResponseImage.getPhotos().getPhoto().get(i).getPictureId() +

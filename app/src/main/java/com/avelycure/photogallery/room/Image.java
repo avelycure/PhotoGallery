@@ -17,24 +17,44 @@ public class Image {
     @ColumnInfo(typeAffinity = TEXT)
     public String url;
 
-    public Image(String album, String url) {
-        this.album = album;
-        this.url = url;
+    @ColumnInfo(typeAffinity = TEXT)
+    public String author;
+
+    public long getId() {
+        return id;
     }
 
     public void setId(long id) {
         this.id = id;
     }
 
-    public long getId() {
-        return id;
-    }
-
     public String getAlbum() {
         return album;
     }
 
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
     public String getUrl() {
         return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Image(String album, String url, String author) {
+        this.album = album;
+        this.url = url;
+        this.author = author;
     }
 }
