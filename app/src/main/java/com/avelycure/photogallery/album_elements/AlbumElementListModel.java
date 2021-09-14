@@ -1,10 +1,14 @@
 package com.avelycure.photogallery.album_elements;
 
+/**
+ * Class to represent images in recyclerView in AlbumElementsActivity
+ */
 public class AlbumElementListModel {
     private boolean checked;
     private long id;
     private String url;
     private String album;
+    private String author;
 
     public long getId() {
         return id;
@@ -14,10 +18,11 @@ public class AlbumElementListModel {
         this.checked = checked;
     }
 
-    public AlbumElementListModel(long id, String url, String album) {
+    public AlbumElementListModel(long id, String url, String album, String author) {
         this.id = id;
         this.url = url;
         this.album = album;
+        this.author = author;
         checked = false;
     }
 
@@ -31,5 +36,9 @@ public class AlbumElementListModel {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getAuthor() {
+        return author;
     }
 }

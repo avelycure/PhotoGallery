@@ -9,8 +9,11 @@ import android.widget.TextView;
 
 import com.avelycure.photogallery.R;
 
+/**
+ * This activity shows additional information of the app. How to use it and where to write an email
+ * if something went wrong
+ */
 public class MoreActivity extends AppCompatActivity {
-
     TextView textView;
 
     @Override

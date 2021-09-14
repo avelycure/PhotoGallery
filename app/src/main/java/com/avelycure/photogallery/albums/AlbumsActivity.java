@@ -20,9 +20,8 @@ import com.avelycure.photogallery.utils.ImageAdapterParameterImpl;
 import java.util.List;
 
 public class AlbumsActivity extends AppCompatActivity {
-
-    private static int PORTRAIT_COLUMNS_NUM = 3;
-    private static int LANDSCAPE_COLUMNS_NUM = 4;
+    private static final int PORTRAIT_COLUMNS_NUM = 3;
+    private static final int LANDSCAPE_COLUMNS_NUM = 4;
 
     private RecyclerView rv;
     private AlbumsViewModel albumsViewModel;
@@ -56,6 +55,9 @@ public class AlbumsActivity extends AppCompatActivity {
 
         rv = findViewById(R.id.albums_rv);
         toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             rv.setLayoutManager(new GridLayoutManager(this, PORTRAIT_COLUMNS_NUM));
@@ -65,10 +67,6 @@ public class AlbumsActivity extends AppCompatActivity {
         albumAdapter = new AlbumAdapter(albumsViewModel.getListMutableLiveData().getValue(), new ImageAdapterParameterImpl(this));
 
         rv.setAdapter(albumAdapter);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override

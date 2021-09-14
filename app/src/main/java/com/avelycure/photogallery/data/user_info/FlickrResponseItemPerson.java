@@ -4,6 +4,9 @@ package com.avelycure.photogallery.data.user_info;
 import com.google.gson.annotations.SerializedName;
 
 public class FlickrResponseItemPerson {
+    public UserName getUserName() {
+        return userName;
+    }
 
     @SerializedName("id")
     private String id;
@@ -12,10 +15,10 @@ public class FlickrResponseItemPerson {
     private String nsid;
 
     @SerializedName("ispro")
-    private boolean isPro;
+    private int isPro;
 
     @SerializedName("can_buy_pro")
-    private boolean canBuyPro;
+    private int canBuyPro;
 
     @SerializedName("iconserver")
     private String iconServer;
@@ -27,7 +30,7 @@ public class FlickrResponseItemPerson {
     private String pathAlias;
 
     @SerializedName("has_stats")
-    private boolean hasStats;
+    private int hasStats;
 
     @SerializedName("username")
     private UserName userName;
@@ -54,11 +57,11 @@ public class FlickrResponseItemPerson {
     private Photos photos;
 
     @SerializedName("has_adfree")
-    private boolean hasAddFree;
+    private int hasAddFree;
 
     @SerializedName("has_free_standard_shipping")
-    private boolean hasFreeStandardShipping;
+    private int hasFreeStandardShipping;
 
     @SerializedName("has_free_educational_resources")
-    private boolean hasFreeEducationalResources;
+    private int hasFreeEducationalResources;
 }

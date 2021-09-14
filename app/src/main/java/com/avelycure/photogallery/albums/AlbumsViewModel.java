@@ -11,6 +11,9 @@ import com.avelycure.photogallery.room.ImageDao;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ViewModel for AlbumActivity
+ */
 public class AlbumsViewModel extends ViewModel {
     private MutableLiveData<List<AlbumListModel>> listMutableLiveData;
     private ImageDao imageDao;
@@ -33,7 +36,7 @@ public class AlbumsViewModel extends ViewModel {
         List<String> albumList = imageDao.getAlbumsInDB();
 
         for (int i = 0; i < albumList.size(); i++)
-            arrayList.add(new AlbumListModel(albumList.get(i), "some image"));
+            arrayList.add(new AlbumListModel(albumList.get(i), imageDao.getFirstImage(albumList.get(i))));
 
         listMutableLiveData.setValue(arrayList);
     }
@@ -49,6 +52,9 @@ public class AlbumsViewModel extends ViewModel {
         editorModeEnabled.setValue(false);
     }
 
+    /**
+     * This function is called when user wants to delete album
+     */
     public void deleteAlbum() {
         List<AlbumListModel> listWithoutDeletedAlbums = listMutableLiveData.getValue();
         for (int i = 0; i < listWithoutDeletedAlbums.size(); i++) {

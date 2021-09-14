@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+
 public class ShowImageDetailsActivity extends AlertDialog {
     private static String URL = "url";
     private ImageView iv;
@@ -27,7 +28,7 @@ public class ShowImageDetailsActivity extends AlertDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_image_details);
+        setContentView(R.layout.album_elements__show_image_details_activity);
         //this.setFinishOnTouchOutside(true);
 
         iv = findViewById(R.id.sid_iv);

@@ -5,4 +5,8 @@ import com.google.gson.annotations.SerializedName;
 public class UserName {
     @SerializedName("_content")
     private String name;
+
+    public String getName() {
+        return name;
+    }
 }

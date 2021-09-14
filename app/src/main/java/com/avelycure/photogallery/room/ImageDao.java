@@ -7,6 +7,9 @@ import androidx.room.Query;
 
 import java.util.List;
 
+/**
+ * This interface provides methods to work with database
+ */
 @Dao
 public interface ImageDao {
     @Query("SELECT * FROM image")
@@ -26,6 +29,11 @@ public interface ImageDao {
 
     @Query("SELECT DISTINCT album from image")
     List<String> getAlbumsInDB();
+
+    @Query("SELECT url from image " +
+            "WHERE album = :album_name " +
+            "LIMIT 1")
+    String getFirstImage(String album_name);
 
     @Query("DELETE FROM image WHERE album = :album_name")
     void deleteAlbum(String album_name);

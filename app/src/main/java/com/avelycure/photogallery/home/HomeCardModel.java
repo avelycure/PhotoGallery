@@ -1,5 +1,8 @@
 package com.avelycure.photogallery.home;
 
+/**
+ * Class to represent images in recyclerView in HomeActivity
+ */
 public class HomeCardModel {
     private String url;
     private boolean liked;
