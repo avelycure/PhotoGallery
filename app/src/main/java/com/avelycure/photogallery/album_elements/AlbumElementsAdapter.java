@@ -36,12 +36,26 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Adapter for recyclerView in AlbumsElementsActivity
+ */
 public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdapter.AlbumElementsViewHolder> {
+    /**
+     * Base URL for retrofit
+     */
     private final String BASE_URL = "https://api.flickr.com";
     private Retrofit mRetrofit;
     private List<AlbumElementListModel> list;
     private AlbumsElementViewModel albumsElementViewModel;
+
+    /**
+     * Parameter to save context
+     */
     private ImageAdapterParameter imageAdapterParameter;
+
+    /**
+     * Is needed to determine if user enabled Editor Mode
+     */
     private boolean chbIsVisible = false;
 
     public boolean isChbIsVisible() {
@@ -66,6 +80,11 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
         holder.bind(position);
     }
 
+    /**
+     * Number of elements in recyclerView equals to number of albums
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return list.size();
@@ -90,13 +109,10 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
             else
                 chb.setVisibility(View.GONE);
 
-            iv.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    switchSelection(true);
-                    ((AlbumElementsActivity) (imageAdapterParameter.getContext())).switchActionDeleteVisibility(true);
-                    return true;
-                }
+            iv.setOnLongClickListener(v -> {
+                switchSelection(true);
+                ((AlbumElementsActivity) (imageAdapterParameter.getContext())).switchActionDeleteVisibility(true);
+                return true;
             });
 
             chb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -106,55 +122,52 @@ public class AlbumElementsAdapter extends RecyclerView.Adapter<AlbumElementsAdap
                 }
             });
 
-            iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("mytag", "Clicked");
-                    AlertDialog.Builder builder = new AlertDialog.Builder(imageAdapterParameter.getContext());
-                    LayoutInflater inflater = ((Activity) (imageAdapterParameter.getContext())).getLayoutInflater();
-                    View view = inflater.inflate(R.layout.album_elements__show_image_details_activity, null);
-                    builder.setView(view);
+            /**
+             * This function is called when user wants to get additional information about picture
+             * in the album
+             */
+            iv.setOnClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(imageAdapterParameter.getContext());
+                LayoutInflater inflater = ((Activity) (imageAdapterParameter.getContext())).getLayoutInflater();
+                View view = inflater.inflate(R.layout.album_elements__show_image_details_activity, null);
+                builder.setView(view);
 
-                    builder.setTitle("Picture details");
-                    ImageView iv_details = view.findViewById(R.id.sid_iv);
-                    Picasso.with(imageAdapterParameter.getContext()).load(list.get(position).getUrl()).into(iv_details);
+                ImageView iv_details = view.findViewById(R.id.sid_iv);
+                Picasso.with(imageAdapterParameter.getContext()).load(list.get(position).getUrl()).into(iv_details);
 
-                    Gson gson = new GsonBuilder()
-                            .setLenient()
-                            .create();
-                    mRetrofit = new Retrofit.Builder()
-                            .baseUrl(BASE_URL)
-                            .addConverterFactory(GsonConverterFactory.create(gson))
-                            .build();
+                //todo delegate this function to NetworkUtils
+                Gson gson = new GsonBuilder()
+                        .setLenient()
+                        .create();
+                mRetrofit = new Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
 
-                    Log.d("mytag", "Began request " + list.get(position).getAuthor());
-                    mRetrofit
-                            .create(FlickrApi.class)
-                            .getPersonInfo(list.get(position).getAuthor())
-                            .enqueue(new Callback<FlickrResponsePerson>() {
-                                @Override
-                                public void onResponse(Call<FlickrResponsePerson> call, Response<FlickrResponsePerson> response) {
-                                    FlickrResponsePerson responsePerson = response.body();
-                                    Log.d("mytag", "null response " + responsePerson.getPerson().getUserName().getName());
-                                    if (responsePerson != null) {
-                                        albumsElementViewModel.showElement(responsePerson, view, builder);
-                                    } else {
-                                        Log.d("mytag", "null response");
-                                    }
-                                }
+                mRetrofit
+                        .create(FlickrApi.class)
+                        .getPersonInfo(list.get(position).getAuthor())
+                        .enqueue(new Callback<FlickrResponsePerson>() {
+                            @Override
+                            public void onResponse(Call<FlickrResponsePerson> call, Response<FlickrResponsePerson> response) {
+                                FlickrResponsePerson responsePerson = response.body();
+                                albumsElementViewModel.showElement(responsePerson, view, builder);
+                            }
 
-                                @Override
-                                public void onFailure(Call<FlickrResponsePerson> call, Throwable t) {
-                                    Log.d("mytag", "failure: " + t.getMessage());
-                                }
-                            });
-                }
+                            @Override
+                            public void onFailure(Call<FlickrResponsePerson> call, Throwable t) {}
+                        });
             });
             Picasso.with(imageAdapterParameter.getContext()).load(list.get(position).getUrl()).into(iv);
         }
 
     }
 
+    /**
+     * This method is called when user enables/disables Editor Mode. We enable checkboxes to choose which
+     * albums should be deleted
+     * @param visibility is needed to choose if we need to enable/disable visibility of checkboxes
+     */
     public void switchSelection(boolean visibility) {
         chbIsVisible = visibility;
         notifyDataSetChanged();

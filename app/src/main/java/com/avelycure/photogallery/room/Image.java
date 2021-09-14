@@ -6,6 +6,9 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ColumnInfo.TEXT;
 
+/**
+ * This class represents which columns are in database, the version of database
+ */
 @Entity
 public class Image {
     @PrimaryKey(autoGenerate = true)
@@ -42,14 +45,6 @@ public class Image {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public Image(String album, String url, String author) {

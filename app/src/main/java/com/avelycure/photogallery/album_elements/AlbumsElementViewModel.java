@@ -20,8 +20,10 @@ import com.avelycure.photogallery.utils.ImageAdapterParameter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ViewModel for AlbumElementsActivity
+ */
 public class AlbumsElementViewModel extends ViewModel {
-
     private MutableLiveData<List<AlbumElementListModel>> mutableLiveData;
     private AppDatabase db;
     private ImageDao imageDao;
@@ -31,21 +33,29 @@ public class AlbumsElementViewModel extends ViewModel {
         return mutableLiveData;
     }
 
+    /**
+     * This function init mutableLiveData which is used in recyclerView and fill it with elements
+     * @param album
+     */
     public void init(String album) {
         if (mutableLiveData != null)
             return;
 
         mutableLiveData = new MutableLiveData<>();
         List<AlbumElementListModel> temp = new ArrayList<>();
+
         db = App.getInstance().getDatabase();
         imageDao = db.imageDao();
         List<Image> list = imageDao.getByAlbum(album);
+
         for (int i = 0; i < list.size(); i++)
             temp.add(new AlbumElementListModel(
                     list.get(i).id,
                     list.get(i).url,
-                    list.get(i).album, list.get(i).author)//??
+                    list.get(i).album,
+                    list.get(i).author)
             );
+
         mutableLiveData.setValue(temp);
     }
 
@@ -60,6 +70,9 @@ public class AlbumsElementViewModel extends ViewModel {
         return editorModeEnabled;
     }
 
+    /**
+     * This function deletes all selected pictures
+     */
     public void deletePicture() {
         List<AlbumElementListModel> listWithoutDeletedImages = mutableLiveData.getValue();
         for (int i = 0; i < listWithoutDeletedImages.size(); i++)
@@ -73,6 +86,7 @@ public class AlbumsElementViewModel extends ViewModel {
         editorModeEnabled.setValue(false);
     }
 
+    //todo delete this function???
     public void showElement(FlickrResponsePerson responsePerson, View view, AlertDialog.Builder builder) {
         TextView tvDescription = view.findViewById(R.id.sid_descriptions);
         tvDescription.setText(responsePerson.getPerson().getUserName().getName());

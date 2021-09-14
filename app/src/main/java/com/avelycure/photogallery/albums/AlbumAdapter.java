@@ -23,6 +23,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+/**
+ * Adapter for recyclerView in AlbumActivity
+ */
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHolder> {
     private List<AlbumListModel> list;
     private ImageAdapterParameter imageAdapterParameter;
@@ -31,10 +34,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
 
     public boolean isChbIsVisible() {
         return chbIsVisible;
-    }
-
-    public void setChbIsVisible(boolean chbIsVisible) {
-        this.chbIsVisible = chbIsVisible;
     }
 
     public AlbumAdapter(List<AlbumListModel> list, ImageAdapterParameter imageAdapterParameter) {
@@ -93,50 +92,45 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapter
                 }
             });
 
-            iv.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    switchSelection(true);
-                    ((AlbumsActivity) (imageAdapterParameter.getContext())).switchActionDeleteVisibility(true);
-                    return true;
-                }
+            iv.setOnLongClickListener(v -> {
+                switchSelection(true);
+                ((AlbumsActivity) (imageAdapterParameter.getContext())).switchActionDeleteVisibility(true);
+                return true;
             });
 
-            iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(imageAdapterParameter.getContext(), AlbumElementsActivity.class);
-                    intent.putExtra(ALBUM, list.get(position).getName());
-                    imageAdapterParameter.getContext().startActivity(intent);
-                }
+            iv.setOnClickListener(v -> {
+                Intent intent = new Intent(imageAdapterParameter.getContext(), AlbumElementsActivity.class);
+                intent.putExtra(ALBUM, list.get(position).getName());
+                imageAdapterParameter.getContext().startActivity(intent);
             });
 
-            tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(imageAdapterParameter.getContext());
+            /**
+             * This function is called when user wants to rename album. User must click on the name
+             * of the album to change it
+             */
+            tv.setOnClickListener(v -> {
+                AlertDialog.Builder alert = new AlertDialog.Builder(imageAdapterParameter.getContext());
 
-                    alert.setTitle("Renaming album");
-                    alert.setMessage("Input album name");
+                alert.setTitle("Renaming album");
+                alert.setMessage("Input album name");
 
-                    final EditText input = new EditText(imageAdapterParameter.getContext());
-                    alert.setView(input);
+                final EditText input = new EditText(imageAdapterParameter.getContext());
+                alert.setView(input);
 
-                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            String value = input.getText().toString();
-                            if (value != null && !value.equals(""))
-                                tv.setText(value);
-                        }
-                    });
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String value = input.getText().toString();
+                        if (value != null && !value.equals(""))
+                            tv.setText(value);
+                    }
+                });
 
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
 
-                        }
-                    });
-                    alert.show();
-                }
+                    }
+                });
+                alert.show();
             });
         }
     }

@@ -9,6 +9,9 @@ import android.os.Handler;
 import com.avelycure.photogallery.R;
 import com.avelycure.photogallery.home.HomeActivity;
 
+/**
+ * Splash screen of the app
+ */
 public class SplashActivity extends AppCompatActivity {
 
     @Override

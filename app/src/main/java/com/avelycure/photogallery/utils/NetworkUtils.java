@@ -16,6 +16,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * This class is used to work with Network and make network requests
+ */
 public class NetworkUtils {
     private final String BASE_URL = "https://api.flickr.com";
     private final Retrofit mRetrofit;
@@ -53,11 +56,16 @@ public class NetworkUtils {
                     }
 
                     @Override
-                    public void onFailure(Call<FlickrResponseImage> call, Throwable t) {
-                    }
+                    public void onFailure(Call<FlickrResponseImage> call, Throwable t) {}
                 });
     }
 
+    /**
+     * This functions is needed to get picture address from json response
+     * @param flickrResponseImage is a flickr response
+     * @param i is number of picture in set of images in flickr response
+     * @return picture url in internet
+     */
     public String createPictureAddress(FlickrResponseImage flickrResponseImage, int i) {
         return "https://farm" + flickrResponseImage.getPhotos().getPhoto().get(i).getFarm() +
                 ".staticflickr.com/" + flickrResponseImage.getPhotos().getPhoto().get(i).getServer() +

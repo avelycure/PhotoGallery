@@ -7,6 +7,9 @@ import androidx.room.Query;
 
 import java.util.List;
 
+/**
+ * This interface provides methods to work with database
+ */
 @Dao
 public interface ImageDao {
     @Query("SELECT * FROM image")

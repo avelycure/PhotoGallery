@@ -53,6 +53,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ImageAdapter imageAdapter;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
 
+    //ViewModel
     private HomeViewModel homeViewModel;
 
     @Override
@@ -89,6 +90,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
     }
 
+    /**
+     * Setting SearchView
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -110,14 +114,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
+            public boolean onQueryTextChange(String newText) {return false;}
         });
         return true;
     }
 
-    //This function should set layout manager to RecyclerView and control that it displays necessary information
+    /**
+     * This function should set layout manager to RecyclerView and control that it displays
+     * actual information(infinite recyclerView)
+     */
     private void setRecyclerview() {
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageList.setLayoutManager(linearLayoutManager);
@@ -143,6 +148,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    /**
+     * This function is called when user clicks on recent query suggestions. A
+     * @param intent activity gets it and calls manageQuery to get images
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -156,6 +165,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * This function is needed to delegate request to homeViewModel
+     * @param query is a tag by which FlickrApi will look for images
+     */
     private void manageQuery(String query) {
         homeViewModel.createNewRequest(query);
         suggestions.saveRecentQuery(query, null);
@@ -163,6 +176,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
     }
 
+    /**
+     * This function is called to navigate between activities in drawerLayout
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();

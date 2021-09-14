@@ -21,17 +21,19 @@ import com.avelycure.photogallery.utils.ImageAdapterParameterImpl;
 
 import java.util.List;
 
+/**
+ * This activity represents album elements
+ */
 public class AlbumElementsActivity extends AppCompatActivity {
+    private static final String ALBUM = "Album";
+    private static final int PORTRAIT_COLUMNS_NUM = 3;
+    private static final int LANDSCAPE_COLUMNS_NUM = 4;
+
     private RecyclerView rv;
     private AlbumElementsAdapter albumElementsAdapter;
     private AlbumsElementViewModel viewModel;
     private Toolbar toolbar;
-
     private Menu menu;
-
-    private static final String ALBUM = "Album";
-    private static final int PORTRAIT_COLUMNS_NUM = 3;
-    private static final int LANDSCAPE_COLUMNS_NUM = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,9 @@ public class AlbumElementsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * If user is in Editor Mode then first call to backPressed only lead to disable checkboxes
+     */
     @Override
     public void onBackPressed() {
         if (albumElementsAdapter.isChbIsVisible()) {

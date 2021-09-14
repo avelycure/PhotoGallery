@@ -20,7 +20,6 @@ import com.avelycure.photogallery.utils.ImageAdapterParameterImpl;
 import java.util.List;
 
 public class AlbumsActivity extends AppCompatActivity {
-
     private static final int PORTRAIT_COLUMNS_NUM = 3;
     private static final int LANDSCAPE_COLUMNS_NUM = 4;
 

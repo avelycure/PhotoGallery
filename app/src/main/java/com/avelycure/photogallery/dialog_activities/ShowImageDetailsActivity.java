@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+
 public class ShowImageDetailsActivity extends AlertDialog {
     private static String URL = "url";
     private ImageView iv;

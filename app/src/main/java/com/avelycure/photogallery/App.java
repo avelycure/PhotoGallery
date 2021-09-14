@@ -6,6 +6,9 @@ import androidx.room.Room;
 
 import com.avelycure.photogallery.room.AppDatabase;
 
+/**
+ * In this class the only instance of database is created
+ */
 public class App extends Application {
     public static App instance;
     private AppDatabase database;

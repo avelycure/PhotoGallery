@@ -1,5 +1,8 @@
 package com.avelycure.photogallery.album_elements;
 
+/**
+ * Class to represent images in recyclerView in AlbumElementsActivity
+ */
 public class AlbumElementListModel {
     private boolean checked;
     private long id;

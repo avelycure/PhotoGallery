@@ -1,5 +1,8 @@
 package com.avelycure.photogallery.albums;
 
+/**
+ * Class to represent albums in recyclerView in AlbumActivity
+ */
 public class AlbumListModel {
     private String name;
     private String imgUrl;

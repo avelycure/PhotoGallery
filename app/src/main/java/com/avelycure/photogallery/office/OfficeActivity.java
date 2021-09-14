@@ -8,6 +8,9 @@ import android.view.MenuItem;
 
 import com.avelycure.photogallery.R;
 
+/**
+ * This activity is represents user office, where user can do some special things with his profile
+ */
 public class OfficeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

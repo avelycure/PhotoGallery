@@ -12,6 +12,9 @@ import android.widget.Button;
 import com.avelycure.photogallery.R;
 import com.avelycure.photogallery.utils.MySuggestionProvider;
 
+/**
+ * Activity that provides settings functionality
+ */
 public class SettingsActivity extends AppCompatActivity {
     private Button btnClear;
 
@@ -23,12 +26,20 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        btnClear = (Button) findViewById(R.id.settings_clear_history);
+        btnClear = findViewById(R.id.settings_clear_history);
+
         btnClear.setOnClickListener(v -> {
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                    MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
-            suggestions.clearHistory();
+            clearHistory();
         });
+    }
+
+    /**
+     * This function is called to clear user history in SearchView
+     */
+    private void clearHistory(){
+        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+        suggestions.clearHistory();
     }
 
     @Override
