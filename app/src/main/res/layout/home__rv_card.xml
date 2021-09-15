@@ -58,7 +58,7 @@
                 android:layout_height="32dp"
                 android:layout_gravity="start"
                 android:layout_margin="8dp"
-                android:background="@drawable/heart1"
+                android:background="@drawable/empty_heart"
                 android:scaleType="fitCenter" />
 
             <ImageButton

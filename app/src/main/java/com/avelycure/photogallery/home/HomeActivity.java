@@ -32,6 +32,7 @@ import com.avelycure.photogallery.settings.SettingsActivity;
 import com.avelycure.photogallery.utils.ImageAdapterParameter;
 import com.avelycure.photogallery.utils.ImageAdapterParameterImpl;
 import com.avelycure.photogallery.utils.MySuggestionProvider;
+import com.avelycure.photogallery.utils.NetworkUtils;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
