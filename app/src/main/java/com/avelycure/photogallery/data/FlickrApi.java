@@ -32,8 +32,10 @@ public interface FlickrApi {
      */
     String API_KEY_STRING = "&api_key=17c6829dc9c675db355315a1cab4e9b4";
 
-    String IMPORTED_PHOTOS_PER_REQUEST = "&per_page=30";
-
+    /**
+     * Number of photos that will be got in one request
+     */
+    String IMPORTED_PHOTOS_PER_REQUEST = "&per_page=12";
 
     String GET_PHOTO_METHOD = "flickr.photos.search";
     String GET_USER_INFO = "flickr.people.getInfo";
