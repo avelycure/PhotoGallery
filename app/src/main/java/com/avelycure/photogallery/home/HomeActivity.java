@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.widget.SearchView;
@@ -33,6 +34,7 @@ import com.avelycure.photogallery.utils.ImageAdapterParameter;
 import com.avelycure.photogallery.utils.ImageAdapterParameterImpl;
 import com.avelycure.photogallery.utils.MySuggestionProvider;
 import com.avelycure.photogallery.utils.NetworkUtils;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
@@ -48,6 +50,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private SearchView searchView;
     private NavigationView navigationView;
     private SearchRecentSuggestions suggestions;
+    private ShimmerFrameLayout mFrameLayout;
 
     //Variables
     private boolean loading = true;
@@ -87,8 +90,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        homeViewModel.getFirstResponse().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                mFrameLayout.setVisibility(View.GONE);
+                imageList.setVisibility(View.VISIBLE);
+            }
+        });
+
         suggestions = new SearchRecentSuggestions(this,
                 MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+
+        mFrameLayout = findViewById(R.id.home_shimmer_layout);
     }
 
     /**
@@ -108,6 +121,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mFrameLayout.startShimmer();
+                mFrameLayout.setVisibility(View.VISIBLE);
+                imageList.setVisibility(View.GONE);
+
                 manageQuery(searchView.getQuery().toString());
                 searchView.setFocusable(false);
                 searchView.clearFocus();
@@ -164,9 +181,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setIntent(intent);
         String query = intent.getStringExtra(SearchManager.QUERY);
         searchView.setQuery(query, false);
+        searchView.setFocusable(false);
         searchView.clearFocus();
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            mFrameLayout.startShimmer();
+            mFrameLayout.setVisibility(View.VISIBLE);
+            imageList.setVisibility(View.GONE);
             manageQuery(query);
         }
     }
