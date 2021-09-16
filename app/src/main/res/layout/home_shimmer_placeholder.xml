@@ -40,11 +40,11 @@
             android:id="@+id/iv_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/btn_container"
-            android:layout_below="@+id/home_rv_header"
             android:adjustViewBounds="true"
-            android:background="@color/shimmer_placeholder"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:layout_below="@+id/home_rv_header"
+            android:layout_above="@+id/btn_container"
+            android:background="@color/shimmer_placeholder"/>
 
         <FrameLayout
             android:id="@+id/btn_container"
