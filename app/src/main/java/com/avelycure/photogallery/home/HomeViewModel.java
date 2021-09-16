@@ -38,7 +38,7 @@ public class HomeViewModel extends ViewModel {
      */
     public void findMoreImages(String query) {
         currentVisiblePage++;
-        networkUtils.makeRequest(query, currentVisiblePage, cards.getValue());
+        networkUtils.getImages(query, currentVisiblePage, cards.getValue());
     }
 
     /**
@@ -49,7 +49,7 @@ public class HomeViewModel extends ViewModel {
         currentVisiblePage = 1;
         List<HomeCardModel> homeCardModels = cards.getValue();
         homeCardModels.clear();
-        networkUtils.makeRequest(query, currentVisiblePage, homeCardModels);
+        networkUtils.getImages(query, currentVisiblePage, homeCardModels);
     }
 
     /**

@@ -115,7 +115,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {return false;}
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
         });
         return true;
     }
@@ -127,7 +129,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void setRecyclerview() {
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageList.setLayoutManager(linearLayoutManager);
-        imageAdapter = new ImageAdapter(new ImageAdapterParameterImpl(this), homeViewModel.getCards().getValue());
+        imageAdapter = new ImageAdapter(new ImageAdapterParameterImpl(this),
+                homeViewModel.getCards().getValue(),
+                new NetworkUtils(homeViewModel));
         imageList.setAdapter(imageAdapter);
 
         imageList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -151,6 +155,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * This function is called when user clicks on recent query suggestions. A
+     *
      * @param intent activity gets it and calls manageQuery to get images
      */
     @Override
@@ -168,6 +173,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * This function is needed to delegate request to homeViewModel
+     *
      * @param query is a tag by which FlickrApi will look for images
      */
     private void manageQuery(String query) {
