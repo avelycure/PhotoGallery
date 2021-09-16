@@ -64,4 +64,16 @@ public class FlickrResponseItemPerson {
 
     @SerializedName("has_free_educational_resources")
     private int hasFreeEducationalResources;
+
+    public int getIconFarm() {
+        return iconFarm;
+    }
+
+    public String getIconServer() {
+        return iconServer;
+    }
+
+    public String getNsid() {
+        return nsid;
+    }
 }

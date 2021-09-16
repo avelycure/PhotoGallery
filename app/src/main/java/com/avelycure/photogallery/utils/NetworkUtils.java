@@ -7,6 +7,7 @@ import com.avelycure.photogallery.home.HomeCardModel;
 import com.avelycure.photogallery.home.HomeViewModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,9 +37,7 @@ public class NetworkUtils {
                 .build();
     }
 
-    //todo maybe do something with multithreading or javarx
-    //todo add async request to server to get info about user
-    public void makeRequest(String tag, int pageNum, List<HomeCardModel> cards) {
+    public void getImages(String tag, int pageNum, List<HomeCardModel> cards) {
         mRetrofit
                 .create(FlickrApi.class)
                 .getImagesUrls(tag, pageNum)
@@ -57,6 +56,21 @@ public class NetworkUtils {
 
                     @Override
                     public void onFailure(Call<FlickrResponseImage> call, Throwable t) {}
+                });
+    }
+
+    public void getUserNameAndPhoto(String authorId, OnGotResponse onGotResponse){
+        mRetrofit
+                .create(FlickrApi.class)
+                .getPersonInfo(authorId)
+                .enqueue(new Callback<FlickrResponsePerson>() {
+                    @Override
+                    public void onResponse(Call<FlickrResponsePerson> call, Response<FlickrResponsePerson> response) {
+                        onGotResponse.gotResponse(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<FlickrResponsePerson> call, Throwable t) {}
                 });
     }
 
