@@ -41,12 +41,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
     // проходит вся очередь, надо как то отменить
     private static final String ALBUM_LIKED = "Liked";
 
-    private final ImageAdapterParameter homeActivity;
     private List<HomeCardModel> cards;
     private final ImageDao imageDao;
     private final NetworkUtils networkUtils;
 
-    private AlertDialog albumAlertDialog;
+    private final ImageAdapterParameter homeActivity;
     private final AlertDialogCreator alertDialogCreator;
 
     public ImageAdapter(ImageAdapterParameter homeActivity, List<HomeCardModel> cards,
@@ -98,8 +97,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
             else
                 likeButton.setImageResource(R.drawable.empty_heart);
 
-            tvAuthor.setText(cards.get(position).getUserName());
-
             networkUtils.getUserNameAndPhoto(cards.get(position).getUserName(), this);
 
             /*
@@ -116,15 +113,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesViewHo
                 }
             });
 
-            /*
-              This function is called when user wants to save picture to existing album or create
-              a new album
-             */
             saveButton.setOnClickListener(v -> {
                 alertDialogCreator.createDialogToChooseAlbum(position, homeActivity,
                         imageDao, cards);
             });
-            Picasso.with(homeActivity.getContext()).load(cards.get(position).getUrl()).into(imageView);
+            Picasso.with(homeActivity.getContext())
+                    .load(cards.get(position).getUrl())
+                    .into(imageView);
         }
 
         @Override

@@ -6,7 +6,9 @@
         <entry key="app/src/main/res/layout/album__rv_card.xml" value="0.1" />
         <entry key="app/src/main/res/layout/album_elements__rv_card.xml" value="0.10410334346504559" />
         <entry key="app/src/main/res/layout/album_elements__show_image_details_activity.xml" value="0.1213768115942029" />
+        <entry key="app/src/main/res/layout/home__activity.xml" value="0.22" />
         <entry key="app/src/main/res/layout/home__rv_card.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/home_shimmer_placeholder.xml" value="0.25" />
         <entry key="app/src/main/res/layout/image_card.xml" value="0.1105072463768116" />
         <entry key="app/src/main/res/layout/settings__activity.xml" value="0.5" />
       </map>

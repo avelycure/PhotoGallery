@@ -24,8 +24,12 @@ import java.util.List;
 public class AlertDialogCreator {
     private AlertDialog alertDialog;
 
+    /**
+     * This function is called when user wants to save picture to existing album or create
+     * a new album
+     */
     public void createDialogToChooseAlbum(int position, ImageAdapterParameter homeActivity,
-                                                 ImageDao imageDao, List<HomeCardModel> cards) {
+                                          ImageDao imageDao, List<HomeCardModel> cards) {
         AlertDialog.Builder builder = new AlertDialog.Builder(homeActivity.getContext());
         List<String> albumsList = imageDao.getAlbumsInDB();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(homeActivity.getContext(),
@@ -62,6 +66,9 @@ public class AlertDialogCreator {
         alertDialog = builder.show();
     }
 
+    /**
+     * This function is called to create new album
+     */
     private void createAlertDialogToChooseAlbumName(List<String> albumsList,
                                                     ArrayAdapter<String> adapter,
                                                     ImageAdapterParameter homeActivity) {
