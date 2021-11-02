@@ -1,32 +1,29 @@
 # PhotoGallery
-Приложение для просмотра фотографий с сайта flickr.com. Главный экран приложения состоит из RecyclerView и SearchView для поиска и отображения картинок. Для того, чтобы их увидеть необходимо ввести tag, по которому будет происходить поиск. Если пользователю понравилась картинка, он может ее лайкнуть, она автоматически перейдет в альбом "Понравившиеся"
 
+## Basic info
+Application for viewing photos from the site flickr.com. The main screen of the application consists of RecyclerView and SearchView for searching and displaying images. In order to see them, you need to enter the tag by which the search will take place. If the user liked the picture, he can like it, it will automatically go to the "Liked" album
+
+# Features
+* Mvvm
+* Picasso
+* Room
+* Retrofit2
+
+## Screenshots
 <p>
-  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/home.jpg" width="320" />
-  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/query.jpg" width="320" />
+  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/home.jpg" width="256" />
+  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/query.jpg" width="256" />
+  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/save1.jpg" width="256" />
+  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/choose_album_name.jpg" width="256" />
+  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/save2.jpg" width="256" />
+  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/album_elements.jpg" width="256" />
+  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/picture_details.jpg" width="256" />
+  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/albums.jpg" width="256" />
+  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/change_album_name.jpg" width="256" />
 </p>
 
-Для того, чтобы сохранить картинку в альбом, его надо предварительно создать. Пустой альбом создать нельзя. В базе данных Room хранится url картинки, ее автор и альбом, к которому она принадлежит
+In order to save a picture to an album, you must first create it. You cannot create an empty album. The Room database stores the url of the picture, its author and the album to which it belongs
 
-<p>
-  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/save1.jpg" width="320" />
-  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/choose_album_name.jpg" width="320" />
-  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/save2.jpg" width="320" />
-</p>
+To view the saved pictures, you must first go to AlbumActivity. On it, you can change the name of an existing album and go to the desired
 
-Для просмотра сохраненных картинок нужно сначала перейти в AlbumActivity. На ней можно изменить название уже существующего альбома и перейти к нужному
-
-<p>
-  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/albums.jpg" width="320" />
-  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/change_album_name.jpg" width="320" />
-</p>
-
-Из AlbumActivity можно перейти в AlbumElementsActivity. При нажатии на картинку, она отобразится на экране в большем размере и покажет дополнительную информацию о пользователе, который ее разместил
-
-<p>
-  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/album_elements.jpg" width="320" />
-  <img src="https://github.com/avelycure/avelycure/blob/master/assets/photoGallery/picture_details.jpg" width="320" />
-</p>
-
-# Технологии
-В качестве архитектуры проекта выбран паттерн MVVM. В стек технологий проекта входят: Retrofit2, Picasso, Room
+From AlbumActivity you can go to AlbumElementsActivity. When you click on the picture, it will be displayed on the screen in a larger size and will show additional information about the user who posted it
